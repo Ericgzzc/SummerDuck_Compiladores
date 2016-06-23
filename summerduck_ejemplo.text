@@ -1,0 +1,192 @@
+Programa Nombre_prog;
+
+	%%Declaracion de variables globales %%
+	entero: id1_gbl, id3_gbl, id3_gbl[4], id4_gbl[5][5], a_gbl, b_gbl, c_gbl;
+	entero: id_gbl;
+	entero: id_gbl1[10];
+	entero: id_gbl2[0];
+	entero: id_gbl3[-1];
+	entero: id_gbl4[10][10];
+	entero: id_gbl5[0][10];
+	entero: id_gbl6[10][0];
+	entero: id_gbl7[0][0];
+	entero: id_gbl8[0][-1];
+	entero: id_gbl9[-1][-1];
+	entero: id_gbl10[0][-1];
+	entero: a, b, c, d;
+	real: real1, real2, real3;
+	char: str1, str2, str3;
+	char: string_gbl;
+	real: real2_gbl;
+
+
+	%%Definicion de funciones %%
+
+	%%con paramtros sin dimensiones%% 
+	%%tipo_retorno%% 
+	%%Nombre_modulo%% 
+	modulo entero modulo_uno(entero:a, entero:b, real:c){
+
+		%%Declaracion de variables locales %% 
+
+		char: str;
+
+		%%ESTATUTOS%% 
+			%%ESTATUTO DE DECISION%% 
+				si(a>b){
+					a++;
+					b = a*a;
+				}
+				sino{
+					c = 3;
+				}
+			%%ESCRIBE%% 
+			escribe (id, id[2], a>b);
+
+			%%EXPRESION%% 
+		regresa(a);	
+	}
+
+		%%sin paramtros sin dimensiones%% 
+		%%tipo_retorno%% 
+		%%Nombre_modulo%% 
+		modulo void modulo_dos(){
+			
+			%%Declaracion de variables locales %% 
+				entero: a, b, c, d, e;
+				entero: array[5];
+
+			%%ESTATUTOS%% 
+
+				%% id<dimensiones> = Expresión; %% 
+					a = 0;
+					b = 10;
+					c = 5;
+
+				%% id<dimensiones> = Nombre_Módulo(); %% 	
+					d = modulo_uno(a, b, c);
+					e = modulo_uno(a, b, c) - 5 -a;
+
+				%%ESTATUTO DE REPETICION CONDICIONAL%% 
+				%%EXPRESION%% 
+				mientras(a>b && b>=0 || c==0) haz {
+					%%ESTATUTOS%% 
+					a = a*a;
+					escribe(b)
+					b--;
+				}
+		}
+
+		%%Modulo con 2 parametros char %% 
+		%%regresa char %% 
+		modulo char modulo_tres(char: str, char: str2){
+		
+			%%Declaracion de variables locales %% 
+				entero: a, b, c, d, e;
+				entero: array[5];
+				real f, g, h, i;
+
+			%%ESTATUTOS%% 
+
+				%% id<dimensiones> = Expresión; %% 
+					a = 0;
+					b = 10;
+					c = 5;
+					f = 1.7;
+					g = 2.8;
+					h = 1.6*2;
+					i = f+g;
+
+				%% id<dimensiones> = Nombre_Módulo(); %% 	
+					d = modulo_uno(a, b, c);
+					e = modulo_uno(a, b, c) - 5 -a;
+
+				%%ESTATUTO DE REPETICION CONDICIONAL%% 
+				%%EXPRESION%% 
+				mientras(a>b && b>=0 || c==0) haz {
+					%%ESTATUTOS%% 
+					a = a*a;
+					escribe("str", b, "str2", a);
+					b--;
+				}
+		}
+
+
+		%%Modulo con 1 parametros real %% 
+		%%regresa real en expresion%% 
+		modulo real modulo_cuatro(real: x){
+			entero: temp;
+			temp = x+x;
+			regresa(x);
+		}
+
+		%%Modulo con 1 parametros real %% 
+		%%regresa real otra expresion %% 
+		modulo real modulo_cinco(real: x){
+			regresa(x*x);
+		}
+
+		%%Modulo con 0 parametros %% 
+		%%regresa entero %% 
+		modulo entero modulo_seis(){
+			entero: a, b, c;
+			a = 1;
+			b = 2;
+			c = a+b;
+			regresa(c);
+		}
+
+		%%Modulo con 1 parametros %% 
+		%%regresa entero pero regresa otro tipo %% 
+		modulo entero modulo_seis(entero: x){
+			entero: a, b, c;
+			char: str1;
+			a = 1;
+			b = 2;
+			c = a+b;
+			x = c*b;
+			regresa(str1);
+		}
+
+
+%% Procedimiento Principal comentario %%
+principal()
+{ 
+	entero: id1, id3, id3[4], id4[5][5], a, b, c;
+	entero: id1_gbl, id3_gbl, id3_gbl[4], id4_gbl[5][5], a_gbl, b_gbl, c_gbl;
+	entero: id_gbl;
+	entero: id_gbl1[10], id1, id2[2];
+	entero: id_gbl1[8], id1, id2[2], id90;
+	entero: id_gbl2[0];
+	entero: id_gbl3[-1];
+	entero: id_gbl4[10][10];
+	entero: id_gbl5[0][10];
+	entero: id_gbl6[10][0];
+	entero: id_gbl7[0][0];
+	entero: id_gbl8[0][-1];
+	entero: id_gbl9[-1][-1];
+	entero: id_gbl10[0][-1];
+	entero: a, b, c, d;
+	real: real1, real2, real3;
+	char: str1, str2, str3;
+	char: string_gbl;
+	real: real2_gbl;
+	char: strrrrrrr;
+
+
+	modulo_dos();
+
+	%% LEE %% 
+		lee( id1, id[4]);
+		lee(id1);
+
+	%%ESTATUTO DE REPETICION CONDICIONAL%% 
+		repite{
+			%%ESTATUTOS%% 
+			a++;
+			b=c+a;
+		}
+		%%EXPRESION%% 
+	hasta(a>b && b>=0 || c==0);
+
+}
