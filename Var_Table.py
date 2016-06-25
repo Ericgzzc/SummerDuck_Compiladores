@@ -67,11 +67,5 @@ class tablaVars(dict):
 		return self.lastpointer
 
 globaltable = tablaVars()
-globaltable.add('global', 'entero', 20)
-globaltable.add('global', 'entero', 'a')
-globaltable.add('local', 'entero', 'b')
-globaltable.add('local', 'real', 'real')
-globaltable.add('local', 'real', 'real')
-globaltable.add('local', 'char', 'aaa')
 print (globaltable.items())
 

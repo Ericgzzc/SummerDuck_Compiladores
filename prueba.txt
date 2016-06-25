@@ -1,22 +1,29 @@
 programa Nombre_prog; 
 
-entero: x;
+real: x,y,z,a,b,v;
 
-modulo entero nombre(){
-	entero: a;
-	a=3;
-	regresa()
-}
-
-modulo void nombre2(){
-	entero: b;
+modulo entero nombre_modulo(entero:a,b,c; real:x,y,z;){
+	
 	regresa()
 }
 
 principal(){
-	entero: a,b,c;
+	entero: a,b,c,d;
+	a = 3;
+	b = 4;
+	c= a;
+	d= a>b;
 
-	a=3;
-	b=2;
-	c= a+b;
+	si(a<b){
+		d= a+b;
+		si(a<b){
+			a= a+b;
+		};
+	};
+	
+	repite{
+		d= a+b;
+	}
+	hasta(a>b);
+		
 }
