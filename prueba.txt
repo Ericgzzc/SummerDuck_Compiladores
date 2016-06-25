@@ -3,5 +3,4 @@ programa Nombre_prog;
 principal()
 { 
 
-
 }

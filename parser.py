@@ -10,7 +10,7 @@ class Parser(object):
 		self.scanner.build()
 
 	tokens = Scanner.tokens
-	print(tokens)
+
 	precedence = (
 		("nonassoc", 'SI'),
 		("nonassoc", 'SINO'),
@@ -39,6 +39,7 @@ class Parser(object):
                     | PROGRAMA ID PUNTOCOMA declara_funciones metodo_principal
                     | PROGRAMA ID PUNTOCOMA metodo_principal
 		"""
+		print(t)
 		if len(t) == 7:
 			t[0] = ('programa', t[4], t[5], t[6])
 			print("Sintaxis correcta")

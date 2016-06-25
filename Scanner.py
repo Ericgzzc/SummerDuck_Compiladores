@@ -124,7 +124,8 @@ class Scanner(object):
         t.lineno += t.value.count('\n')
 
     def t_error(self, t):
-        print("CARACTER NO DEFINIDO: '%s'" % t.value[0])
+        print("Illegal character '{0}' ({1}) in line {2}".format(t.value[0], hex(ord(t.value[0])), t.lexer.lineno))
+        Scanner.error = 1;
         t.lexer.skip(1)
 
 

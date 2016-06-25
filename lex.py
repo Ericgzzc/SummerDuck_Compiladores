@@ -9,57 +9,52 @@ sys.path.insert(0,"../..")
 import ply.lex as lex
 
 
-reserved = (
-	  'PROGRAMA',
-	  'PRINCIPAL',
-	  'ENTERO',
-	  'REAL',
-	  'CHAR',
-	  'MODULO',
-      'REGRESA',
-	  'LEE',
-	  'ESCRIBE',
-	  'SI',
-	  'ENTONCES',
-	  'SINO',
-	  'MIENTRAS',
-	  'HAZ' ,
-	  'REPITE',
-	  'HASTA' ,
-	  'VOID',
-	  'BOOL',
+reserved = {
+      'programa':'PROGRAMA',
+      'principal':'PRINCIPAL',
+      'entero':'ENTERO',
+      'real':'REAL',
+      'char':'CHAR',
+      'modulo':'MODULO',
+      'regresa':'REGRESA',
+      'lee':'LEER',
+      'escribe':'ESCRIBIR',
+      'si':'SI',
+      'entonces':'ENTONCES',
+      'sino':'SINO',
+      'mientras':'MIENTRAS',
+      'haz':'HAZ' ,
+      'repite':'REPITE',
+      'hasta':'HASTA' ,
+      'void':'VOID',
+      'bool':'BOOL',
 
-	)
+}
 
 
-tokens = reserved + (
-    # Literals (identifier, integer constant, float constant, string constant, char const)
-    'ID', 'TYPEID', 'ICONST', 'FCONST', 'SCONST', 'CCONST',
+tokens = [
+        # Literals (identifier, integer constant, float constant, string constant, char const)
+        "ID",
+        # Operators (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=), %%
+        "MAS", "MENOS", "MULTI", "DIV", "MOD",
+        "OR", "AND", "NOT", "ANDBIT",
+        "MAYORQUE","MENORQUE","MAYORIGUAL", "MENORIGUAL" , "IGUALIGUAL" ,"DIFERENTE", "DOBLEPORCENTAJE",
 
-    # Operators (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=), %%
-    'MAS', 'MENOS', 'MULTI', 'DIV', 'MOD',
-    'OR', 'AND', 'NOT', 'ANDBIT',
-	'MAYORQUE','MENORQUE','MAYORIGUAL', 'MENORIGUAL' , 'IGUALIGUAL' ,'DIFERENTE', 'DOBLEPORCENTAJE',
-    
-    # Assignment (=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |=)
-    'IGUAL', 'IGUALPOR', 'IGUALDIV', 'IGUALMOD', 'IGUALMAS', 'IGUALMENOS',
+        # Assignment (=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |=)
+        "IGUAL",
 
-    # Increment/decrement (++,--)
-    'MASMAS', 'MENOSMENOS',
+        # Increment/decrement (++,--)
+        "MASMAS", "MENOSMENOS",
 
-    # Conditional operator (?)
-    'CONDOP',
-    
-    # Delimeters ( ) [ ] { } , . ; :
-    'PARIZQ', 'PARDER',
-    'CORDER', 'CORIZQ',
-    'LLAVEIZQ', 'LLAVEDER',
-    'COMA', 'PUNTO', 'PUNTOCOMA', 'DOSPUNTOS', 'COMILLAS', 'GATO',
+        # Conditional operator (?)
+        "INTERROGACION",
 
-    # Ellipsis (...)
-    'ELLIPSIS',
-    )
-
+        # Delimeters ( ) [ ] { } , . ; :
+        "PARIZQ", "PARDER",
+        "CORDER", "CORIZQ",
+        "LLAVEIZQ", "LLAVEDER",
+        "COMA", "PUNTO", "PUNTOCOMA", "DOSPUNTOS", "COMILLAS", "PESOS",
+] + list(reserved.values())
 
 
 # Completely ignored characters
