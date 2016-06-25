@@ -13,7 +13,7 @@ if __name__ == '__main__':
         sys.exit(0)
 
     Cparser = Parser()
-    print (Cparser.scanner)
     parser = yacc.yacc(module=Cparser)
     text = file.read()
-    ast = parser.parse(text, lexer=Cparser.scanner)
+    ast = parser.parse(text,tracking=True)
+    print(ast)

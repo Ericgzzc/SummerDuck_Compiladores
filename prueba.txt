@@ -1,6 +1,22 @@
-programa Nombre_prog;
+programa Nombre_prog; 
 
-principal()
-{ 
+entero: x;
 
+modulo entero nombre(){
+	entero: a;
+	a=3;
+	regresa()
+}
+
+modulo void nombre2(){
+	entero: b;
+	regresa()
+}
+
+principal(){
+	entero: a,b,c;
+
+	a=3;
+	b=2;
+	c= a+b;
 }
