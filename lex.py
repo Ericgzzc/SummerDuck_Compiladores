@@ -166,4 +166,4 @@ lexer = lex.lex(optimize=1,lextab="tab")
 
 
 if __name__ == '__main__':
-     lex.runmain()
+    lex.runmain()

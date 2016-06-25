@@ -1,4 +1,4 @@
-Programa Nombre_prog;
+programa Nombre_prog;
 
 principal()
 { 

@@ -12,5 +12,8 @@ if __name__ == '__main__':
         print("Cannot open {0} file".format(filename))
         sys.exit(0)
 
-    parser = Parser()
-    parser = yacc.yacc(module=Parser)
+    Cparser = Parser()
+    print (Cparser.scanner)
+    parser = yacc.yacc(module=Cparser)
+    text = file.read()
+    ast = parser.parse(text, lexer=Cparser.scanner)
