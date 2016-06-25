@@ -40,7 +40,7 @@ class Scanner(object):
 
 	tokens = [
 		# Literals (identifier, integer constant, float constant, string constant, char const)
-		"ID", "TYPEID", "ICONST", "FCONST", "SCONST", "CCONST",
+		"ID",
 
 		# Operators (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=), %%
 		"MAS", "MENOS", "MULTI", "DIV", "MOD",
@@ -48,7 +48,7 @@ class Scanner(object):
 		"MAYORQUE","MENORQUE","MAYORIGUAL", "MENORIGUAL" , "IGUALIGUAL" ,"DIFERENTE", "DOBLEPORCENTAJE",
 
 		# Assignment (=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |=)
-		"IGUAL", "IGUALPOR", "IGUALDIV", "IGUALMOD", "IGUALMAS", "IGUALMENOS",
+		"IGUAL",
 
 		# Increment/decrement (++,--)
 		"MASMAS", "MENOSMENOS",
