@@ -18,24 +18,24 @@ class Scanner(object):
         return self.lexer.token()
 
     reserved = {
-      'programa':'PROGRAMA',
-      'principal':'PRINCIPAL',
-      'entero':'ENTERO',
-      'real':'REAL',
-      'char':'CHAR',
-      'modulo':'MODULO',
-      'regresa':'REGRESA',
-      'lee':'LEER',
-      'escribe':'ESCRIBIR',
-      'si':'SI',
-      'entonces':'ENTONCES',
-      'sino':'SINO',
-      'mientras':'MIENTRAS',
-      'haz':'HAZ' ,
-      'repite':'REPITE',
-      'hasta':'HASTA' ,
-      'void':'VOID',
-      'bool':'BOOL',
+		'programa':'PROGRAMA',
+		'principal':'PRINCIPAL',
+		'entero':'ENTERO',
+		'real':'REAL',
+		'char':'CHAR',
+		'modulo':'MODULO',
+		'regresa':'REGRESA',
+		'lee':'LEER',
+		'escribe':'ESCRIBIR',
+		'si':'SI',
+		'entonces':'ENTONCES',
+		'sino':'SINO',
+		'mientras':'MIENTRAS',
+		'haz':'HAZ' ,
+		'repite':'REPITE',
+		'hasta':'HASTA' ,
+		'void':'VOID',
+		'bool':'BOOL',
     }
 
     tokens = [
@@ -132,23 +132,23 @@ class Scanner(object):
     def t_ID(self, t):
         r'[a-zA-Z_][a-zA-Z0-9_]*'
         t.value = str(t.value)
-        t.type = "ID"
+        t.type = Scanner.reserved.get(t.value,"ID")
         return t
 
     def t_CHAR(self, t):
         r'"(\\.|[^\\"])*\"'
         t.value = str(t.value)
-        t.type = "CHAR"
+        t.type = Scanner.reserved.get(t.value,"CHAR")
         return t
 
     def t_REAL(self, t):
         r'[0-9]+\.[0-9]+'
         t.value = float(t.value)
-        t.type = "REAL"
+        t.type = Scanner.reserved.get(t.value,"REAL")
         return t
 
     def t_ENTERO(self, t):
         r'[0-9]+'
         t.value = int(t.value)
-        t.type = "ENTERO"
+        t.type = Scanner.reserved.get(t.value,"ENTERO")
         return t

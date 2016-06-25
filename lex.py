@@ -57,6 +57,7 @@ tokens = [
 ] + list(reserved.values())
 
 
+print(tokens)
 # Completely ignored characters
 t_ignore           = ' \t\x0c'
 
@@ -103,48 +104,43 @@ t_CONDOP           = r'\?'
 # Delimeters
 t_PARIZQ          	= r'\('
 t_PARDER          	= r'\)'
+t_CORIZQ            = r'\['
 t_CORDER         	= r'\]'
-t_CORIZQ         	= r'\['
+t_LLAVEIZQ          = r'\{'
 t_LLAVEDER         	= r'\}'
-t_LLAVEIZQ        	= r'\{'
 t_COMA           	= r','
 t_PUNTO          	= r'\.'
 t_PUNTOCOMA       	= r';'
 t_DOSPUNTOS        	= r':'
 t_COMILLAS        	= r'"'
-t_GATO				= r'\#'
-t_ELLIPSIS         	= r'\.\.\.'
+t_PESOS				= r'\$'
 
 
 
 # Identifiers and reserved words
 
-reserved_map = { }
-for r in reserved:
-    reserved_map[r.lower()] = r
-
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.value = str(t.value)
-    t.type = reserved_map.get(t.value,"ID")
+    t.type = reserved.get(t.value,"ID")
     return t
 
 def t_CHAR(t):
     r'"(\\.|[^\\"])*\"'
     t.value = str(t.value)
-    t.type = reserved_map.get(t.value,"CHAR")
+    t.type = reserved.get(t.value,"CHAR")
     return t
 
 def t_REAL(t):
     r'[0-9]+\.[0-9]+'
     t.value = float(t.value)
-    t.type = reserved_map.get(t.value,"REAL")
+    t.type = reserved.get(t.value,"REAL")
     return t
 
 def t_ENTERO(t):
     r'[0-9]+'
     t.value = int(t.value)
-    t.type = reserved_map.get(t.value,"ENTERO")
+    t.type = reserved.get(t.value,"ENTERO")
     return t
 	
 
