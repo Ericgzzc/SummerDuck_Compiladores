@@ -1,0 +1,193 @@
+Created by PLY version 3.8 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    IGUALPOR
+    DIFERENTE
+    COMILLAS
+    MOD
+    MENORQUE
+    ESCRIBE
+    IGUALIGUAL
+    TYPEID
+    IGUALMAS
+    MAYORQUE
+    CCONST
+    MENORIGUAL
+    DOBLEPORCENTAJE
+    GATO
+    IGUALMOD
+    ANDBIT
+    IGUALMENOS
+    DIV
+    PUNTO
+    CORIZQ
+    BOOL
+    NOT
+    MASMAS
+    MENOSMENOS
+    ICONST
+    OR
+    LEE
+    CONDOP
+    AND
+    MENOS
+    ENTONCES
+    MULTI
+    FCONST
+    MAS
+    SCONST
+    MAYORIGUAL
+    IGUALDIV
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> PROGRAMA ID PUNTOCOMA estatutos_dec_vars declara_funciones metodo_principal
+Rule 2     programa -> PROGRAMA ID PUNTOCOMA declara_funciones metodo_principal
+Rule 3     programa -> PROGRAMA ID PUNTOCOMA metodo_principal
+Rule 4     declara_variables -> declara_variables2 declara_variables
+Rule 5     declara_variables -> declara_variables2
+Rule 6     declara_variables2 -> tipo DOSPUNTOS lista_ids declara_variables
+Rule 7     estatutos_dec_vars -> estatutos_dec_vars2 estatutos_dec_vars
+Rule 8     estatutos_dec_vars -> estatutos_dec_vars2
+Rule 9     estatutos_dec_vars2 -> tipo DOSPUNTOS lista_ids PUNTOCOMA estatutos_dec_vars2
+Rule 10    tipo -> ENTERO
+Rule 11    tipo -> REAL
+Rule 12    tipo -> CHAR
+Rule 13    lista_ids -> variable
+Rule 14    lista_ids -> variable COMA lista_ids
+Rule 15    variable -> ID
+Rule 16    variable -> ID indice_matriz
+Rule 17    variable -> ID indice_matriz indice_matriz
+Rule 18    indice_matriz -> CORDER ENTERO COR
+Rule 19    declara_funciones -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones
+Rule 20    declara_funciones -> empty
+Rule 21    tipo_retorno -> tipo
+Rule 22    tipo_retorno -> VOID
+Rule 23    lista_parametros -> tipo DOSPUNTOS lista_idparam lista_parametros
+Rule 24    lista_parametros -> empty
+Rule 25    lista_idparam -> ID
+Rule 26    lista_idparam -> ID COMA lista_idparam
+Rule 27    bloque -> LLAVEIZQ declara_variables estatutos REGRESA PARIZQ expresion PARDER LLAVEDER
+Rule 28    metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos LLAVEDER
+Rule 29    estatutos -> estatuto
+Rule 30    estatutos -> estatuto PUNTOCOMA estatutos
+Rule 31    estatutos -> empty
+Rule 32    estatuto -> asignacion
+Rule 33    estatuto -> llamada
+Rule 34    estatuto -> lectura
+Rule 35    estatuto -> escritura
+Rule 36    estatuto -> decision
+Rule 37    estatuto -> repeticion
+Rule 38    estatuto -> expresion
+Rule 39    asignacion -> variable IGUAL estatuto
+Rule 40    llamada -> ID PARIZQ lista_valores PARDER
+Rule 41    lectura -> LEER PARIZQ lista_valores PARDER
+Rule 42    escritura -> ESCRIBIR PARIZQ lista_valores PARDER
+Rule 43    decision -> SI PARIZQ estatuto PARDER
+Rule 44    decision -> SI PARIZQ estatuto PARDER SINO LLAVEIZQ estatutos LLAVEDER
+Rule 45    repeticion -> mientras
+Rule 46    repeticion -> repite
+Rule 47    mientras -> MIENTRAS PARIZQ estatuto PARDER HAZ LLAVEIZQ estatutos LLAVEDER
+Rule 48    repite -> REPITE LLAVEIZQ estatutos LLAVEDER HASTA PARIZQ estatuto PARDER
+
+Terminals, with rules where they appear
+
+AND                  : 
+ANDBIT               : 
+BOOL                 : 
+CCONST               : 
+CHAR                 : 12
+COMA                 : 14 26
+COMILLAS             : 
+CONDOP               : 
+CORDER               : 18
+CORIZQ               : 
+DIFERENTE            : 
+DIV                  : 
+DOBLEPORCENTAJE      : 
+DOSPUNTOS            : 6 9 23
+ENTERO               : 10 18
+ENTONCES             : 
+ESCRIBE              : 
+FCONST               : 
+GATO                 : 
+HASTA                : 48
+HAZ                  : 47
+ICONST               : 
+ID                   : 1 2 3 15 16 17 19 25 26 40
+IGUAL                : 39
+IGUALDIV             : 
+IGUALIGUAL           : 
+IGUALMAS             : 
+IGUALMENOS           : 
+IGUALMOD             : 
+IGUALPOR             : 
+LEE                  : 
+LLAVEDER             : 27 28 44 47 48
+LLAVEIZQ             : 27 28 44 47 48
+MAS                  : 
+MASMAS               : 
+MAYORIGUAL           : 
+MAYORQUE             : 
+MENORIGUAL           : 
+MENORQUE             : 
+MENOS                : 
+MENOSMENOS           : 
+MIENTRAS             : 47
+MOD                  : 
+MODULO               : 19
+MULTI                : 
+NOT                  : 
+OR                   : 
+PARDER               : 19 27 28 40 41 42 43 44 47 48
+PARIZQ               : 19 27 28 40 41 42 43 44 47 48
+PRINCIPAL            : 28
+PROGRAMA             : 1 2 3
+PUNTO                : 
+PUNTOCOMA            : 1 2 3 9 30
+REAL                 : 11
+REGRESA              : 27
+REPITE               : 48
+SCONST               : 
+SI                   : 43 44
+SINO                 : 44
+TYPEID               : 
+VOID                 : 22
+error                : 
+
+Nonterminals, with rules where they appear
+
+COR                  : 18
+ESCRIBIR             : 42
+LEER                 : 41
+asignacion           : 32
+bloque               : 19
+decision             : 36
+declara_funciones    : 1 2 19
+declara_variables    : 4 6 27 28
+declara_variables2   : 4 5
+empty                : 20 24 31
+escritura            : 35
+estatuto             : 29 30 39 43 44 47 48
+estatutos            : 27 28 30 44 47 48
+estatutos_dec_vars   : 1 7
+estatutos_dec_vars2  : 7 8 9
+expresion            : 27 38
+indice_matriz        : 16 17 17
+lectura              : 34
+lista_idparam        : 23 26
+lista_ids            : 6 9 14
+lista_parametros     : 19 23
+lista_valores        : 40 41 42
+llamada              : 33
+metodo_principal     : 1 2 3
+mientras             : 45
+programa             : 0
+repeticion           : 37
+repite               : 46
+tipo                 : 6 9 21 23
+tipo_retorno         : 19
+variable             : 13 14 39
+

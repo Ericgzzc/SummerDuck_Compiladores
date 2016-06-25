@@ -1,0 +1,7 @@
+Programa Nombre_prog;
+
+principal()
+{ 
+
+
+}
