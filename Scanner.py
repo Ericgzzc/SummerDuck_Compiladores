@@ -60,7 +60,7 @@ class Scanner(object):
 		"PARIZQ", "PARDER",
 		"CORDER", "CORIZQ",
 		"LLAVEIZQ", "LLAVEDER",
-		"COMA", "PUNTO", "PUNTOCOMA", "DOSPUNTOS", "COMILLAS", "PESOS"
+		"COMA", "PUNTO", "PUNTOCOMA", "DOSPUNTOS", "COMILLAS", "PESOS",
 	] + list(reserved.values())
 
 
