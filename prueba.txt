@@ -1,29 +1,60 @@
 programa Nombre_prog; 
 
-real: x,y,z,a,b,v;
+	real: x11,a2,a3,b3;
+	entero: a, b,c;
+	char: s1,s2,s3;
 
-modulo entero nombre_modulo(entero:a,b,c; real:x,y,z;){
+modulo entero nombre_modulo(){
+	real: x11,a2,a3,b3;
+	entero: a, b,c;
+	char: s1,s2,s3;
+
+	regresa()
+}
+modulo entero nombre_modulo(){
+	real: x11,a2,a3,b3;
+	entero: a, b,c;
+	char: s1,s2,s3;
+
+	a=3;
+	b=2;
+	c=a+b;
+	c = c-a;
+	c=2;
 	
 	regresa()
 }
 
 principal(){
-	entero: a,b,c,d;
-	a = 3;
-	b = 4;
-	c= a;
-	d= a>b;
+	real: x11,a2,a3,b3;
+	entero: a, b,c;
+	char: s1,s2,s3;
 
-	si(a<b){
-		d= a+b;
-		si(a<b){
-			a= a+b;
+	a=3;
+	b=2;
+	c=a+b;
+	c = c-a;
+	c=2;
+	si(a>b){
+		c=a+b;
+		c = c-a;
+		si(a>b){
+		c=a+b;
+			c = c-a;
 		};
 	};
-	
+	b=2;
 	repite{
-		d= a+b;
-	}
-	hasta(a>b);
-		
+		c=a+b;
+		c=a+b;
+	}hasta(c>b);
+
+	mientras(a>b)haz{
+		c=a+b;
+		c=a+b;
+		mientras(a>b)haz{
+			c=a+b;
+			c=a+b;
+		};
+	};
 }
