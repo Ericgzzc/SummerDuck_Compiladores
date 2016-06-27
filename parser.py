@@ -53,24 +53,33 @@ class Parser(object):
 			t[0] = [t[1],t[2], t[4]]
 			print("Sintaxis correcta")
 	def p_declara_variables(self,t):
-		"""declara_variables   	: declara_variables1 declara_variables
-                    			| declara_variables1
+		"""declara_variables   : declara_variables1
+                    			| declara_variables1 declara_variables
 		"""
 		if len(t) == 3:
-			t[0] = ['declara_variables', t[1], t[2]]
-			
+			t[0] = ["declaracion_variables", t[1],t[2]]
 		else:
-			t[0] = ['declara_variables', t[1], ]
-
+			t[0] = ["declaracion_variables", t[1]]
+	
 	def p_declara_variables1(self,t):
 		"""declara_variables1   : tipo DOSPUNTOS lista_ids PUNTOCOMA
                     			| tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1
 		"""
 		if len(t) == 6:
-			t[0] = [t[1] , t[3], [t[5]]]
+			
+			temp = []
+			temp.append(t[1])
+			temp.append(t[3])
+			temp1 = t[5]
+			t[0]= temp + t[5]
+			
 			
 		else:
-			t[0] = [t[1] , t[3]]
+			temp1 = []
+			temp1.append(t[1])
+			temp1.append(t[3])
+			t[0] = temp1
+			
 
 			
 
@@ -87,7 +96,9 @@ class Parser(object):
 		"""
 		
 		if len(t) == 4:
-			t[0] = t[1] + t[3]
+			temp = []
+			temp.append(t[1])
+			t[0]= temp + t[3]
 		else:
 			t[0] = [t[1]]
 			
@@ -103,33 +114,55 @@ class Parser(object):
 			t[0] = t[1], t[2]
 			
 		else:
-			t[0] = [t[1]]
+			t[0] = t[1]
 			
 
 	def p_indice_matriz(self,t):
 		"""indice_matriz : CORIZQ ENTERO CORDER
 		"""
 		t[0] = ('indice_matriz', t[2])
-
 	def p_declara_funciones(self,t): #7, 6, 8, 7
-		"""declara_funciones   	: MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque 
+		"""declara_funciones   	: declara_funciones1 declara_funciones
+								| declara_funciones1
+		"""
+		if len(t) == 3:
+			t[0] = ["declara_funciones", t[1],t[2]]
+		else:
+			t[0] = ["declara_funciones", t[1]]
+
+	def p_declara_funciones1(self,t): #7, 6, 8, 7
+		"""declara_funciones1   : MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque 
                     			| MODULO tipo_retorno ID PARIZQ PARDER bloque 
-                    			| MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones
-                    			| MODULO tipo_retorno ID PARIZQ PARDER bloque declara_funciones
+                    			| MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1
+                    			| MODULO tipo_retorno ID PARIZQ PARDER bloque declara_funciones1
 		"""
 		# t[0] = ('declara_funciones', t[1], t[2], t[3], t[4], t[6])
 		# print(*t, sep='\n')
 		if len(t) == 8 and t[6] == ')':
-			t[0] = ['declara_funciones', t[1], t[2], t[3],t[5],t[7]]
+			t[0] = [ t[1], t[2], t[3],t[5],t[7]] + ["END"]
 			
 		elif len(t) == 7:
-			t[0] = ['declara_funciones', t[1], t[2],t[3],t[6]]
+			t[0] = [t[1], t[2],t[3],t[6]] + ["END"]
 			
 		elif len(t) == 9:
-			t[0] = ['declara_funciones', t[1], t[2],t[3],t[5],t[7],t[8]]
+			temp = []
+			temp.append(t[1])
+			temp.append(t[2])
+			temp.append(t[3])
+			temp.append(t[5])
+			temp.append(t[7])
+			temp.append("END")
+			t[0] = temp + t[8]
 			
 		elif len(t) == 8 and t[5] == ')':
-			t[0] = ['declara_funciones', t[1],t[2],t[3],t[6],t[7]]
+			temp = []
+			temp.append(t[1])
+			temp.append(t[2])
+			temp.append(t[3])
+			temp.append(t[6])
+			temp.append("END")
+			
+			t[0] = temp + t[7]
 			
 
 	def p_tipo_retorno(self,t):
@@ -137,16 +170,32 @@ class Parser(object):
                      	| VOID
 		"""
 		t[0] = t[1]
-
 	def p_lista_parametros(self,t):
-		"""lista_parametros : tipo DOSPUNTOS lista_idparam PUNTOCOMA
-                    		| tipo DOSPUNTOS lista_idparam PUNTOCOMA lista_parametros
+		"""lista_parametros : lista_parametros1 lista_parametros
+                    		| lista_parametros1
+		"""
+		if len(t) == 3:
+			t[0] = ["lista_parametros", t[1],t[2]]
+		else:
+			t[0] = ["lista_parametros", t[1]]
+
+	def p_lista_parametros1(self,t):
+		"""lista_parametros1 : tipo DOSPUNTOS lista_idparam PUNTOCOMA
+                    		| tipo DOSPUNTOS lista_idparam PUNTOCOMA lista_parametros1
 		"""
 		if len(t) == 6:
-			t[0] = ('lista_parametros', t[1], t[3], t[5])
+			temp = []
+			temp.append(t[1])
+			temp.append(t[3])
+			temp1 = t[5]
+			t[0]= temp + t[5]
+			
 			
 		else:
-			t[0] = ('lista_parametros', t[1], t[3])
+			temp1 = []
+			temp1.append(t[1])
+			temp1.append(t[3])
+			t[0] = temp1
 			
 
 	def p_lista_idparam(self,t):
@@ -154,7 +203,7 @@ class Parser(object):
                     		| variable COMA lista_idparam
 		"""
 		if len(t) == 4:
-			t[0] = tuple(t[1]) + tuple(t[3])
+			t[0] = t[1] + t[3]
 			
 		else:
 			t[0] = t[1]
@@ -171,40 +220,53 @@ class Parser(object):
                     | LLAVEIZQ REGRESA PARIZQ PARDER LLAVEDER 
 		"""
 		if len(t) == 9:
-			t[0] = ['bloque', t[2], t[3], t[4], t[6]]
+			t[0] = ['bloque1', t[2], t[3], t[4], t[6]]
+
 		elif len(t) == 8 and t[3] == 'regresa':
-			t[0] = ['bloque', t[2], t[3], t[4], t[5]]
+			t[0] = ['bloque2', t[2], t[3], t[4], t[5]]
+
 		elif len(t) == 7 and t[2] == 'regresa':
-			t[0] = ['bloque', t[2], t[4]]
-		elif len(t) == 7 and t[5] == 'regresa':
-			t[0] = ['bloque', t[2], t[3]]
+			t[0] = ['bloque3', t[2], t[4]]
+
+		elif len(t) == 8 and t[4] == 'regresa':
+			t[0] = ['bloque4', t[2], t[3],t[4]]
+
 		elif len(t) == 7 and t[3] == 'regresa':
-			t[0] = ['bloque', t[2], t[3]]
+			t[0] = ['bloque5', t[2], t[3]]
+
 		elif len(t) ==6:
-			t[0] = ['bloque', t[2]]
+			t[0] = ['bloque6', t[2]]
 		
 
 	def p_metodo_principal(self,t):
-		"""metodo_principal    	: PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control termina 
-                    			| PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control termina
-                   				| PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables termina
-                    			| PRINCIPAL PARIZQ PARDER LLAVEIZQ termina
+		"""metodo_principal    	: PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER 
+                    			| PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER
+                   				| PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER
+                    			| PRINCIPAL PARIZQ PARDER LLAVEIZQ LLAVEDER
 		"""
 		if len(t) == 8:
-			t[0] = [t[1], t[5],t[6], t[7]]
+			t[0] = [t[1], t[5],t[6]]
 			
 			
 		elif len(t) == 7:
-			t[0] = [t[1],t[5],t[6]]
-			
-		else:
 			t[0] = [t[1],t[5]]
 			
-
-
+		else:
+			t[0] = [t[1]]
 	def p_estatutos_control(self,t):
-		"""estatutos_control   	: estatuto_control PUNTOCOMA
-                   				| estatuto_control PUNTOCOMA estatutos_control
+		"""estatutos_control   	: estatutos_control1 estatutos_control
+                   				| estatutos_control1 
+		"""	
+		if len(t) == 3:
+			t[0] = ["estatutos", t[1],t[2]]
+			
+		else:
+			t[0] = ["estatutos", t[1]]
+
+
+	def p_estatutos_control1(self,t):
+		"""estatutos_control1   : estatuto_control PUNTOCOMA
+                   				| estatuto_control PUNTOCOMA estatutos_control1
 		"""
 		if len(t) == 4:
 			t[0] = t[1]+t[3]
@@ -257,10 +319,10 @@ class Parser(object):
 
 	def p_decision(self,t):
 		"""decision : SI PARIZQ expresion PARDER hacer 
-                    | SI PARIZQ expresion PARDER SINO hacer
+                    | SI PARIZQ expresion PARDER hacer SINO hacer
 		"""
-		if len(t) == 7:
-			t[0] = ['decision', t[1], t[3], t[5], t[6]]
+		if len(t) == 8:
+			t[0] = ['decision', t[1], t[3], t[5], t[6],t[7]]
 		else:
 			t[0] = ['decision', t[1], t[3], t[5]]
 
@@ -294,9 +356,11 @@ class Parser(object):
                     		| expresion COMA lista_valores
 		"""
 		if len(t) == 4:
-			t[0] = tuple(t[1])+ tuple(t[3])
+			temp = []
+			temp.append(t[1])
+			t[0]= temp + t[3]
 		else:
-			t[0] = t[1]
+			t[0] = [t[1]]
 
 	def p_expresion(self,t):
 		"""expresion 	: expresion AND exp
@@ -348,8 +412,6 @@ class Parser(object):
 		"""determinante 	: estatuto PESOS"""
 	def p_inversa(self,t):
 		"""inversa 		: estatuto INTERROGACION"""
-	def p_termina(self,t):
-	    'termina : LLAVEDER'
-	    t[0] = t[1]
+
 	   
 	

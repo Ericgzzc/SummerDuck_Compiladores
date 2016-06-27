@@ -21,9 +21,9 @@ if __name__ == '__main__':
     # print(lst)
     # print(quad.programa)
     # print(quad.nombre)
-    print(quad.dec_val)
-    print(quad.dec_fun)
-    print(quad.principal)
+    # print(quad.dec_val)
+    # print(quad.dec_fun)
+    # print(quad.principal)
 
 
     # programa, nombre, dec_val, dec_fun, principal = lst;

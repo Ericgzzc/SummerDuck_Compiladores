@@ -4,14 +4,11 @@ programa Nombre_prog;
 	entero: a, b,c;
 	char: s1,s2,s3;
 
-modulo entero nombre_modulo(){
-	real: x11,a2,a3,b3;
-	entero: a, b,c;
-	char: s1,s2,s3;
-
+modulo entero nombre_modulo(entero:a,b,c; real:x,y,z;){
 	regresa()
 }
-modulo entero nombre_modulo(){
+
+modulo void nombre_modulo1(entero:a,b,c; real:x,y,z;){
 	real: x11,a2,a3,b3;
 	entero: a, b,c;
 	char: s1,s2,s3;
@@ -21,9 +18,27 @@ modulo entero nombre_modulo(){
 	c=a+b;
 	c = c-a;
 	c=2;
-	
-	regresa()
+	c= a;
+	si(a>b){
+		a = b*c;
+	}sino{
+		d = f-g;
+	};
+	mientras(a>b) haz{
+		c = c-a;
+	};
+
+	repite{
+		c = c-a;
+	}hasta(a>b);
+
+	nombre_modulo1(a,b,c);
+	leer(x);
+	escribir(x);
+	regresa(c)
 }
+
+
 
 principal(){
 	real: x11,a2,a3,b3;
