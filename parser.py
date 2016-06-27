@@ -187,7 +187,6 @@ class Parser(object):
 			temp = []
 			temp.append(t[1])
 			temp.append(t[3])
-			temp1 = t[5]
 			t[0]= temp + t[5]
 			
 			
@@ -203,10 +202,11 @@ class Parser(object):
                     		| variable COMA lista_idparam
 		"""
 		if len(t) == 4:
-			t[0] = t[1] + t[3]
-			
+			temp = []
+			temp.append(t[1])
+			t[0]= temp + t[3]
 		else:
-			t[0] = t[1]
+			t[0] = [t[1]]
 			
 
 	def p_bloque(self,t): #8 , 7, 7, 6, 7, 6, 6, 5
