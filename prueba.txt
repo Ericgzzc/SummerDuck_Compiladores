@@ -3,15 +3,19 @@ entero:a2,a3,a4,a5;
 entero:g1,g2,g3,g4;
 	
 modulo entero nombre_modulo(){
-	regresa()
+	real:a2,a3,a4,a5;
+	entero: a;
+	regresa(a)
 }
 
 modulo entero nombre_modulo2(){
-	regresa()
+	entero:a2,a3,a4,a5;
+
+	regresa(a2)
 }
 
 modulo void modulo3(entero:g1,g2,g3,g4;){
-	
+	entero:a2,a3,a4,a5;
 	regresa()
 }
 

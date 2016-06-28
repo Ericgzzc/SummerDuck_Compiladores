@@ -284,9 +284,26 @@ class Quads(object):
 				if x[0] == 'estatutos':
 					self.estatutos(x, table)
 			if x == 'regresa':
+
 				if bloque:
-					self.quad(x, bloque.pop())
+					a = bloque.pop()
+
+					var = table.get(a)
+					if var != None:
+						table2 = table.parent.get(table.name)
+						if table2.type != var.type:
+							if table2.type == "void":
+								print("Modulo " +table2.name + " is not expecting a return variable, type is void" )
+							else:
+								print('return variable ' + a + '  has a different type, expected ' + table2.type + " given " + var.type + " in modulo "+ table2.name)
+					else:
+						print('Variable  ' + a + '  No declared')
+					self.quad(x, a)
 				else:
+					table2 = table.parent.get(table.name)
+					if table2.type != "void":
+						print("Modulo " +table2.name + " is expecting a return variable")
+
 					self.quad(x)
 
 
@@ -311,7 +328,7 @@ class Quads(object):
 				funcSymbol = FunctionSymbol(nombre, tipo,argumentos,argumentos)
 				if not table.put(funcSymbol):
 					print('Modulo '+ nombre+' already defined')
-				funcionTable = SymbolTable(table, funcSymbol)
+				funcionTable = SymbolTable(table, nombre)
 				self.quad("modulo", tipo, nombre)
 				bloque = args[3]
 				self.bloques(bloque, funcionTable)
@@ -325,7 +342,7 @@ class Quads(object):
 				funcSymbol = FunctionSymbol(nombre, tipo, parametros2[0], parametros2[1])
 				if not table.put(funcSymbol):
 					print('Modulo'+ nombre+' already defined')
-				funcionTable = SymbolTable(table, funcSymbol)
+				funcionTable = SymbolTable(table, nombre)
 				self.quad("modulo", tipo, nombre)
 				
 				self.declaraVariables(args[3], "param",funcionTable)
