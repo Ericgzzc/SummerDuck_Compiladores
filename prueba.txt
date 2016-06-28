@@ -21,7 +21,7 @@ principal(){
 	real: x;
 	char: str1;
 
-	str1 = 3;
+	str1 = "str";
 	x=3.5;
 	b=2;
 	x = 3*3.5;

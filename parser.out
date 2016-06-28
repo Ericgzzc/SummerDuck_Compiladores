@@ -2,17 +2,17 @@ Created by PLY version 3.8 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    COMILLAS
-    ANDBIT
-    ENTONCES
+    MENOSMENOS
     DOBLEPORCENTAJE
+    MASMAS
+    ANDBIT
+    MOD
+    PUNTO
+    DIFERENTE
     IGUALIGUAL
     BOOL
-    MOD
-    MASMAS
-    DIFERENTE
-    PUNTO
-    MENOSMENOS
+    ENTONCES
+    COMILLAS
 
 Grammar
 
@@ -271,20 +271,65 @@ state 4
     (10) tipo -> . REAL
     (11) tipo -> . CHAR
 
-    PRINCIPAL       shift and go to state 9
-    MODULO          shift and go to state 11
-    ENTERO          shift and go to state 12
-    REAL            shift and go to state 8
-    CHAR            shift and go to state 6
+    PRINCIPAL       shift and go to state 6
+    MODULO          shift and go to state 8
+    ENTERO          shift and go to state 14
+    REAL            shift and go to state 10
+    CHAR            shift and go to state 11
 
-    tipo                           shift and go to state 13
-    declara_variables              shift and go to state 5
-    declara_funciones              shift and go to state 7
-    metodo_principal               shift and go to state 14
-    declara_funciones1             shift and go to state 10
+    declara_funciones              shift and go to state 13
+    declara_variables              shift and go to state 9
+    tipo                           shift and go to state 7
+    declara_funciones1             shift and go to state 12
     declara_variables1             shift and go to state 15
+    metodo_principal               shift and go to state 5
 
 state 5
+
+    (4) programa -> PROGRAMA ID PUNTOCOMA metodo_principal .
+
+    $end            reduce using rule 4 (programa -> PROGRAMA ID PUNTOCOMA metodo_principal .)
+
+
+state 6
+
+    (40) metodo_principal -> PRINCIPAL . PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER
+    (41) metodo_principal -> PRINCIPAL . PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER
+    (42) metodo_principal -> PRINCIPAL . PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER
+    (43) metodo_principal -> PRINCIPAL . PARIZQ PARDER LLAVEIZQ LLAVEDER
+
+    PARIZQ          shift and go to state 16
+
+
+state 7
+
+    (7) declara_variables1 -> tipo . DOSPUNTOS lista_ids PUNTOCOMA
+    (8) declara_variables1 -> tipo . DOSPUNTOS lista_ids PUNTOCOMA declara_variables1
+
+    DOSPUNTOS       shift and go to state 17
+
+
+state 8
+
+    (20) declara_funciones1 -> MODULO . tipo_retorno ID PARIZQ lista_parametros PARDER bloque
+    (21) declara_funciones1 -> MODULO . tipo_retorno ID PARIZQ PARDER bloque
+    (22) declara_funciones1 -> MODULO . tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1
+    (23) declara_funciones1 -> MODULO . tipo_retorno ID PARIZQ PARDER bloque declara_funciones1
+    (24) tipo_retorno -> . tipo
+    (25) tipo_retorno -> . VOID
+    (9) tipo -> . ENTERO
+    (10) tipo -> . REAL
+    (11) tipo -> . CHAR
+
+    VOID            shift and go to state 19
+    ENTERO          shift and go to state 14
+    REAL            shift and go to state 10
+    CHAR            shift and go to state 11
+
+    tipo                           shift and go to state 18
+    tipo_retorno                   shift and go to state 20
+
+state 9
 
     (1) programa -> PROGRAMA ID PUNTOCOMA declara_variables . declara_funciones metodo_principal
     (2) programa -> PROGRAMA ID PUNTOCOMA declara_variables . metodo_principal
@@ -299,34 +344,14 @@ state 5
     (22) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1
     (23) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ PARDER bloque declara_funciones1
 
-    PRINCIPAL       shift and go to state 9
-    MODULO          shift and go to state 11
+    PRINCIPAL       shift and go to state 6
+    MODULO          shift and go to state 8
 
-    metodo_principal               shift and go to state 17
-    declara_funciones              shift and go to state 16
-    declara_funciones1             shift and go to state 10
+    declara_funciones              shift and go to state 21
+    declara_funciones1             shift and go to state 12
+    metodo_principal               shift and go to state 22
 
-state 6
-
-    (11) tipo -> CHAR .
-
-    DOSPUNTOS       reduce using rule 11 (tipo -> CHAR .)
-    ID              reduce using rule 11 (tipo -> CHAR .)
-
-
-state 7
-
-    (3) programa -> PROGRAMA ID PUNTOCOMA declara_funciones . metodo_principal
-    (40) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER
-    (41) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER
-    (42) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER
-    (43) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ LLAVEDER
-
-    PRINCIPAL       shift and go to state 9
-
-    metodo_principal               shift and go to state 18
-
-state 8
+state 10
 
     (10) tipo -> REAL .
 
@@ -334,17 +359,15 @@ state 8
     ID              reduce using rule 10 (tipo -> REAL .)
 
 
-state 9
+state 11
 
-    (40) metodo_principal -> PRINCIPAL . PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER
-    (41) metodo_principal -> PRINCIPAL . PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER
-    (42) metodo_principal -> PRINCIPAL . PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER
-    (43) metodo_principal -> PRINCIPAL . PARIZQ PARDER LLAVEIZQ LLAVEDER
+    (11) tipo -> CHAR .
 
-    PARIZQ          shift and go to state 19
+    DOSPUNTOS       reduce using rule 11 (tipo -> CHAR .)
+    ID              reduce using rule 11 (tipo -> CHAR .)
 
 
-state 10
+state 12
 
     (18) declara_funciones -> declara_funciones1 . declara_funciones
     (19) declara_funciones -> declara_funciones1 .
@@ -356,52 +379,29 @@ state 10
     (23) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ PARDER bloque declara_funciones1
 
     PRINCIPAL       reduce using rule 19 (declara_funciones -> declara_funciones1 .)
-    MODULO          shift and go to state 11
+    MODULO          shift and go to state 8
 
-    declara_funciones              shift and go to state 20
-    declara_funciones1             shift and go to state 10
+    declara_funciones              shift and go to state 23
+    declara_funciones1             shift and go to state 12
 
-state 11
+state 13
 
-    (20) declara_funciones1 -> MODULO . tipo_retorno ID PARIZQ lista_parametros PARDER bloque
-    (21) declara_funciones1 -> MODULO . tipo_retorno ID PARIZQ PARDER bloque
-    (22) declara_funciones1 -> MODULO . tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1
-    (23) declara_funciones1 -> MODULO . tipo_retorno ID PARIZQ PARDER bloque declara_funciones1
-    (24) tipo_retorno -> . tipo
-    (25) tipo_retorno -> . VOID
-    (9) tipo -> . ENTERO
-    (10) tipo -> . REAL
-    (11) tipo -> . CHAR
+    (3) programa -> PROGRAMA ID PUNTOCOMA declara_funciones . metodo_principal
+    (40) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER
+    (41) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER
+    (42) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER
+    (43) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ LLAVEDER
 
-    VOID            shift and go to state 21
-    ENTERO          shift and go to state 12
-    REAL            shift and go to state 8
-    CHAR            shift and go to state 6
+    PRINCIPAL       shift and go to state 6
 
-    tipo                           shift and go to state 22
-    tipo_retorno                   shift and go to state 23
+    metodo_principal               shift and go to state 24
 
-state 12
+state 14
 
     (9) tipo -> ENTERO .
 
     DOSPUNTOS       reduce using rule 9 (tipo -> ENTERO .)
     ID              reduce using rule 9 (tipo -> ENTERO .)
-
-
-state 13
-
-    (7) declara_variables1 -> tipo . DOSPUNTOS lista_ids PUNTOCOMA
-    (8) declara_variables1 -> tipo . DOSPUNTOS lista_ids PUNTOCOMA declara_variables1
-
-    DOSPUNTOS       shift and go to state 24
-
-
-state 14
-
-    (4) programa -> PROGRAMA ID PUNTOCOMA metodo_principal .
-
-    $end            reduce using rule 4 (programa -> PROGRAMA ID PUNTOCOMA metodo_principal .)
 
 
 state 15
@@ -416,7 +416,7 @@ state 15
     (10) tipo -> . REAL
     (11) tipo -> . CHAR
 
-    LLAVEDER        reduce using rule 5 (declara_variables -> declara_variables1 .)
+    REGRESA         reduce using rule 5 (declara_variables -> declara_variables1 .)
     SI              reduce using rule 5 (declara_variables -> declara_variables1 .)
     MIENTRAS        reduce using rule 5 (declara_variables -> declara_variables1 .)
     REPITE          reduce using rule 5 (declara_variables -> declara_variables1 .)
@@ -425,83 +425,26 @@ state 15
     ESCRIBIR        reduce using rule 5 (declara_variables -> declara_variables1 .)
     PRINCIPAL       reduce using rule 5 (declara_variables -> declara_variables1 .)
     MODULO          reduce using rule 5 (declara_variables -> declara_variables1 .)
-    REGRESA         reduce using rule 5 (declara_variables -> declara_variables1 .)
-    ENTERO          shift and go to state 12
-    REAL            shift and go to state 8
-    CHAR            shift and go to state 6
+    LLAVEDER        reduce using rule 5 (declara_variables -> declara_variables1 .)
+    ENTERO          shift and go to state 14
+    REAL            shift and go to state 10
+    CHAR            shift and go to state 11
 
-    tipo                           shift and go to state 13
+    tipo                           shift and go to state 7
     declara_variables              shift and go to state 25
     declara_variables1             shift and go to state 15
 
 state 16
-
-    (1) programa -> PROGRAMA ID PUNTOCOMA declara_variables declara_funciones . metodo_principal
-    (40) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER
-    (41) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER
-    (42) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER
-    (43) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ LLAVEDER
-
-    PRINCIPAL       shift and go to state 9
-
-    metodo_principal               shift and go to state 26
-
-state 17
-
-    (2) programa -> PROGRAMA ID PUNTOCOMA declara_variables metodo_principal .
-
-    $end            reduce using rule 2 (programa -> PROGRAMA ID PUNTOCOMA declara_variables metodo_principal .)
-
-
-state 18
-
-    (3) programa -> PROGRAMA ID PUNTOCOMA declara_funciones metodo_principal .
-
-    $end            reduce using rule 3 (programa -> PROGRAMA ID PUNTOCOMA declara_funciones metodo_principal .)
-
-
-state 19
 
     (40) metodo_principal -> PRINCIPAL PARIZQ . PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER
     (41) metodo_principal -> PRINCIPAL PARIZQ . PARDER LLAVEIZQ estatutos_control LLAVEDER
     (42) metodo_principal -> PRINCIPAL PARIZQ . PARDER LLAVEIZQ declara_variables LLAVEDER
     (43) metodo_principal -> PRINCIPAL PARIZQ . PARDER LLAVEIZQ LLAVEDER
 
-    PARDER          shift and go to state 27
+    PARDER          shift and go to state 26
 
 
-state 20
-
-    (18) declara_funciones -> declara_funciones1 declara_funciones .
-
-    PRINCIPAL       reduce using rule 18 (declara_funciones -> declara_funciones1 declara_funciones .)
-
-
-state 21
-
-    (25) tipo_retorno -> VOID .
-
-    ID              reduce using rule 25 (tipo_retorno -> VOID .)
-
-
-state 22
-
-    (24) tipo_retorno -> tipo .
-
-    ID              reduce using rule 24 (tipo_retorno -> tipo .)
-
-
-state 23
-
-    (20) declara_funciones1 -> MODULO tipo_retorno . ID PARIZQ lista_parametros PARDER bloque
-    (21) declara_funciones1 -> MODULO tipo_retorno . ID PARIZQ PARDER bloque
-    (22) declara_funciones1 -> MODULO tipo_retorno . ID PARIZQ lista_parametros PARDER bloque declara_funciones1
-    (23) declara_funciones1 -> MODULO tipo_retorno . ID PARIZQ PARDER bloque declara_funciones1
-
-    ID              shift and go to state 28
-
-
-state 24
+state 17
 
     (7) declara_variables1 -> tipo DOSPUNTOS . lista_ids PUNTOCOMA
     (8) declara_variables1 -> tipo DOSPUNTOS . lista_ids PUNTOCOMA declara_variables1
@@ -511,16 +454,73 @@ state 24
     (15) variable -> . ID indice_matriz
     (16) variable -> . ID indice_matriz indice_matriz
 
-    ID              shift and go to state 31
+    ID              shift and go to state 29
 
-    variable                       shift and go to state 29
-    lista_ids                      shift and go to state 30
+    variable                       shift and go to state 27
+    lista_ids                      shift and go to state 28
+
+state 18
+
+    (24) tipo_retorno -> tipo .
+
+    ID              reduce using rule 24 (tipo_retorno -> tipo .)
+
+
+state 19
+
+    (25) tipo_retorno -> VOID .
+
+    ID              reduce using rule 25 (tipo_retorno -> VOID .)
+
+
+state 20
+
+    (20) declara_funciones1 -> MODULO tipo_retorno . ID PARIZQ lista_parametros PARDER bloque
+    (21) declara_funciones1 -> MODULO tipo_retorno . ID PARIZQ PARDER bloque
+    (22) declara_funciones1 -> MODULO tipo_retorno . ID PARIZQ lista_parametros PARDER bloque declara_funciones1
+    (23) declara_funciones1 -> MODULO tipo_retorno . ID PARIZQ PARDER bloque declara_funciones1
+
+    ID              shift and go to state 30
+
+
+state 21
+
+    (1) programa -> PROGRAMA ID PUNTOCOMA declara_variables declara_funciones . metodo_principal
+    (40) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER
+    (41) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER
+    (42) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER
+    (43) metodo_principal -> . PRINCIPAL PARIZQ PARDER LLAVEIZQ LLAVEDER
+
+    PRINCIPAL       shift and go to state 6
+
+    metodo_principal               shift and go to state 31
+
+state 22
+
+    (2) programa -> PROGRAMA ID PUNTOCOMA declara_variables metodo_principal .
+
+    $end            reduce using rule 2 (programa -> PROGRAMA ID PUNTOCOMA declara_variables metodo_principal .)
+
+
+state 23
+
+    (18) declara_funciones -> declara_funciones1 declara_funciones .
+
+    PRINCIPAL       reduce using rule 18 (declara_funciones -> declara_funciones1 declara_funciones .)
+
+
+state 24
+
+    (3) programa -> PROGRAMA ID PUNTOCOMA declara_funciones metodo_principal .
+
+    $end            reduce using rule 3 (programa -> PROGRAMA ID PUNTOCOMA declara_funciones metodo_principal .)
+
 
 state 25
 
     (6) declara_variables -> declara_variables1 declara_variables .
 
-    LLAVEDER        reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
+    REGRESA         reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
     SI              reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
     MIENTRAS        reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
     REPITE          reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
@@ -529,17 +529,10 @@ state 25
     ESCRIBIR        reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
     PRINCIPAL       reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
     MODULO          reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
-    REGRESA         reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
+    LLAVEDER        reduce using rule 6 (declara_variables -> declara_variables1 declara_variables .)
 
 
 state 26
-
-    (1) programa -> PROGRAMA ID PUNTOCOMA declara_variables declara_funciones metodo_principal .
-
-    $end            reduce using rule 1 (programa -> PROGRAMA ID PUNTOCOMA declara_variables declara_funciones metodo_principal .)
-
-
-state 27
 
     (40) metodo_principal -> PRINCIPAL PARIZQ PARDER . LLAVEIZQ declara_variables estatutos_control LLAVEDER
     (41) metodo_principal -> PRINCIPAL PARIZQ PARDER . LLAVEIZQ estatutos_control LLAVEDER
@@ -549,34 +542,24 @@ state 27
     LLAVEIZQ        shift and go to state 32
 
 
-state 28
-
-    (20) declara_funciones1 -> MODULO tipo_retorno ID . PARIZQ lista_parametros PARDER bloque
-    (21) declara_funciones1 -> MODULO tipo_retorno ID . PARIZQ PARDER bloque
-    (22) declara_funciones1 -> MODULO tipo_retorno ID . PARIZQ lista_parametros PARDER bloque declara_funciones1
-    (23) declara_funciones1 -> MODULO tipo_retorno ID . PARIZQ PARDER bloque declara_funciones1
-
-    PARIZQ          shift and go to state 33
-
-
-state 29
+state 27
 
     (12) lista_ids -> variable .
     (13) lista_ids -> variable . COMA lista_ids
 
     PUNTOCOMA       reduce using rule 12 (lista_ids -> variable .)
-    COMA            shift and go to state 34
+    COMA            shift and go to state 33
 
 
-state 30
+state 28
 
     (7) declara_variables1 -> tipo DOSPUNTOS lista_ids . PUNTOCOMA
     (8) declara_variables1 -> tipo DOSPUNTOS lista_ids . PUNTOCOMA declara_variables1
 
-    PUNTOCOMA       shift and go to state 35
+    PUNTOCOMA       shift and go to state 34
 
 
-state 31
+state 29
 
     (14) variable -> ID .
     (15) variable -> ID . indice_matriz
@@ -585,9 +568,26 @@ state 31
 
     COMA            reduce using rule 14 (variable -> ID .)
     PUNTOCOMA       reduce using rule 14 (variable -> ID .)
-    CORIZQ          shift and go to state 36
+    CORIZQ          shift and go to state 35
 
-    indice_matriz                  shift and go to state 37
+    indice_matriz                  shift and go to state 36
+
+state 30
+
+    (20) declara_funciones1 -> MODULO tipo_retorno ID . PARIZQ lista_parametros PARDER bloque
+    (21) declara_funciones1 -> MODULO tipo_retorno ID . PARIZQ PARDER bloque
+    (22) declara_funciones1 -> MODULO tipo_retorno ID . PARIZQ lista_parametros PARDER bloque declara_funciones1
+    (23) declara_funciones1 -> MODULO tipo_retorno ID . PARIZQ PARDER bloque declara_funciones1
+
+    PARIZQ          shift and go to state 37
+
+
+state 31
+
+    (1) programa -> PROGRAMA ID PUNTOCOMA declara_variables declara_funciones metodo_principal .
+
+    $end            reduce using rule 1 (programa -> PROGRAMA ID PUNTOCOMA declara_variables declara_funciones metodo_principal .)
+
 
 state 32
 
@@ -629,34 +629,102 @@ state 32
     (16) variable -> . ID indice_matriz indice_matriz
 
     LLAVEDER        shift and go to state 52
-    ENTERO          shift and go to state 12
-    REAL            shift and go to state 8
-    CHAR            shift and go to state 6
-    SI              shift and go to state 56
-    MIENTRAS        shift and go to state 57
-    REPITE          shift and go to state 47
-    ID              shift and go to state 42
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
+    ENTERO          shift and go to state 14
+    REAL            shift and go to state 10
+    CHAR            shift and go to state 11
+    SI              shift and go to state 45
+    MIENTRAS        shift and go to state 58
+    REPITE          shift and go to state 38
+    ID              shift and go to state 43
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
 
-    declara_variables              shift and go to state 38
-    estatutos_control              shift and go to state 48
-    repeticion                     shift and go to state 39
-    asignacion                     shift and go to state 43
-    decision                       shift and go to state 49
-    escritura                      shift and go to state 55
-    lectura                        shift and go to state 41
-    repite                         shift and go to state 45
-    tipo                           shift and go to state 13
-    declara_variables1             shift and go to state 15
-    variable                       shift and go to state 44
-    llamada                        shift and go to state 51
+    asignacion                     shift and go to state 54
+    variable                       shift and go to state 57
+    tipo                           shift and go to state 7
+    estatuto                       shift and go to state 49
+    estatutos_control              shift and go to state 40
+    escritura                      shift and go to state 51
+    estatutos_control1             shift and go to state 48
+    mientras                       shift and go to state 41
+    repeticion                     shift and go to state 53
+    decision                       shift and go to state 42
+    repite                         shift and go to state 50
+    declara_variables              shift and go to state 44
     estatuto_control               shift and go to state 46
-    estatutos_control1             shift and go to state 58
-    estatuto                       shift and go to state 53
-    mientras                       shift and go to state 50
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+    declara_variables1             shift and go to state 15
 
 state 33
+
+    (13) lista_ids -> variable COMA . lista_ids
+    (12) lista_ids -> . variable
+    (13) lista_ids -> . variable COMA lista_ids
+    (14) variable -> . ID
+    (15) variable -> . ID indice_matriz
+    (16) variable -> . ID indice_matriz indice_matriz
+
+    ID              shift and go to state 29
+
+    variable                       shift and go to state 27
+    lista_ids                      shift and go to state 59
+
+state 34
+
+    (7) declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .
+    (8) declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA . declara_variables1
+    (7) declara_variables1 -> . tipo DOSPUNTOS lista_ids PUNTOCOMA
+    (8) declara_variables1 -> . tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1
+    (9) tipo -> . ENTERO
+    (10) tipo -> . REAL
+    (11) tipo -> . CHAR
+
+  ! shift/reduce conflict for ENTERO resolved as shift
+  ! shift/reduce conflict for REAL resolved as shift
+  ! shift/reduce conflict for CHAR resolved as shift
+    PRINCIPAL       reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    MODULO          reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    REGRESA         reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    SI              reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    MIENTRAS        reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    REPITE          reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    ID              reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    LEER            reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    ESCRIBIR        reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    LLAVEDER        reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
+    ENTERO          shift and go to state 14
+    REAL            shift and go to state 10
+    CHAR            shift and go to state 11
+
+  ! ENTERO          [ reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .) ]
+  ! REAL            [ reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .) ]
+  ! CHAR            [ reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .) ]
+
+    declara_variables1             shift and go to state 60
+    tipo                           shift and go to state 7
+
+state 35
+
+    (17) indice_matriz -> CORIZQ . ENTERO CORDER
+
+    ENTERO          shift and go to state 61
+
+
+state 36
+
+    (15) variable -> ID indice_matriz .
+    (16) variable -> ID indice_matriz . indice_matriz
+    (17) indice_matriz -> . CORIZQ ENTERO CORDER
+
+    IGUAL           reduce using rule 15 (variable -> ID indice_matriz .)
+    COMA            reduce using rule 15 (variable -> ID indice_matriz .)
+    PUNTOCOMA       reduce using rule 15 (variable -> ID indice_matriz .)
+    CORIZQ          shift and go to state 35
+
+    indice_matriz                  shift and go to state 62
+
+state 37
 
     (20) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ . lista_parametros PARDER bloque
     (21) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ . PARDER bloque
@@ -670,84 +738,69 @@ state 33
     (10) tipo -> . REAL
     (11) tipo -> . CHAR
 
-    PARDER          shift and go to state 62
-    ENTERO          shift and go to state 12
-    REAL            shift and go to state 8
-    CHAR            shift and go to state 6
+    PARDER          shift and go to state 66
+    ENTERO          shift and go to state 14
+    REAL            shift and go to state 10
+    CHAR            shift and go to state 11
 
-    tipo                           shift and go to state 61
-    lista_parametros               shift and go to state 59
-    lista_parametros1              shift and go to state 60
-
-state 34
-
-    (13) lista_ids -> variable COMA . lista_ids
-    (12) lista_ids -> . variable
-    (13) lista_ids -> . variable COMA lista_ids
-    (14) variable -> . ID
-    (15) variable -> . ID indice_matriz
-    (16) variable -> . ID indice_matriz indice_matriz
-
-    ID              shift and go to state 31
-
-    variable                       shift and go to state 29
-    lista_ids                      shift and go to state 63
-
-state 35
-
-    (7) declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .
-    (8) declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA . declara_variables1
-    (7) declara_variables1 -> . tipo DOSPUNTOS lista_ids PUNTOCOMA
-    (8) declara_variables1 -> . tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1
-    (9) tipo -> . ENTERO
-    (10) tipo -> . REAL
-    (11) tipo -> . CHAR
-
-  ! shift/reduce conflict for ENTERO resolved as shift
-  ! shift/reduce conflict for REAL resolved as shift
-  ! shift/reduce conflict for CHAR resolved as shift
-    REGRESA         reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    SI              reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    MIENTRAS        reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    REPITE          reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    ID              reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    LEER            reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    ESCRIBIR        reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    PRINCIPAL       reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    MODULO          reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    LLAVEDER        reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .)
-    ENTERO          shift and go to state 12
-    REAL            shift and go to state 8
-    CHAR            shift and go to state 6
-
-  ! ENTERO          [ reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .) ]
-  ! REAL            [ reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .) ]
-  ! CHAR            [ reduce using rule 7 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA .) ]
-
-    tipo                           shift and go to state 13
-    declara_variables1             shift and go to state 64
-
-state 36
-
-    (17) indice_matriz -> CORIZQ . ENTERO CORDER
-
-    ENTERO          shift and go to state 65
-
-
-state 37
-
-    (15) variable -> ID indice_matriz .
-    (16) variable -> ID indice_matriz . indice_matriz
-    (17) indice_matriz -> . CORIZQ ENTERO CORDER
-
-    IGUAL           reduce using rule 15 (variable -> ID indice_matriz .)
-    COMA            reduce using rule 15 (variable -> ID indice_matriz .)
-    PUNTOCOMA       reduce using rule 15 (variable -> ID indice_matriz .)
-    CORIZQ          shift and go to state 36
-
-    indice_matriz                  shift and go to state 66
+    lista_parametros               shift and go to state 64
+    tipo                           shift and go to state 63
+    lista_parametros1              shift and go to state 65
 
 state 38
+
+    (67) repite -> REPITE . hacer HASTA PARIZQ expresion PARDER
+    (62) hacer -> . LLAVEIZQ LLAVEDER
+    (63) hacer -> . LLAVEIZQ estatutos_control LLAVEDER
+
+    LLAVEIZQ        shift and go to state 68
+
+    hacer                          shift and go to state 67
+
+state 39
+
+    (58) lectura -> LEER . PARIZQ lista_valores PARDER
+
+    PARIZQ          shift and go to state 69
+
+
+state 40
+
+    (41) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control . LLAVEDER
+
+    LLAVEDER        shift and go to state 70
+
+
+state 41
+
+    (64) repeticion -> mientras .
+
+    PUNTOCOMA       reduce using rule 64 (repeticion -> mientras .)
+
+
+state 42
+
+    (52) estatuto_control -> decision .
+
+    PUNTOCOMA       reduce using rule 52 (estatuto_control -> decision .)
+
+
+state 43
+
+    (56) llamada -> ID . PARIZQ PARDER
+    (57) llamada -> ID . PARIZQ lista_valores PARDER
+    (14) variable -> ID .
+    (15) variable -> ID . indice_matriz
+    (16) variable -> ID . indice_matriz indice_matriz
+    (17) indice_matriz -> . CORIZQ ENTERO CORDER
+
+    PARIZQ          shift and go to state 71
+    IGUAL           reduce using rule 14 (variable -> ID .)
+    CORIZQ          shift and go to state 35
+
+    indice_matriz                  shift and go to state 36
+
+state 44
 
     (40) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables . estatutos_control LLAVEDER
     (42) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables . LLAVEDER
@@ -777,91 +830,34 @@ state 38
     (15) variable -> . ID indice_matriz
     (16) variable -> . ID indice_matriz indice_matriz
 
-    LLAVEDER        shift and go to state 68
-    SI              shift and go to state 56
-    MIENTRAS        shift and go to state 57
-    REPITE          shift and go to state 47
-    ID              shift and go to state 42
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
+    LLAVEDER        shift and go to state 73
+    SI              shift and go to state 45
+    MIENTRAS        shift and go to state 58
+    REPITE          shift and go to state 38
+    ID              shift and go to state 43
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
 
-    llamada                        shift and go to state 51
-    repeticion                     shift and go to state 39
-    decision                       shift and go to state 49
-    escritura                      shift and go to state 55
-    lectura                        shift and go to state 41
-    repite                         shift and go to state 45
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
+    variable                       shift and go to state 57
+    estatuto                       shift and go to state 49
+    estatutos_control              shift and go to state 72
+    escritura                      shift and go to state 51
+    mientras                       shift and go to state 41
+    repeticion                     shift and go to state 53
+    decision                       shift and go to state 42
+    repite                         shift and go to state 50
+    estatutos_control1             shift and go to state 48
     estatuto_control               shift and go to state 46
-    estatutos_control1             shift and go to state 58
-    estatutos_control              shift and go to state 67
-    estatuto                       shift and go to state 53
-    mientras                       shift and go to state 50
-
-state 39
-
-    (53) estatuto_control -> repeticion .
-
-    PUNTOCOMA       reduce using rule 53 (estatuto_control -> repeticion .)
-
-
-state 40
-
-    (59) escritura -> ESCRIBIR . PARIZQ lista_valores PARDER
-
-    PARIZQ          shift and go to state 69
-
-
-state 41
-
-    (50) estatuto -> lectura .
-
-    COMA            reduce using rule 50 (estatuto -> lectura .)
-    PESOS           reduce using rule 50 (estatuto -> lectura .)
-    INTERROGACION   reduce using rule 50 (estatuto -> lectura .)
-    PARDER          reduce using rule 50 (estatuto -> lectura .)
-    PUNTOCOMA       reduce using rule 50 (estatuto -> lectura .)
-
-
-state 42
-
-    (56) llamada -> ID . PARIZQ PARDER
-    (57) llamada -> ID . PARIZQ lista_valores PARDER
-    (14) variable -> ID .
-    (15) variable -> ID . indice_matriz
-    (16) variable -> ID . indice_matriz indice_matriz
-    (17) indice_matriz -> . CORIZQ ENTERO CORDER
-
-    PARIZQ          shift and go to state 70
-    IGUAL           reduce using rule 14 (variable -> ID .)
-    CORIZQ          shift and go to state 36
-
-    indice_matriz                  shift and go to state 37
-
-state 43
-
-    (48) estatuto -> asignacion .
-
-    COMA            reduce using rule 48 (estatuto -> asignacion .)
-    PESOS           reduce using rule 48 (estatuto -> asignacion .)
-    INTERROGACION   reduce using rule 48 (estatuto -> asignacion .)
-    PARDER          reduce using rule 48 (estatuto -> asignacion .)
-    PUNTOCOMA       reduce using rule 48 (estatuto -> asignacion .)
-
-
-state 44
-
-    (55) asignacion -> variable . IGUAL expresion
-
-    IGUAL           shift and go to state 71
-
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+    asignacion                     shift and go to state 54
 
 state 45
 
-    (65) repeticion -> repite .
+    (60) decision -> SI . PARIZQ expresion PARDER hacer
+    (61) decision -> SI . PARIZQ expresion PARDER hacer SINO hacer
 
-    PUNTOCOMA       reduce using rule 65 (repeticion -> repite .)
+    PARIZQ          shift and go to state 74
 
 
 state 46
@@ -869,99 +865,21 @@ state 46
     (46) estatutos_control1 -> estatuto_control . PUNTOCOMA
     (47) estatutos_control1 -> estatuto_control . PUNTOCOMA estatutos_control1
 
-    PUNTOCOMA       shift and go to state 72
+    PUNTOCOMA       shift and go to state 75
 
 
 state 47
 
-    (67) repite -> REPITE . hacer HASTA PARIZQ expresion PARDER
-    (62) hacer -> . LLAVEIZQ LLAVEDER
-    (63) hacer -> . LLAVEIZQ estatutos_control LLAVEDER
-
-    LLAVEIZQ        shift and go to state 74
-
-    hacer                          shift and go to state 73
-
-state 48
-
-    (41) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control . LLAVEDER
-
-    LLAVEDER        shift and go to state 75
-
-
-state 49
-
-    (52) estatuto_control -> decision .
-
-    PUNTOCOMA       reduce using rule 52 (estatuto_control -> decision .)
-
-
-state 50
-
-    (64) repeticion -> mientras .
-
-    PUNTOCOMA       reduce using rule 64 (repeticion -> mientras .)
-
-
-state 51
-
     (49) estatuto -> llamada .
 
-    COMA            reduce using rule 49 (estatuto -> llamada .)
     PESOS           reduce using rule 49 (estatuto -> llamada .)
     INTERROGACION   reduce using rule 49 (estatuto -> llamada .)
-    PARDER          reduce using rule 49 (estatuto -> llamada .)
     PUNTOCOMA       reduce using rule 49 (estatuto -> llamada .)
+    COMA            reduce using rule 49 (estatuto -> llamada .)
+    PARDER          reduce using rule 49 (estatuto -> llamada .)
 
 
-state 52
-
-    (43) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ LLAVEDER .
-
-    $end            reduce using rule 43 (metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ LLAVEDER .)
-
-
-state 53
-
-    (54) estatuto_control -> estatuto .
-
-    PUNTOCOMA       reduce using rule 54 (estatuto_control -> estatuto .)
-
-
-state 54
-
-    (58) lectura -> LEER . PARIZQ lista_valores PARDER
-
-    PARIZQ          shift and go to state 76
-
-
-state 55
-
-    (51) estatuto -> escritura .
-
-    COMA            reduce using rule 51 (estatuto -> escritura .)
-    PESOS           reduce using rule 51 (estatuto -> escritura .)
-    INTERROGACION   reduce using rule 51 (estatuto -> escritura .)
-    PARDER          reduce using rule 51 (estatuto -> escritura .)
-    PUNTOCOMA       reduce using rule 51 (estatuto -> escritura .)
-
-
-state 56
-
-    (60) decision -> SI . PARIZQ expresion PARDER hacer
-    (61) decision -> SI . PARIZQ expresion PARDER hacer SINO hacer
-
-    PARIZQ          shift and go to state 77
-
-
-state 57
-
-    (66) mientras -> MIENTRAS . PARIZQ expresion PARDER HAZ hacer
-
-    PARIZQ          shift and go to state 78
-
-
-state 58
+state 48
 
     (44) estatutos_control -> estatutos_control1 . estatutos_control
     (45) estatutos_control -> estatutos_control1 .
@@ -993,36 +911,168 @@ state 58
 
     LLAVEDER        reduce using rule 45 (estatutos_control -> estatutos_control1 .)
     REGRESA         reduce using rule 45 (estatutos_control -> estatutos_control1 .)
-    SI              shift and go to state 56
-    MIENTRAS        shift and go to state 57
-    REPITE          shift and go to state 47
-    ID              shift and go to state 42
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
+    SI              shift and go to state 45
+    MIENTRAS        shift and go to state 58
+    REPITE          shift and go to state 38
+    ID              shift and go to state 43
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
 
-    llamada                        shift and go to state 51
-    repeticion                     shift and go to state 39
-    decision                       shift and go to state 49
-    escritura                      shift and go to state 55
-    lectura                        shift and go to state 41
-    repite                         shift and go to state 45
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
+    variable                       shift and go to state 57
+    estatuto                       shift and go to state 49
+    estatutos_control              shift and go to state 76
+    escritura                      shift and go to state 51
+    mientras                       shift and go to state 41
+    repeticion                     shift and go to state 53
+    decision                       shift and go to state 42
+    repite                         shift and go to state 50
+    asignacion                     shift and go to state 54
+    estatutos_control1             shift and go to state 48
     estatuto_control               shift and go to state 46
-    estatutos_control1             shift and go to state 58
-    estatutos_control              shift and go to state 79
-    estatuto                       shift and go to state 53
-    mientras                       shift and go to state 50
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+
+state 49
+
+    (54) estatuto_control -> estatuto .
+
+    PUNTOCOMA       reduce using rule 54 (estatuto_control -> estatuto .)
+
+
+state 50
+
+    (65) repeticion -> repite .
+
+    PUNTOCOMA       reduce using rule 65 (repeticion -> repite .)
+
+
+state 51
+
+    (51) estatuto -> escritura .
+
+    PESOS           reduce using rule 51 (estatuto -> escritura .)
+    INTERROGACION   reduce using rule 51 (estatuto -> escritura .)
+    PUNTOCOMA       reduce using rule 51 (estatuto -> escritura .)
+    COMA            reduce using rule 51 (estatuto -> escritura .)
+    PARDER          reduce using rule 51 (estatuto -> escritura .)
+
+
+state 52
+
+    (43) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ LLAVEDER .
+
+    $end            reduce using rule 43 (metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ LLAVEDER .)
+
+
+state 53
+
+    (53) estatuto_control -> repeticion .
+
+    PUNTOCOMA       reduce using rule 53 (estatuto_control -> repeticion .)
+
+
+state 54
+
+    (48) estatuto -> asignacion .
+
+    PESOS           reduce using rule 48 (estatuto -> asignacion .)
+    INTERROGACION   reduce using rule 48 (estatuto -> asignacion .)
+    PUNTOCOMA       reduce using rule 48 (estatuto -> asignacion .)
+    COMA            reduce using rule 48 (estatuto -> asignacion .)
+    PARDER          reduce using rule 48 (estatuto -> asignacion .)
+
+
+state 55
+
+    (50) estatuto -> lectura .
+
+    PESOS           reduce using rule 50 (estatuto -> lectura .)
+    INTERROGACION   reduce using rule 50 (estatuto -> lectura .)
+    PUNTOCOMA       reduce using rule 50 (estatuto -> lectura .)
+    COMA            reduce using rule 50 (estatuto -> lectura .)
+    PARDER          reduce using rule 50 (estatuto -> lectura .)
+
+
+state 56
+
+    (59) escritura -> ESCRIBIR . PARIZQ lista_valores PARDER
+
+    PARIZQ          shift and go to state 77
+
+
+state 57
+
+    (55) asignacion -> variable . IGUAL expresion
+
+    IGUAL           shift and go to state 78
+
+
+state 58
+
+    (66) mientras -> MIENTRAS . PARIZQ expresion PARDER HAZ hacer
+
+    PARIZQ          shift and go to state 79
+
 
 state 59
+
+    (13) lista_ids -> variable COMA lista_ids .
+
+    PUNTOCOMA       reduce using rule 13 (lista_ids -> variable COMA lista_ids .)
+
+
+state 60
+
+    (8) declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .
+
+    ENTERO          reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    REAL            reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    CHAR            reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    PRINCIPAL       reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    MODULO          reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    REGRESA         reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    SI              reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    MIENTRAS        reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    REPITE          reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    ID              reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    LEER            reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    ESCRIBIR        reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+    LLAVEDER        reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
+
+
+state 61
+
+    (17) indice_matriz -> CORIZQ ENTERO . CORDER
+
+    CORDER          shift and go to state 80
+
+
+state 62
+
+    (16) variable -> ID indice_matriz indice_matriz .
+
+    IGUAL           reduce using rule 16 (variable -> ID indice_matriz indice_matriz .)
+    COMA            reduce using rule 16 (variable -> ID indice_matriz indice_matriz .)
+    PUNTOCOMA       reduce using rule 16 (variable -> ID indice_matriz indice_matriz .)
+
+
+state 63
+
+    (28) lista_parametros1 -> tipo . DOSPUNTOS lista_idparam PUNTOCOMA
+    (29) lista_parametros1 -> tipo . DOSPUNTOS lista_idparam PUNTOCOMA lista_parametros1
+
+    DOSPUNTOS       shift and go to state 81
+
+
+state 64
 
     (20) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros . PARDER bloque
     (22) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros . PARDER bloque declara_funciones1
 
-    PARDER          shift and go to state 80
+    PARDER          shift and go to state 82
 
 
-state 60
+state 65
 
     (26) lista_parametros -> lista_parametros1 . lista_parametros
     (27) lista_parametros -> lista_parametros1 .
@@ -1035,23 +1085,15 @@ state 60
     (11) tipo -> . CHAR
 
     PARDER          reduce using rule 27 (lista_parametros -> lista_parametros1 .)
-    ENTERO          shift and go to state 12
-    REAL            shift and go to state 8
-    CHAR            shift and go to state 6
+    ENTERO          shift and go to state 14
+    REAL            shift and go to state 10
+    CHAR            shift and go to state 11
 
-    tipo                           shift and go to state 61
-    lista_parametros1              shift and go to state 60
-    lista_parametros               shift and go to state 81
+    lista_parametros               shift and go to state 83
+    lista_parametros1              shift and go to state 65
+    tipo                           shift and go to state 63
 
-state 61
-
-    (28) lista_parametros1 -> tipo . DOSPUNTOS lista_idparam PUNTOCOMA
-    (29) lista_parametros1 -> tipo . DOSPUNTOS lista_idparam PUNTOCOMA lista_parametros1
-
-    DOSPUNTOS       shift and go to state 82
-
-
-state 62
+state 66
 
     (21) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ PARDER . bloque
     (23) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ PARDER . bloque declara_funciones1
@@ -1064,69 +1106,72 @@ state 62
     (38) bloque -> . LLAVEIZQ declara_variables REGRESA PARIZQ PARDER LLAVEDER
     (39) bloque -> . LLAVEIZQ REGRESA PARIZQ PARDER LLAVEDER
 
-    LLAVEIZQ        shift and go to state 83
+    LLAVEIZQ        shift and go to state 84
 
-    bloque                         shift and go to state 84
-
-state 63
-
-    (13) lista_ids -> variable COMA lista_ids .
-
-    PUNTOCOMA       reduce using rule 13 (lista_ids -> variable COMA lista_ids .)
-
-
-state 64
-
-    (8) declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .
-
-    ENTERO          reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    REAL            reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    CHAR            reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    REGRESA         reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    SI              reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    MIENTRAS        reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    REPITE          reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    ID              reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    LEER            reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    ESCRIBIR        reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    PRINCIPAL       reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    MODULO          reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-    LLAVEDER        reduce using rule 8 (declara_variables1 -> tipo DOSPUNTOS lista_ids PUNTOCOMA declara_variables1 .)
-
-
-state 65
-
-    (17) indice_matriz -> CORIZQ ENTERO . CORDER
-
-    CORDER          shift and go to state 85
-
-
-state 66
-
-    (16) variable -> ID indice_matriz indice_matriz .
-
-    IGUAL           reduce using rule 16 (variable -> ID indice_matriz indice_matriz .)
-    COMA            reduce using rule 16 (variable -> ID indice_matriz indice_matriz .)
-    PUNTOCOMA       reduce using rule 16 (variable -> ID indice_matriz indice_matriz .)
-
+    bloque                         shift and go to state 85
 
 state 67
 
-    (40) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control . LLAVEDER
+    (67) repite -> REPITE hacer . HASTA PARIZQ expresion PARDER
 
-    LLAVEDER        shift and go to state 86
+    HASTA           shift and go to state 86
 
 
 state 68
 
-    (42) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER .
+    (62) hacer -> LLAVEIZQ . LLAVEDER
+    (63) hacer -> LLAVEIZQ . estatutos_control LLAVEDER
+    (44) estatutos_control -> . estatutos_control1 estatutos_control
+    (45) estatutos_control -> . estatutos_control1
+    (46) estatutos_control1 -> . estatuto_control PUNTOCOMA
+    (47) estatutos_control1 -> . estatuto_control PUNTOCOMA estatutos_control1
+    (52) estatuto_control -> . decision
+    (53) estatuto_control -> . repeticion
+    (54) estatuto_control -> . estatuto
+    (60) decision -> . SI PARIZQ expresion PARDER hacer
+    (61) decision -> . SI PARIZQ expresion PARDER hacer SINO hacer
+    (64) repeticion -> . mientras
+    (65) repeticion -> . repite
+    (48) estatuto -> . asignacion
+    (49) estatuto -> . llamada
+    (50) estatuto -> . lectura
+    (51) estatuto -> . escritura
+    (66) mientras -> . MIENTRAS PARIZQ expresion PARDER HAZ hacer
+    (67) repite -> . REPITE hacer HASTA PARIZQ expresion PARDER
+    (55) asignacion -> . variable IGUAL expresion
+    (56) llamada -> . ID PARIZQ PARDER
+    (57) llamada -> . ID PARIZQ lista_valores PARDER
+    (58) lectura -> . LEER PARIZQ lista_valores PARDER
+    (59) escritura -> . ESCRIBIR PARIZQ lista_valores PARDER
+    (14) variable -> . ID
+    (15) variable -> . ID indice_matriz
+    (16) variable -> . ID indice_matriz indice_matriz
 
-    $end            reduce using rule 42 (metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER .)
+    LLAVEDER        shift and go to state 88
+    SI              shift and go to state 45
+    MIENTRAS        shift and go to state 58
+    REPITE          shift and go to state 38
+    ID              shift and go to state 43
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
 
+    variable                       shift and go to state 57
+    estatuto                       shift and go to state 49
+    estatutos_control              shift and go to state 87
+    escritura                      shift and go to state 51
+    mientras                       shift and go to state 41
+    repeticion                     shift and go to state 53
+    decision                       shift and go to state 42
+    repite                         shift and go to state 50
+    asignacion                     shift and go to state 54
+    estatutos_control1             shift and go to state 48
+    estatuto_control               shift and go to state 46
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
 
 state 69
 
-    (59) escritura -> ESCRIBIR PARIZQ . lista_valores PARDER
+    (58) lectura -> LEER PARIZQ . lista_valores PARDER
     (68) lista_valores -> . estatuto
     (69) lista_valores -> . estatuto COMA lista_valores
     (70) lista_valores -> . expresion
@@ -1168,29 +1213,36 @@ state 69
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    variable                       shift and go to state 44
-    lista_valores                  shift and go to state 94
-    exp                            shift and go to state 95
+    lista_valores                  shift and go to state 96
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 97
+    inversa                        shift and go to state 100
+    expresion                      shift and go to state 98
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    term                           shift and go to state 87
-    llamada                        shift and go to state 51
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    escritura                      shift and go to state 55
-    estatuto                       shift and go to state 92
-    expresion                      shift and go to state 99
+    escritura                      shift and go to state 51
+    asignacion                     shift and go to state 54
+    term                           shift and go to state 93
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
 state 70
+
+    (41) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER .
+
+    $end            reduce using rule 41 (metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER .)
+
+
+state 71
 
     (56) llamada -> ID PARIZQ . PARDER
     (57) llamada -> ID PARIZQ . lista_valores PARDER
@@ -1235,32 +1287,47 @@ state 70
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    PARDER          shift and go to state 101
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    PARDER          shift and go to state 103
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    variable                       shift and go to state 44
-    lista_valores                  shift and go to state 100
-    exp                            shift and go to state 95
+    lista_valores                  shift and go to state 102
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 97
+    inversa                        shift and go to state 100
+    expresion                      shift and go to state 98
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    term                           shift and go to state 87
-    llamada                        shift and go to state 51
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    escritura                      shift and go to state 55
-    estatuto                       shift and go to state 92
-    expresion                      shift and go to state 99
+    escritura                      shift and go to state 51
+    asignacion                     shift and go to state 54
+    term                           shift and go to state 93
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
-state 71
+state 72
 
-    (55) asignacion -> variable IGUAL . expresion
+    (40) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control . LLAVEDER
+
+    LLAVEDER        shift and go to state 104
+
+
+state 73
+
+    (42) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER .
+
+    $end            reduce using rule 42 (metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables LLAVEDER .)
+
+
+state 74
+
+    (60) decision -> SI PARIZQ . expresion PARDER hacer
+    (61) decision -> SI PARIZQ . expresion PARDER hacer SINO hacer
     (72) expresion -> . expresion AND exp
     (73) expresion -> . expresion OR exp
     (74) expresion -> . expresion NOT exp
@@ -1298,28 +1365,28 @@ state 71
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    variable                       shift and go to state 44
-    exp                            shift and go to state 95
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 105
+    escritura                      shift and go to state 51
+    expresion                      shift and go to state 106
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    expresion                      shift and go to state 103
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    llamada                        shift and go to state 51
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    escritura                      shift and go to state 55
-    estatuto                       shift and go to state 102
-    term                           shift and go to state 87
+    inversa                        shift and go to state 100
+    asignacion                     shift and go to state 54
+    lectura                        shift and go to state 55
+    term                           shift and go to state 93
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
-state 72
+state 75
 
     (46) estatutos_control1 -> estatuto_control PUNTOCOMA .
     (47) estatutos_control1 -> estatuto_control PUNTOCOMA . estatutos_control1
@@ -1355,12 +1422,12 @@ state 72
   ! shift/reduce conflict for ESCRIBIR resolved as shift
     LLAVEDER        reduce using rule 46 (estatutos_control1 -> estatuto_control PUNTOCOMA .)
     REGRESA         reduce using rule 46 (estatutos_control1 -> estatuto_control PUNTOCOMA .)
-    SI              shift and go to state 56
-    MIENTRAS        shift and go to state 57
-    REPITE          shift and go to state 47
-    ID              shift and go to state 42
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
+    SI              shift and go to state 45
+    MIENTRAS        shift and go to state 58
+    REPITE          shift and go to state 38
+    ID              shift and go to state 43
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
 
   ! SI              [ reduce using rule 46 (estatutos_control1 -> estatuto_control PUNTOCOMA .) ]
   ! MIENTRAS        [ reduce using rule 46 (estatutos_control1 -> estatuto_control PUNTOCOMA .) ]
@@ -1369,88 +1436,30 @@ state 72
   ! LEER            [ reduce using rule 46 (estatutos_control1 -> estatuto_control PUNTOCOMA .) ]
   ! ESCRIBIR        [ reduce using rule 46 (estatutos_control1 -> estatuto_control PUNTOCOMA .) ]
 
-    escritura                      shift and go to state 55
-    repeticion                     shift and go to state 39
-    decision                       shift and go to state 49
-    lectura                        shift and go to state 41
-    repite                         shift and go to state 45
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
+    variable                       shift and go to state 57
+    estatuto                       shift and go to state 49
+    escritura                      shift and go to state 51
+    mientras                       shift and go to state 41
+    repeticion                     shift and go to state 53
+    decision                       shift and go to state 42
+    repite                         shift and go to state 50
+    asignacion                     shift and go to state 54
+    estatutos_control1             shift and go to state 107
     estatuto_control               shift and go to state 46
-    estatutos_control1             shift and go to state 104
-    llamada                        shift and go to state 51
-    estatuto                       shift and go to state 53
-    mientras                       shift and go to state 50
-
-state 73
-
-    (67) repite -> REPITE hacer . HASTA PARIZQ expresion PARDER
-
-    HASTA           shift and go to state 105
-
-
-state 74
-
-    (62) hacer -> LLAVEIZQ . LLAVEDER
-    (63) hacer -> LLAVEIZQ . estatutos_control LLAVEDER
-    (44) estatutos_control -> . estatutos_control1 estatutos_control
-    (45) estatutos_control -> . estatutos_control1
-    (46) estatutos_control1 -> . estatuto_control PUNTOCOMA
-    (47) estatutos_control1 -> . estatuto_control PUNTOCOMA estatutos_control1
-    (52) estatuto_control -> . decision
-    (53) estatuto_control -> . repeticion
-    (54) estatuto_control -> . estatuto
-    (60) decision -> . SI PARIZQ expresion PARDER hacer
-    (61) decision -> . SI PARIZQ expresion PARDER hacer SINO hacer
-    (64) repeticion -> . mientras
-    (65) repeticion -> . repite
-    (48) estatuto -> . asignacion
-    (49) estatuto -> . llamada
-    (50) estatuto -> . lectura
-    (51) estatuto -> . escritura
-    (66) mientras -> . MIENTRAS PARIZQ expresion PARDER HAZ hacer
-    (67) repite -> . REPITE hacer HASTA PARIZQ expresion PARDER
-    (55) asignacion -> . variable IGUAL expresion
-    (56) llamada -> . ID PARIZQ PARDER
-    (57) llamada -> . ID PARIZQ lista_valores PARDER
-    (58) lectura -> . LEER PARIZQ lista_valores PARDER
-    (59) escritura -> . ESCRIBIR PARIZQ lista_valores PARDER
-    (14) variable -> . ID
-    (15) variable -> . ID indice_matriz
-    (16) variable -> . ID indice_matriz indice_matriz
-
-    LLAVEDER        shift and go to state 107
-    SI              shift and go to state 56
-    MIENTRAS        shift and go to state 57
-    REPITE          shift and go to state 47
-    ID              shift and go to state 42
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-
-    llamada                        shift and go to state 51
-    repeticion                     shift and go to state 39
-    decision                       shift and go to state 49
-    escritura                      shift and go to state 55
-    lectura                        shift and go to state 41
-    repite                         shift and go to state 45
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
-    estatuto_control               shift and go to state 46
-    estatutos_control1             shift and go to state 58
-    estatutos_control              shift and go to state 106
-    estatuto                       shift and go to state 53
-    mientras                       shift and go to state 50
-
-state 75
-
-    (41) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER .
-
-    $end            reduce using rule 41 (metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ estatutos_control LLAVEDER .)
-
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
 
 state 76
 
-    (58) lectura -> LEER PARIZQ . lista_valores PARDER
+    (44) estatutos_control -> estatutos_control1 estatutos_control .
+
+    LLAVEDER        reduce using rule 44 (estatutos_control -> estatutos_control1 estatutos_control .)
+    REGRESA         reduce using rule 44 (estatutos_control -> estatutos_control1 estatutos_control .)
+
+
+state 77
+
+    (59) escritura -> ESCRIBIR PARIZQ . lista_valores PARDER
     (68) lista_valores -> . estatuto
     (69) lista_valores -> . estatuto COMA lista_valores
     (70) lista_valores -> . expresion
@@ -1492,32 +1501,31 @@ state 76
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    variable                       shift and go to state 44
     lista_valores                  shift and go to state 108
-    exp                            shift and go to state 95
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 97
+    inversa                        shift and go to state 100
+    expresion                      shift and go to state 98
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    term                           shift and go to state 87
-    llamada                        shift and go to state 51
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    escritura                      shift and go to state 55
-    estatuto                       shift and go to state 92
-    expresion                      shift and go to state 99
+    escritura                      shift and go to state 51
+    asignacion                     shift and go to state 54
+    term                           shift and go to state 93
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
-state 77
+state 78
 
-    (60) decision -> SI PARIZQ . expresion PARDER hacer
-    (61) decision -> SI PARIZQ . expresion PARDER hacer SINO hacer
+    (55) asignacion -> variable IGUAL . expresion
     (72) expresion -> . expresion AND exp
     (73) expresion -> . expresion OR exp
     (74) expresion -> . expresion NOT exp
@@ -1555,28 +1563,28 @@ state 77
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    fact                           shift and go to state 97
-    escritura                      shift and go to state 55
-    exp                            shift and go to state 95
-    varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 105
+    escritura                      shift and go to state 51
     expresion                      shift and go to state 109
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    llamada                        shift and go to state 51
-    estatuto                       shift and go to state 102
-    term                           shift and go to state 87
+    varcte                         shift and go to state 89
+    inversa                        shift and go to state 100
+    variable                       shift and go to state 57
+    lectura                        shift and go to state 55
+    term                           shift and go to state 93
+    llamada                        shift and go to state 47
+    asignacion                     shift and go to state 54
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
-state 78
+state 79
 
     (66) mientras -> MIENTRAS PARIZQ . expresion PARDER HAZ hacer
     (72) expresion -> . expresion AND exp
@@ -1616,36 +1624,53 @@ state 78
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    fact                           shift and go to state 97
-    escritura                      shift and go to state 55
-    exp                            shift and go to state 95
-    varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 105
+    escritura                      shift and go to state 51
     expresion                      shift and go to state 110
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    llamada                        shift and go to state 51
-    estatuto                       shift and go to state 102
-    term                           shift and go to state 87
-
-state 79
-
-    (44) estatutos_control -> estatutos_control1 estatutos_control .
-
-    LLAVEDER        reduce using rule 44 (estatutos_control -> estatutos_control1 estatutos_control .)
-    REGRESA         reduce using rule 44 (estatutos_control -> estatutos_control1 estatutos_control .)
-
+    varcte                         shift and go to state 89
+    inversa                        shift and go to state 100
+    asignacion                     shift and go to state 54
+    lectura                        shift and go to state 55
+    term                           shift and go to state 93
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
 state 80
+
+    (17) indice_matriz -> CORIZQ ENTERO CORDER .
+
+    COMA            reduce using rule 17 (indice_matriz -> CORIZQ ENTERO CORDER .)
+    PUNTOCOMA       reduce using rule 17 (indice_matriz -> CORIZQ ENTERO CORDER .)
+    IGUAL           reduce using rule 17 (indice_matriz -> CORIZQ ENTERO CORDER .)
+    CORIZQ          reduce using rule 17 (indice_matriz -> CORIZQ ENTERO CORDER .)
+
+
+state 81
+
+    (28) lista_parametros1 -> tipo DOSPUNTOS . lista_idparam PUNTOCOMA
+    (29) lista_parametros1 -> tipo DOSPUNTOS . lista_idparam PUNTOCOMA lista_parametros1
+    (30) lista_idparam -> . variable
+    (31) lista_idparam -> . variable COMA lista_idparam
+    (14) variable -> . ID
+    (15) variable -> . ID indice_matriz
+    (16) variable -> . ID indice_matriz indice_matriz
+
+    ID              shift and go to state 29
+
+    variable                       shift and go to state 111
+    lista_idparam                  shift and go to state 112
+
+state 82
 
     (20) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER . bloque
     (22) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER . bloque declara_funciones1
@@ -1658,33 +1683,18 @@ state 80
     (38) bloque -> . LLAVEIZQ declara_variables REGRESA PARIZQ PARDER LLAVEDER
     (39) bloque -> . LLAVEIZQ REGRESA PARIZQ PARDER LLAVEDER
 
-    LLAVEIZQ        shift and go to state 83
+    LLAVEIZQ        shift and go to state 84
 
-    bloque                         shift and go to state 111
+    bloque                         shift and go to state 113
 
-state 81
+state 83
 
     (26) lista_parametros -> lista_parametros1 lista_parametros .
 
     PARDER          reduce using rule 26 (lista_parametros -> lista_parametros1 lista_parametros .)
 
 
-state 82
-
-    (28) lista_parametros1 -> tipo DOSPUNTOS . lista_idparam PUNTOCOMA
-    (29) lista_parametros1 -> tipo DOSPUNTOS . lista_idparam PUNTOCOMA lista_parametros1
-    (30) lista_idparam -> . variable
-    (31) lista_idparam -> . variable COMA lista_idparam
-    (14) variable -> . ID
-    (15) variable -> . ID indice_matriz
-    (16) variable -> . ID indice_matriz indice_matriz
-
-    ID              shift and go to state 31
-
-    lista_idparam                  shift and go to state 112
-    variable                       shift and go to state 113
-
-state 83
+state 84
 
     (32) bloque -> LLAVEIZQ . declara_variables estatutos_control REGRESA PARIZQ expresion PARDER LLAVEDER
     (33) bloque -> LLAVEIZQ . estatutos_control REGRESA PARIZQ expresion PARDER LLAVEDER
@@ -1728,34 +1738,34 @@ state 83
     (16) variable -> . ID indice_matriz indice_matriz
 
     REGRESA         shift and go to state 116
-    ENTERO          shift and go to state 12
-    REAL            shift and go to state 8
-    CHAR            shift and go to state 6
-    SI              shift and go to state 56
-    MIENTRAS        shift and go to state 57
-    REPITE          shift and go to state 47
-    ID              shift and go to state 42
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
+    ENTERO          shift and go to state 14
+    REAL            shift and go to state 10
+    CHAR            shift and go to state 11
+    SI              shift and go to state 45
+    MIENTRAS        shift and go to state 58
+    REPITE          shift and go to state 38
+    ID              shift and go to state 43
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
 
-    declara_variables              shift and go to state 114
-    estatutos_control              shift and go to state 115
-    repeticion                     shift and go to state 39
-    asignacion                     shift and go to state 43
-    decision                       shift and go to state 49
-    escritura                      shift and go to state 55
-    lectura                        shift and go to state 41
-    repite                         shift and go to state 45
-    tipo                           shift and go to state 13
-    declara_variables1             shift and go to state 15
-    variable                       shift and go to state 44
-    llamada                        shift and go to state 51
+    asignacion                     shift and go to state 54
+    variable                       shift and go to state 57
+    tipo                           shift and go to state 7
+    estatuto                       shift and go to state 49
+    estatutos_control              shift and go to state 114
+    escritura                      shift and go to state 51
+    estatutos_control1             shift and go to state 48
+    mientras                       shift and go to state 41
+    repeticion                     shift and go to state 53
+    decision                       shift and go to state 42
+    repite                         shift and go to state 50
+    declara_variables              shift and go to state 115
     estatuto_control               shift and go to state 46
-    estatutos_control1             shift and go to state 58
-    estatuto                       shift and go to state 53
-    mientras                       shift and go to state 50
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+    declara_variables1             shift and go to state 15
 
-state 84
+state 85
 
     (21) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ PARDER bloque .
     (23) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ PARDER bloque . declara_funciones1
@@ -1766,75 +1776,33 @@ state 84
 
   ! shift/reduce conflict for MODULO resolved as shift
     PRINCIPAL       reduce using rule 21 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ PARDER bloque .)
-    MODULO          shift and go to state 11
+    MODULO          shift and go to state 8
 
   ! MODULO          [ reduce using rule 21 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ PARDER bloque .) ]
 
     declara_funciones1             shift and go to state 117
 
-state 85
-
-    (17) indice_matriz -> CORIZQ ENTERO CORDER .
-
-    COMA            reduce using rule 17 (indice_matriz -> CORIZQ ENTERO CORDER .)
-    PUNTOCOMA       reduce using rule 17 (indice_matriz -> CORIZQ ENTERO CORDER .)
-    IGUAL           reduce using rule 17 (indice_matriz -> CORIZQ ENTERO CORDER .)
-    CORIZQ          reduce using rule 17 (indice_matriz -> CORIZQ ENTERO CORDER .)
-
-
 state 86
 
-    (40) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER .
+    (67) repite -> REPITE hacer HASTA . PARIZQ expresion PARDER
 
-    $end            reduce using rule 40 (metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER .)
+    PARIZQ          shift and go to state 118
 
 
 state 87
 
-    (85) exp -> term .
-    (86) term -> term . MULTI fact
-    (87) term -> term . DIV fact
+    (63) hacer -> LLAVEIZQ estatutos_control . LLAVEDER
 
-    MAS             reduce using rule 85 (exp -> term .)
-    MENOS           reduce using rule 85 (exp -> term .)
-    PARDER          reduce using rule 85 (exp -> term .)
-    AND             reduce using rule 85 (exp -> term .)
-    OR              reduce using rule 85 (exp -> term .)
-    NOT             reduce using rule 85 (exp -> term .)
-    MENORQUE        reduce using rule 85 (exp -> term .)
-    MAYORQUE        reduce using rule 85 (exp -> term .)
-    IGUAL           reduce using rule 85 (exp -> term .)
-    MENORIGUAL      reduce using rule 85 (exp -> term .)
-    MAYORIGUAL      reduce using rule 85 (exp -> term .)
-    COMA            reduce using rule 85 (exp -> term .)
-    PUNTOCOMA       reduce using rule 85 (exp -> term .)
-    PESOS           reduce using rule 85 (exp -> term .)
-    INTERROGACION   reduce using rule 85 (exp -> term .)
-    MULTI           shift and go to state 119
-    DIV             shift and go to state 118
+    LLAVEDER        shift and go to state 119
 
 
 state 88
 
-    (91) varcte -> REAL .
+    (62) hacer -> LLAVEIZQ LLAVEDER .
 
-    MULTI           reduce using rule 91 (varcte -> REAL .)
-    DIV             reduce using rule 91 (varcte -> REAL .)
-    MAS             reduce using rule 91 (varcte -> REAL .)
-    MENOS           reduce using rule 91 (varcte -> REAL .)
-    COMA            reduce using rule 91 (varcte -> REAL .)
-    AND             reduce using rule 91 (varcte -> REAL .)
-    OR              reduce using rule 91 (varcte -> REAL .)
-    NOT             reduce using rule 91 (varcte -> REAL .)
-    MENORQUE        reduce using rule 91 (varcte -> REAL .)
-    MAYORQUE        reduce using rule 91 (varcte -> REAL .)
-    IGUAL           reduce using rule 91 (varcte -> REAL .)
-    MENORIGUAL      reduce using rule 91 (varcte -> REAL .)
-    MAYORIGUAL      reduce using rule 91 (varcte -> REAL .)
-    PARDER          reduce using rule 91 (varcte -> REAL .)
-    PUNTOCOMA       reduce using rule 91 (varcte -> REAL .)
-    PESOS           reduce using rule 91 (varcte -> REAL .)
-    INTERROGACION   reduce using rule 91 (varcte -> REAL .)
+    HASTA           reduce using rule 62 (hacer -> LLAVEIZQ LLAVEDER .)
+    SINO            reduce using rule 62 (hacer -> LLAVEIZQ LLAVEDER .)
+    PUNTOCOMA       reduce using rule 62 (hacer -> LLAVEIZQ LLAVEDER .)
 
 
 state 89
@@ -1862,6 +1830,25 @@ state 89
 
 state 90
 
+    (80) expresion -> determinante .
+
+    PARDER          reduce using rule 80 (expresion -> determinante .)
+    AND             reduce using rule 80 (expresion -> determinante .)
+    OR              reduce using rule 80 (expresion -> determinante .)
+    NOT             reduce using rule 80 (expresion -> determinante .)
+    MENORQUE        reduce using rule 80 (expresion -> determinante .)
+    MAYORQUE        reduce using rule 80 (expresion -> determinante .)
+    IGUAL           reduce using rule 80 (expresion -> determinante .)
+    MENORIGUAL      reduce using rule 80 (expresion -> determinante .)
+    MAYORIGUAL      reduce using rule 80 (expresion -> determinante .)
+    COMA            reduce using rule 80 (expresion -> determinante .)
+    PUNTOCOMA       reduce using rule 80 (expresion -> determinante .)
+    PESOS           reduce using rule 80 (expresion -> determinante .)
+    INTERROGACION   reduce using rule 80 (expresion -> determinante .)
+
+
+state 91
+
     (56) llamada -> ID . PARIZQ PARDER
     (57) llamada -> ID . PARIZQ lista_valores PARDER
     (14) variable -> ID .
@@ -1871,7 +1858,7 @@ state 90
     (17) indice_matriz -> . CORIZQ ENTERO CORDER
 
   ! reduce/reduce conflict for IGUAL resolved using rule 14 (variable -> ID .)
-    PARIZQ          shift and go to state 70
+    PARIZQ          shift and go to state 71
     IGUAL           reduce using rule 14 (variable -> ID .)
     MULTI           reduce using rule 93 (varcte -> ID .)
     DIV             reduce using rule 93 (varcte -> ID .)
@@ -1889,32 +1876,114 @@ state 90
     PUNTOCOMA       reduce using rule 93 (varcte -> ID .)
     PESOS           reduce using rule 93 (varcte -> ID .)
     INTERROGACION   reduce using rule 93 (varcte -> ID .)
-    CORIZQ          shift and go to state 36
+    CORIZQ          shift and go to state 35
 
   ! IGUAL           [ reduce using rule 93 (varcte -> ID .) ]
 
-    indice_matriz                  shift and go to state 37
-
-state 91
-
-    (81) expresion -> inversa .
-
-    PARDER          reduce using rule 81 (expresion -> inversa .)
-    AND             reduce using rule 81 (expresion -> inversa .)
-    OR              reduce using rule 81 (expresion -> inversa .)
-    NOT             reduce using rule 81 (expresion -> inversa .)
-    MENORQUE        reduce using rule 81 (expresion -> inversa .)
-    MAYORQUE        reduce using rule 81 (expresion -> inversa .)
-    IGUAL           reduce using rule 81 (expresion -> inversa .)
-    MENORIGUAL      reduce using rule 81 (expresion -> inversa .)
-    MAYORIGUAL      reduce using rule 81 (expresion -> inversa .)
-    COMA            reduce using rule 81 (expresion -> inversa .)
-    PUNTOCOMA       reduce using rule 81 (expresion -> inversa .)
-    PESOS           reduce using rule 81 (expresion -> inversa .)
-    INTERROGACION   reduce using rule 81 (expresion -> inversa .)
-
+    indice_matriz                  shift and go to state 36
 
 state 92
+
+    (91) varcte -> REAL .
+
+    MULTI           reduce using rule 91 (varcte -> REAL .)
+    DIV             reduce using rule 91 (varcte -> REAL .)
+    MAS             reduce using rule 91 (varcte -> REAL .)
+    MENOS           reduce using rule 91 (varcte -> REAL .)
+    COMA            reduce using rule 91 (varcte -> REAL .)
+    AND             reduce using rule 91 (varcte -> REAL .)
+    OR              reduce using rule 91 (varcte -> REAL .)
+    NOT             reduce using rule 91 (varcte -> REAL .)
+    MENORQUE        reduce using rule 91 (varcte -> REAL .)
+    MAYORQUE        reduce using rule 91 (varcte -> REAL .)
+    IGUAL           reduce using rule 91 (varcte -> REAL .)
+    MENORIGUAL      reduce using rule 91 (varcte -> REAL .)
+    MAYORIGUAL      reduce using rule 91 (varcte -> REAL .)
+    PARDER          reduce using rule 91 (varcte -> REAL .)
+    PUNTOCOMA       reduce using rule 91 (varcte -> REAL .)
+    PESOS           reduce using rule 91 (varcte -> REAL .)
+    INTERROGACION   reduce using rule 91 (varcte -> REAL .)
+
+
+state 93
+
+    (85) exp -> term .
+    (86) term -> term . MULTI fact
+    (87) term -> term . DIV fact
+
+    MAS             reduce using rule 85 (exp -> term .)
+    MENOS           reduce using rule 85 (exp -> term .)
+    COMA            reduce using rule 85 (exp -> term .)
+    AND             reduce using rule 85 (exp -> term .)
+    OR              reduce using rule 85 (exp -> term .)
+    NOT             reduce using rule 85 (exp -> term .)
+    MENORQUE        reduce using rule 85 (exp -> term .)
+    MAYORQUE        reduce using rule 85 (exp -> term .)
+    IGUAL           reduce using rule 85 (exp -> term .)
+    MENORIGUAL      reduce using rule 85 (exp -> term .)
+    MAYORIGUAL      reduce using rule 85 (exp -> term .)
+    PARDER          reduce using rule 85 (exp -> term .)
+    PUNTOCOMA       reduce using rule 85 (exp -> term .)
+    PESOS           reduce using rule 85 (exp -> term .)
+    INTERROGACION   reduce using rule 85 (exp -> term .)
+    MULTI           shift and go to state 120
+    DIV             shift and go to state 121
+
+
+state 94
+
+    (82) expresion -> exp .
+    (83) exp -> exp . MAS term
+    (84) exp -> exp . MENOS term
+
+    PARDER          reduce using rule 82 (expresion -> exp .)
+    AND             reduce using rule 82 (expresion -> exp .)
+    OR              reduce using rule 82 (expresion -> exp .)
+    NOT             reduce using rule 82 (expresion -> exp .)
+    MENORQUE        reduce using rule 82 (expresion -> exp .)
+    MAYORQUE        reduce using rule 82 (expresion -> exp .)
+    IGUAL           reduce using rule 82 (expresion -> exp .)
+    MENORIGUAL      reduce using rule 82 (expresion -> exp .)
+    MAYORIGUAL      reduce using rule 82 (expresion -> exp .)
+    COMA            reduce using rule 82 (expresion -> exp .)
+    PUNTOCOMA       reduce using rule 82 (expresion -> exp .)
+    PESOS           reduce using rule 82 (expresion -> exp .)
+    INTERROGACION   reduce using rule 82 (expresion -> exp .)
+    MAS             shift and go to state 122
+    MENOS           shift and go to state 123
+
+
+state 95
+
+    (88) term -> fact .
+
+    MULTI           reduce using rule 88 (term -> fact .)
+    DIV             reduce using rule 88 (term -> fact .)
+    MAS             reduce using rule 88 (term -> fact .)
+    MENOS           reduce using rule 88 (term -> fact .)
+    PARDER          reduce using rule 88 (term -> fact .)
+    AND             reduce using rule 88 (term -> fact .)
+    OR              reduce using rule 88 (term -> fact .)
+    NOT             reduce using rule 88 (term -> fact .)
+    MENORQUE        reduce using rule 88 (term -> fact .)
+    MAYORQUE        reduce using rule 88 (term -> fact .)
+    IGUAL           reduce using rule 88 (term -> fact .)
+    MENORIGUAL      reduce using rule 88 (term -> fact .)
+    MAYORIGUAL      reduce using rule 88 (term -> fact .)
+    COMA            reduce using rule 88 (term -> fact .)
+    PUNTOCOMA       reduce using rule 88 (term -> fact .)
+    PESOS           reduce using rule 88 (term -> fact .)
+    INTERROGACION   reduce using rule 88 (term -> fact .)
+
+
+state 96
+
+    (58) lectura -> LEER PARIZQ lista_valores . PARDER
+
+    PARDER          shift and go to state 124
+
+
+state 97
 
     (68) lista_valores -> estatuto .
     (69) lista_valores -> estatuto . COMA lista_valores
@@ -1922,12 +1991,37 @@ state 92
     (95) inversa -> estatuto . INTERROGACION
 
     PARDER          reduce using rule 68 (lista_valores -> estatuto .)
-    COMA            shift and go to state 121
-    PESOS           shift and go to state 122
-    INTERROGACION   shift and go to state 120
+    COMA            shift and go to state 127
+    PESOS           shift and go to state 126
+    INTERROGACION   shift and go to state 125
 
 
-state 93
+state 98
+
+    (70) lista_valores -> expresion .
+    (71) lista_valores -> expresion . COMA lista_valores
+    (72) expresion -> expresion . AND exp
+    (73) expresion -> expresion . OR exp
+    (74) expresion -> expresion . NOT exp
+    (75) expresion -> expresion . MENORQUE exp
+    (76) expresion -> expresion . MAYORQUE exp
+    (77) expresion -> expresion . IGUAL exp
+    (78) expresion -> expresion . MENORIGUAL exp
+    (79) expresion -> expresion . MAYORIGUAL exp
+
+    PARDER          reduce using rule 70 (lista_valores -> expresion .)
+    COMA            shift and go to state 131
+    AND             shift and go to state 136
+    OR              shift and go to state 128
+    NOT             shift and go to state 134
+    MENORQUE        shift and go to state 132
+    MAYORQUE        shift and go to state 129
+    IGUAL           shift and go to state 135
+    MENORIGUAL      shift and go to state 133
+    MAYORIGUAL      shift and go to state 130
+
+
+state 99
 
     (92) varcte -> CHAR .
 
@@ -1950,37 +2044,26 @@ state 93
     INTERROGACION   reduce using rule 92 (varcte -> CHAR .)
 
 
-state 94
+state 100
 
-    (59) escritura -> ESCRIBIR PARIZQ lista_valores . PARDER
+    (81) expresion -> inversa .
 
-    PARDER          shift and go to state 123
-
-
-state 95
-
-    (82) expresion -> exp .
-    (83) exp -> exp . MAS term
-    (84) exp -> exp . MENOS term
-
-    PARDER          reduce using rule 82 (expresion -> exp .)
-    AND             reduce using rule 82 (expresion -> exp .)
-    OR              reduce using rule 82 (expresion -> exp .)
-    NOT             reduce using rule 82 (expresion -> exp .)
-    MENORQUE        reduce using rule 82 (expresion -> exp .)
-    MAYORQUE        reduce using rule 82 (expresion -> exp .)
-    IGUAL           reduce using rule 82 (expresion -> exp .)
-    MENORIGUAL      reduce using rule 82 (expresion -> exp .)
-    MAYORIGUAL      reduce using rule 82 (expresion -> exp .)
-    COMA            reduce using rule 82 (expresion -> exp .)
-    PUNTOCOMA       reduce using rule 82 (expresion -> exp .)
-    PESOS           reduce using rule 82 (expresion -> exp .)
-    INTERROGACION   reduce using rule 82 (expresion -> exp .)
-    MAS             shift and go to state 125
-    MENOS           shift and go to state 124
+    PARDER          reduce using rule 81 (expresion -> inversa .)
+    AND             reduce using rule 81 (expresion -> inversa .)
+    OR              reduce using rule 81 (expresion -> inversa .)
+    NOT             reduce using rule 81 (expresion -> inversa .)
+    MENORQUE        reduce using rule 81 (expresion -> inversa .)
+    MAYORQUE        reduce using rule 81 (expresion -> inversa .)
+    IGUAL           reduce using rule 81 (expresion -> inversa .)
+    MENORIGUAL      reduce using rule 81 (expresion -> inversa .)
+    MAYORIGUAL      reduce using rule 81 (expresion -> inversa .)
+    COMA            reduce using rule 81 (expresion -> inversa .)
+    PUNTOCOMA       reduce using rule 81 (expresion -> inversa .)
+    PESOS           reduce using rule 81 (expresion -> inversa .)
+    INTERROGACION   reduce using rule 81 (expresion -> inversa .)
 
 
-state 96
+state 101
 
     (90) varcte -> ENTERO .
 
@@ -2003,103 +2086,44 @@ state 96
     INTERROGACION   reduce using rule 90 (varcte -> ENTERO .)
 
 
-state 97
-
-    (88) term -> fact .
-
-    MULTI           reduce using rule 88 (term -> fact .)
-    DIV             reduce using rule 88 (term -> fact .)
-    MAS             reduce using rule 88 (term -> fact .)
-    MENOS           reduce using rule 88 (term -> fact .)
-    COMA            reduce using rule 88 (term -> fact .)
-    AND             reduce using rule 88 (term -> fact .)
-    OR              reduce using rule 88 (term -> fact .)
-    NOT             reduce using rule 88 (term -> fact .)
-    MENORQUE        reduce using rule 88 (term -> fact .)
-    MAYORQUE        reduce using rule 88 (term -> fact .)
-    IGUAL           reduce using rule 88 (term -> fact .)
-    MENORIGUAL      reduce using rule 88 (term -> fact .)
-    MAYORIGUAL      reduce using rule 88 (term -> fact .)
-    PARDER          reduce using rule 88 (term -> fact .)
-    PUNTOCOMA       reduce using rule 88 (term -> fact .)
-    PESOS           reduce using rule 88 (term -> fact .)
-    INTERROGACION   reduce using rule 88 (term -> fact .)
-
-
-state 98
-
-    (80) expresion -> determinante .
-
-    PARDER          reduce using rule 80 (expresion -> determinante .)
-    AND             reduce using rule 80 (expresion -> determinante .)
-    OR              reduce using rule 80 (expresion -> determinante .)
-    NOT             reduce using rule 80 (expresion -> determinante .)
-    MENORQUE        reduce using rule 80 (expresion -> determinante .)
-    MAYORQUE        reduce using rule 80 (expresion -> determinante .)
-    IGUAL           reduce using rule 80 (expresion -> determinante .)
-    MENORIGUAL      reduce using rule 80 (expresion -> determinante .)
-    MAYORIGUAL      reduce using rule 80 (expresion -> determinante .)
-    COMA            reduce using rule 80 (expresion -> determinante .)
-    PUNTOCOMA       reduce using rule 80 (expresion -> determinante .)
-    PESOS           reduce using rule 80 (expresion -> determinante .)
-    INTERROGACION   reduce using rule 80 (expresion -> determinante .)
-
-
-state 99
-
-    (70) lista_valores -> expresion .
-    (71) lista_valores -> expresion . COMA lista_valores
-    (72) expresion -> expresion . AND exp
-    (73) expresion -> expresion . OR exp
-    (74) expresion -> expresion . NOT exp
-    (75) expresion -> expresion . MENORQUE exp
-    (76) expresion -> expresion . MAYORQUE exp
-    (77) expresion -> expresion . IGUAL exp
-    (78) expresion -> expresion . MENORIGUAL exp
-    (79) expresion -> expresion . MAYORIGUAL exp
-
-    PARDER          reduce using rule 70 (lista_valores -> expresion .)
-    COMA            shift and go to state 127
-    AND             shift and go to state 128
-    OR              shift and go to state 130
-    NOT             shift and go to state 132
-    MENORQUE        shift and go to state 126
-    MAYORQUE        shift and go to state 133
-    IGUAL           shift and go to state 131
-    MENORIGUAL      shift and go to state 134
-    MAYORIGUAL      shift and go to state 129
-
-
-state 100
+state 102
 
     (57) llamada -> ID PARIZQ lista_valores . PARDER
 
-    PARDER          shift and go to state 135
-
-
-state 101
-
-    (56) llamada -> ID PARIZQ PARDER .
-
-    PUNTOCOMA       reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
-    COMA            reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
-    PESOS           reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
-    INTERROGACION   reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
-    PARDER          reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
-
-
-state 102
-
-    (94) determinante -> estatuto . PESOS
-    (95) inversa -> estatuto . INTERROGACION
-
-    PESOS           shift and go to state 122
-    INTERROGACION   shift and go to state 120
+    PARDER          shift and go to state 137
 
 
 state 103
 
-    (55) asignacion -> variable IGUAL expresion .
+    (56) llamada -> ID PARIZQ PARDER .
+
+    COMA            reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
+    PESOS           reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
+    INTERROGACION   reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
+    PARDER          reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
+    PUNTOCOMA       reduce using rule 56 (llamada -> ID PARIZQ PARDER .)
+
+
+state 104
+
+    (40) metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER .
+
+    $end            reduce using rule 40 (metodo_principal -> PRINCIPAL PARIZQ PARDER LLAVEIZQ declara_variables estatutos_control LLAVEDER .)
+
+
+state 105
+
+    (94) determinante -> estatuto . PESOS
+    (95) inversa -> estatuto . INTERROGACION
+
+    PESOS           shift and go to state 126
+    INTERROGACION   shift and go to state 125
+
+
+state 106
+
+    (60) decision -> SI PARIZQ expresion . PARDER hacer
+    (61) decision -> SI PARIZQ expresion . PARDER hacer SINO hacer
     (72) expresion -> expresion . AND exp
     (73) expresion -> expresion . OR exp
     (74) expresion -> expresion . NOT exp
@@ -2109,22 +2133,18 @@ state 103
     (78) expresion -> expresion . MENORIGUAL exp
     (79) expresion -> expresion . MAYORIGUAL exp
 
-    PUNTOCOMA       reduce using rule 55 (asignacion -> variable IGUAL expresion .)
-    PESOS           reduce using rule 55 (asignacion -> variable IGUAL expresion .)
-    INTERROGACION   reduce using rule 55 (asignacion -> variable IGUAL expresion .)
-    COMA            reduce using rule 55 (asignacion -> variable IGUAL expresion .)
-    PARDER          reduce using rule 55 (asignacion -> variable IGUAL expresion .)
-    AND             shift and go to state 128
-    OR              shift and go to state 130
-    NOT             shift and go to state 132
-    MENORQUE        shift and go to state 126
-    MAYORQUE        shift and go to state 133
-    IGUAL           shift and go to state 131
-    MENORIGUAL      shift and go to state 134
-    MAYORIGUAL      shift and go to state 129
+    PARDER          shift and go to state 138
+    AND             shift and go to state 136
+    OR              shift and go to state 128
+    NOT             shift and go to state 134
+    MENORQUE        shift and go to state 132
+    MAYORQUE        shift and go to state 129
+    IGUAL           shift and go to state 135
+    MENORIGUAL      shift and go to state 133
+    MAYORIGUAL      shift and go to state 130
 
 
-state 104
+state 107
 
     (47) estatutos_control1 -> estatuto_control PUNTOCOMA estatutos_control1 .
 
@@ -2138,40 +2158,16 @@ state 104
     REGRESA         reduce using rule 47 (estatutos_control1 -> estatuto_control PUNTOCOMA estatutos_control1 .)
 
 
-state 105
-
-    (67) repite -> REPITE hacer HASTA . PARIZQ expresion PARDER
-
-    PARIZQ          shift and go to state 136
-
-
-state 106
-
-    (63) hacer -> LLAVEIZQ estatutos_control . LLAVEDER
-
-    LLAVEDER        shift and go to state 137
-
-
-state 107
-
-    (62) hacer -> LLAVEIZQ LLAVEDER .
-
-    SINO            reduce using rule 62 (hacer -> LLAVEIZQ LLAVEDER .)
-    PUNTOCOMA       reduce using rule 62 (hacer -> LLAVEIZQ LLAVEDER .)
-    HASTA           reduce using rule 62 (hacer -> LLAVEIZQ LLAVEDER .)
-
-
 state 108
 
-    (58) lectura -> LEER PARIZQ lista_valores . PARDER
+    (59) escritura -> ESCRIBIR PARIZQ lista_valores . PARDER
 
-    PARDER          shift and go to state 138
+    PARDER          shift and go to state 139
 
 
 state 109
 
-    (60) decision -> SI PARIZQ expresion . PARDER hacer
-    (61) decision -> SI PARIZQ expresion . PARDER hacer SINO hacer
+    (55) asignacion -> variable IGUAL expresion .
     (72) expresion -> expresion . AND exp
     (73) expresion -> expresion . OR exp
     (74) expresion -> expresion . NOT exp
@@ -2181,15 +2177,19 @@ state 109
     (78) expresion -> expresion . MENORIGUAL exp
     (79) expresion -> expresion . MAYORIGUAL exp
 
-    PARDER          shift and go to state 139
-    AND             shift and go to state 128
-    OR              shift and go to state 130
-    NOT             shift and go to state 132
-    MENORQUE        shift and go to state 126
-    MAYORQUE        shift and go to state 133
-    IGUAL           shift and go to state 131
-    MENORIGUAL      shift and go to state 134
-    MAYORIGUAL      shift and go to state 129
+    PESOS           reduce using rule 55 (asignacion -> variable IGUAL expresion .)
+    INTERROGACION   reduce using rule 55 (asignacion -> variable IGUAL expresion .)
+    PUNTOCOMA       reduce using rule 55 (asignacion -> variable IGUAL expresion .)
+    COMA            reduce using rule 55 (asignacion -> variable IGUAL expresion .)
+    PARDER          reduce using rule 55 (asignacion -> variable IGUAL expresion .)
+    AND             shift and go to state 136
+    OR              shift and go to state 128
+    NOT             shift and go to state 134
+    MENORQUE        shift and go to state 132
+    MAYORQUE        shift and go to state 129
+    IGUAL           shift and go to state 135
+    MENORIGUAL      shift and go to state 133
+    MAYORIGUAL      shift and go to state 130
 
 
 state 110
@@ -2205,32 +2205,24 @@ state 110
     (79) expresion -> expresion . MAYORIGUAL exp
 
     PARDER          shift and go to state 140
-    AND             shift and go to state 128
-    OR              shift and go to state 130
-    NOT             shift and go to state 132
-    MENORQUE        shift and go to state 126
-    MAYORQUE        shift and go to state 133
-    IGUAL           shift and go to state 131
-    MENORIGUAL      shift and go to state 134
-    MAYORIGUAL      shift and go to state 129
+    AND             shift and go to state 136
+    OR              shift and go to state 128
+    NOT             shift and go to state 134
+    MENORQUE        shift and go to state 132
+    MAYORQUE        shift and go to state 129
+    IGUAL           shift and go to state 135
+    MENORIGUAL      shift and go to state 133
+    MAYORIGUAL      shift and go to state 130
 
 
 state 111
 
-    (20) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque .
-    (22) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque . declara_funciones1
-    (20) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque
-    (21) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ PARDER bloque
-    (22) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1
-    (23) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ PARDER bloque declara_funciones1
+    (30) lista_idparam -> variable .
+    (31) lista_idparam -> variable . COMA lista_idparam
 
-  ! shift/reduce conflict for MODULO resolved as shift
-    PRINCIPAL       reduce using rule 20 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque .)
-    MODULO          shift and go to state 11
+    PUNTOCOMA       reduce using rule 30 (lista_idparam -> variable .)
+    COMA            shift and go to state 141
 
-  ! MODULO          [ reduce using rule 20 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque .) ]
-
-    declara_funciones1             shift and go to state 141
 
 state 112
 
@@ -2242,14 +2234,30 @@ state 112
 
 state 113
 
-    (30) lista_idparam -> variable .
-    (31) lista_idparam -> variable . COMA lista_idparam
+    (20) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque .
+    (22) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque . declara_funciones1
+    (20) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque
+    (21) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ PARDER bloque
+    (22) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1
+    (23) declara_funciones1 -> . MODULO tipo_retorno ID PARIZQ PARDER bloque declara_funciones1
 
-    PUNTOCOMA       reduce using rule 30 (lista_idparam -> variable .)
-    COMA            shift and go to state 143
+  ! shift/reduce conflict for MODULO resolved as shift
+    PRINCIPAL       reduce using rule 20 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque .)
+    MODULO          shift and go to state 8
 
+  ! MODULO          [ reduce using rule 20 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque .) ]
+
+    declara_funciones1             shift and go to state 143
 
 state 114
+
+    (33) bloque -> LLAVEIZQ estatutos_control . REGRESA PARIZQ expresion PARDER LLAVEDER
+    (37) bloque -> LLAVEIZQ estatutos_control . REGRESA PARIZQ PARDER LLAVEDER
+
+    REGRESA         shift and go to state 144
+
+
+state 115
 
     (32) bloque -> LLAVEIZQ declara_variables . estatutos_control REGRESA PARIZQ expresion PARDER LLAVEDER
     (34) bloque -> LLAVEIZQ declara_variables . REGRESA PARIZQ expresion PARDER LLAVEDER
@@ -2281,35 +2289,27 @@ state 114
     (15) variable -> . ID indice_matriz
     (16) variable -> . ID indice_matriz indice_matriz
 
-    REGRESA         shift and go to state 145
-    SI              shift and go to state 56
-    MIENTRAS        shift and go to state 57
-    REPITE          shift and go to state 47
-    ID              shift and go to state 42
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-
-    llamada                        shift and go to state 51
-    repeticion                     shift and go to state 39
-    decision                       shift and go to state 49
-    escritura                      shift and go to state 55
-    lectura                        shift and go to state 41
-    repite                         shift and go to state 45
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
-    estatuto_control               shift and go to state 46
-    estatutos_control1             shift and go to state 58
-    estatutos_control              shift and go to state 144
-    estatuto                       shift and go to state 53
-    mientras                       shift and go to state 50
-
-state 115
-
-    (33) bloque -> LLAVEIZQ estatutos_control . REGRESA PARIZQ expresion PARDER LLAVEDER
-    (37) bloque -> LLAVEIZQ estatutos_control . REGRESA PARIZQ PARDER LLAVEDER
-
     REGRESA         shift and go to state 146
+    SI              shift and go to state 45
+    MIENTRAS        shift and go to state 58
+    REPITE          shift and go to state 38
+    ID              shift and go to state 43
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
 
+    variable                       shift and go to state 57
+    estatuto                       shift and go to state 49
+    estatutos_control              shift and go to state 145
+    escritura                      shift and go to state 51
+    estatutos_control1             shift and go to state 48
+    mientras                       shift and go to state 41
+    repeticion                     shift and go to state 53
+    decision                       shift and go to state 42
+    repite                         shift and go to state 50
+    estatuto_control               shift and go to state 46
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+    asignacion                     shift and go to state 54
 
 state 116
 
@@ -2329,22 +2329,75 @@ state 117
 
 state 118
 
-    (87) term -> term DIV . fact
+    (67) repite -> REPITE hacer HASTA PARIZQ . expresion PARDER
+    (72) expresion -> . expresion AND exp
+    (73) expresion -> . expresion OR exp
+    (74) expresion -> . expresion NOT exp
+    (75) expresion -> . expresion MENORQUE exp
+    (76) expresion -> . expresion MAYORQUE exp
+    (77) expresion -> . expresion IGUAL exp
+    (78) expresion -> . expresion MENORIGUAL exp
+    (79) expresion -> . expresion MAYORIGUAL exp
+    (80) expresion -> . determinante
+    (81) expresion -> . inversa
+    (82) expresion -> . exp
+    (94) determinante -> . estatuto PESOS
+    (95) inversa -> . estatuto INTERROGACION
+    (83) exp -> . exp MAS term
+    (84) exp -> . exp MENOS term
+    (85) exp -> . term
+    (48) estatuto -> . asignacion
+    (49) estatuto -> . llamada
+    (50) estatuto -> . lectura
+    (51) estatuto -> . escritura
+    (86) term -> . term MULTI fact
+    (87) term -> . term DIV fact
+    (88) term -> . fact
+    (55) asignacion -> . variable IGUAL expresion
+    (56) llamada -> . ID PARIZQ PARDER
+    (57) llamada -> . ID PARIZQ lista_valores PARDER
+    (58) lectura -> . LEER PARIZQ lista_valores PARDER
+    (59) escritura -> . ESCRIBIR PARIZQ lista_valores PARDER
     (89) fact -> . varcte
+    (14) variable -> . ID
+    (15) variable -> . ID indice_matriz
+    (16) variable -> . ID indice_matriz indice_matriz
     (90) varcte -> . ENTERO
     (91) varcte -> . REAL
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
-    ID              shift and go to state 149
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    fact                           shift and go to state 148
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 105
+    escritura                      shift and go to state 51
+    expresion                      shift and go to state 148
     varcte                         shift and go to state 89
+    inversa                        shift and go to state 100
+    asignacion                     shift and go to state 54
+    lectura                        shift and go to state 55
+    term                           shift and go to state 93
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
 state 119
+
+    (63) hacer -> LLAVEIZQ estatutos_control LLAVEDER .
+
+    HASTA           reduce using rule 63 (hacer -> LLAVEIZQ estatutos_control LLAVEDER .)
+    SINO            reduce using rule 63 (hacer -> LLAVEIZQ estatutos_control LLAVEDER .)
+    PUNTOCOMA       reduce using rule 63 (hacer -> LLAVEIZQ estatutos_control LLAVEDER .)
+
+
+state 120
 
     (86) term -> term MULTI . fact
     (89) fact -> . varcte
@@ -2353,18 +2406,89 @@ state 119
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
     ID              shift and go to state 149
 
-    fact                           shift and go to state 150
     varcte                         shift and go to state 89
+    fact                           shift and go to state 150
 
-state 120
+state 121
+
+    (87) term -> term DIV . fact
+    (89) fact -> . varcte
+    (90) varcte -> . ENTERO
+    (91) varcte -> . REAL
+    (92) varcte -> . CHAR
+    (93) varcte -> . ID
+
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
+    ID              shift and go to state 149
+
+    varcte                         shift and go to state 89
+    fact                           shift and go to state 151
+
+state 122
+
+    (83) exp -> exp MAS . term
+    (86) term -> . term MULTI fact
+    (87) term -> . term DIV fact
+    (88) term -> . fact
+    (89) fact -> . varcte
+    (90) varcte -> . ENTERO
+    (91) varcte -> . REAL
+    (92) varcte -> . CHAR
+    (93) varcte -> . ID
+
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
+    ID              shift and go to state 149
+
+    term                           shift and go to state 152
+    varcte                         shift and go to state 89
+    fact                           shift and go to state 95
+
+state 123
+
+    (84) exp -> exp MENOS . term
+    (86) term -> . term MULTI fact
+    (87) term -> . term DIV fact
+    (88) term -> . fact
+    (89) fact -> . varcte
+    (90) varcte -> . ENTERO
+    (91) varcte -> . REAL
+    (92) varcte -> . CHAR
+    (93) varcte -> . ID
+
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
+    ID              shift and go to state 149
+
+    term                           shift and go to state 153
+    varcte                         shift and go to state 89
+    fact                           shift and go to state 95
+
+state 124
+
+    (58) lectura -> LEER PARIZQ lista_valores PARDER .
+
+    COMA            reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
+    PESOS           reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
+    INTERROGACION   reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
+    PARDER          reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
+    PUNTOCOMA       reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
+
+
+state 125
 
     (95) inversa -> estatuto INTERROGACION .
 
+    COMA            reduce using rule 95 (inversa -> estatuto INTERROGACION .)
     AND             reduce using rule 95 (inversa -> estatuto INTERROGACION .)
     OR              reduce using rule 95 (inversa -> estatuto INTERROGACION .)
     NOT             reduce using rule 95 (inversa -> estatuto INTERROGACION .)
@@ -2373,14 +2497,32 @@ state 120
     IGUAL           reduce using rule 95 (inversa -> estatuto INTERROGACION .)
     MENORIGUAL      reduce using rule 95 (inversa -> estatuto INTERROGACION .)
     MAYORIGUAL      reduce using rule 95 (inversa -> estatuto INTERROGACION .)
+    PARDER          reduce using rule 95 (inversa -> estatuto INTERROGACION .)
     PUNTOCOMA       reduce using rule 95 (inversa -> estatuto INTERROGACION .)
-    COMA            reduce using rule 95 (inversa -> estatuto INTERROGACION .)
     PESOS           reduce using rule 95 (inversa -> estatuto INTERROGACION .)
     INTERROGACION   reduce using rule 95 (inversa -> estatuto INTERROGACION .)
-    PARDER          reduce using rule 95 (inversa -> estatuto INTERROGACION .)
 
 
-state 121
+state 126
+
+    (94) determinante -> estatuto PESOS .
+
+    PARDER          reduce using rule 94 (determinante -> estatuto PESOS .)
+    AND             reduce using rule 94 (determinante -> estatuto PESOS .)
+    OR              reduce using rule 94 (determinante -> estatuto PESOS .)
+    NOT             reduce using rule 94 (determinante -> estatuto PESOS .)
+    MENORQUE        reduce using rule 94 (determinante -> estatuto PESOS .)
+    MAYORQUE        reduce using rule 94 (determinante -> estatuto PESOS .)
+    IGUAL           reduce using rule 94 (determinante -> estatuto PESOS .)
+    MENORIGUAL      reduce using rule 94 (determinante -> estatuto PESOS .)
+    MAYORIGUAL      reduce using rule 94 (determinante -> estatuto PESOS .)
+    COMA            reduce using rule 94 (determinante -> estatuto PESOS .)
+    PUNTOCOMA       reduce using rule 94 (determinante -> estatuto PESOS .)
+    PESOS           reduce using rule 94 (determinante -> estatuto PESOS .)
+    INTERROGACION   reduce using rule 94 (determinante -> estatuto PESOS .)
+
+
+state 127
 
     (69) lista_valores -> estatuto COMA . lista_valores
     (68) lista_valores -> . estatuto
@@ -2424,103 +2566,31 @@ state 121
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    variable                       shift and go to state 44
-    lista_valores                  shift and go to state 151
-    exp                            shift and go to state 95
+    lista_valores                  shift and go to state 154
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 97
+    inversa                        shift and go to state 100
+    expresion                      shift and go to state 98
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    term                           shift and go to state 87
-    llamada                        shift and go to state 51
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    escritura                      shift and go to state 55
-    estatuto                       shift and go to state 92
-    expresion                      shift and go to state 99
+    escritura                      shift and go to state 51
+    asignacion                     shift and go to state 54
+    term                           shift and go to state 93
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
-state 122
+state 128
 
-    (94) determinante -> estatuto PESOS .
-
-    COMA            reduce using rule 94 (determinante -> estatuto PESOS .)
-    AND             reduce using rule 94 (determinante -> estatuto PESOS .)
-    OR              reduce using rule 94 (determinante -> estatuto PESOS .)
-    NOT             reduce using rule 94 (determinante -> estatuto PESOS .)
-    MENORQUE        reduce using rule 94 (determinante -> estatuto PESOS .)
-    MAYORQUE        reduce using rule 94 (determinante -> estatuto PESOS .)
-    IGUAL           reduce using rule 94 (determinante -> estatuto PESOS .)
-    MENORIGUAL      reduce using rule 94 (determinante -> estatuto PESOS .)
-    MAYORIGUAL      reduce using rule 94 (determinante -> estatuto PESOS .)
-    PARDER          reduce using rule 94 (determinante -> estatuto PESOS .)
-    PUNTOCOMA       reduce using rule 94 (determinante -> estatuto PESOS .)
-    PESOS           reduce using rule 94 (determinante -> estatuto PESOS .)
-    INTERROGACION   reduce using rule 94 (determinante -> estatuto PESOS .)
-
-
-state 123
-
-    (59) escritura -> ESCRIBIR PARIZQ lista_valores PARDER .
-
-    PUNTOCOMA       reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
-    PESOS           reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
-    INTERROGACION   reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
-    COMA            reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
-    PARDER          reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
-
-
-state 124
-
-    (84) exp -> exp MENOS . term
-    (86) term -> . term MULTI fact
-    (87) term -> . term DIV fact
-    (88) term -> . fact
-    (89) fact -> . varcte
-    (90) varcte -> . ENTERO
-    (91) varcte -> . REAL
-    (92) varcte -> . CHAR
-    (93) varcte -> . ID
-
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
-    ID              shift and go to state 149
-
-    fact                           shift and go to state 97
-    varcte                         shift and go to state 89
-    term                           shift and go to state 152
-
-state 125
-
-    (83) exp -> exp MAS . term
-    (86) term -> . term MULTI fact
-    (87) term -> . term DIV fact
-    (88) term -> . fact
-    (89) fact -> . varcte
-    (90) varcte -> . ENTERO
-    (91) varcte -> . REAL
-    (92) varcte -> . CHAR
-    (93) varcte -> . ID
-
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
-    ID              shift and go to state 149
-
-    fact                           shift and go to state 97
-    varcte                         shift and go to state 89
-    term                           shift and go to state 153
-
-state 126
-
-    (75) expresion -> expresion MENORQUE . exp
+    (73) expresion -> expresion OR . exp
     (83) exp -> . exp MAS term
     (84) exp -> . exp MENOS term
     (85) exp -> . term
@@ -2533,17 +2603,67 @@ state 126
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
     ID              shift and go to state 149
 
-    fact                           shift and go to state 97
-    exp                            shift and go to state 154
-    term                           shift and go to state 87
+    fact                           shift and go to state 95
     varcte                         shift and go to state 89
+    exp                            shift and go to state 155
+    term                           shift and go to state 93
 
-state 127
+state 129
+
+    (76) expresion -> expresion MAYORQUE . exp
+    (83) exp -> . exp MAS term
+    (84) exp -> . exp MENOS term
+    (85) exp -> . term
+    (86) term -> . term MULTI fact
+    (87) term -> . term DIV fact
+    (88) term -> . fact
+    (89) fact -> . varcte
+    (90) varcte -> . ENTERO
+    (91) varcte -> . REAL
+    (92) varcte -> . CHAR
+    (93) varcte -> . ID
+
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
+    ID              shift and go to state 149
+
+    fact                           shift and go to state 95
+    varcte                         shift and go to state 89
+    exp                            shift and go to state 156
+    term                           shift and go to state 93
+
+state 130
+
+    (79) expresion -> expresion MAYORIGUAL . exp
+    (83) exp -> . exp MAS term
+    (84) exp -> . exp MENOS term
+    (85) exp -> . term
+    (86) term -> . term MULTI fact
+    (87) term -> . term DIV fact
+    (88) term -> . fact
+    (89) fact -> . varcte
+    (90) varcte -> . ENTERO
+    (91) varcte -> . REAL
+    (92) varcte -> . CHAR
+    (93) varcte -> . ID
+
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
+    ID              shift and go to state 149
+
+    fact                           shift and go to state 95
+    varcte                         shift and go to state 89
+    exp                            shift and go to state 157
+    term                           shift and go to state 93
+
+state 131
 
     (71) lista_valores -> expresion COMA . lista_valores
     (68) lista_valores -> . estatuto
@@ -2587,131 +2707,31 @@ state 127
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    variable                       shift and go to state 44
-    lista_valores                  shift and go to state 155
-    exp                            shift and go to state 95
+    lista_valores                  shift and go to state 158
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 97
+    inversa                        shift and go to state 100
+    expresion                      shift and go to state 98
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    term                           shift and go to state 87
-    llamada                        shift and go to state 51
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    escritura                      shift and go to state 55
-    estatuto                       shift and go to state 92
-    expresion                      shift and go to state 99
-
-state 128
-
-    (72) expresion -> expresion AND . exp
-    (83) exp -> . exp MAS term
-    (84) exp -> . exp MENOS term
-    (85) exp -> . term
-    (86) term -> . term MULTI fact
-    (87) term -> . term DIV fact
-    (88) term -> . fact
-    (89) fact -> . varcte
-    (90) varcte -> . ENTERO
-    (91) varcte -> . REAL
-    (92) varcte -> . CHAR
-    (93) varcte -> . ID
-
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
-    ID              shift and go to state 149
-
-    fact                           shift and go to state 97
-    exp                            shift and go to state 156
-    term                           shift and go to state 87
-    varcte                         shift and go to state 89
-
-state 129
-
-    (79) expresion -> expresion MAYORIGUAL . exp
-    (83) exp -> . exp MAS term
-    (84) exp -> . exp MENOS term
-    (85) exp -> . term
-    (86) term -> . term MULTI fact
-    (87) term -> . term DIV fact
-    (88) term -> . fact
-    (89) fact -> . varcte
-    (90) varcte -> . ENTERO
-    (91) varcte -> . REAL
-    (92) varcte -> . CHAR
-    (93) varcte -> . ID
-
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
-    ID              shift and go to state 149
-
-    fact                           shift and go to state 97
-    exp                            shift and go to state 157
-    term                           shift and go to state 87
-    varcte                         shift and go to state 89
-
-state 130
-
-    (73) expresion -> expresion OR . exp
-    (83) exp -> . exp MAS term
-    (84) exp -> . exp MENOS term
-    (85) exp -> . term
-    (86) term -> . term MULTI fact
-    (87) term -> . term DIV fact
-    (88) term -> . fact
-    (89) fact -> . varcte
-    (90) varcte -> . ENTERO
-    (91) varcte -> . REAL
-    (92) varcte -> . CHAR
-    (93) varcte -> . ID
-
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
-    ID              shift and go to state 149
-
-    fact                           shift and go to state 97
-    exp                            shift and go to state 158
-    term                           shift and go to state 87
-    varcte                         shift and go to state 89
-
-state 131
-
-    (77) expresion -> expresion IGUAL . exp
-    (83) exp -> . exp MAS term
-    (84) exp -> . exp MENOS term
-    (85) exp -> . term
-    (86) term -> . term MULTI fact
-    (87) term -> . term DIV fact
-    (88) term -> . fact
-    (89) fact -> . varcte
-    (90) varcte -> . ENTERO
-    (91) varcte -> . REAL
-    (92) varcte -> . CHAR
-    (93) varcte -> . ID
-
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
-    ID              shift and go to state 149
-
-    fact                           shift and go to state 97
-    exp                            shift and go to state 159
-    term                           shift and go to state 87
-    varcte                         shift and go to state 89
+    escritura                      shift and go to state 51
+    asignacion                     shift and go to state 54
+    term                           shift and go to state 93
+    lectura                        shift and go to state 55
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
 state 132
 
-    (74) expresion -> expresion NOT . exp
+    (75) expresion -> expresion MENORQUE . exp
     (83) exp -> . exp MAS term
     (84) exp -> . exp MENOS term
     (85) exp -> . term
@@ -2724,42 +2744,17 @@ state 132
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
     ID              shift and go to state 149
 
-    fact                           shift and go to state 97
-    exp                            shift and go to state 160
-    term                           shift and go to state 87
+    fact                           shift and go to state 95
     varcte                         shift and go to state 89
+    exp                            shift and go to state 159
+    term                           shift and go to state 93
 
 state 133
-
-    (76) expresion -> expresion MAYORQUE . exp
-    (83) exp -> . exp MAS term
-    (84) exp -> . exp MENOS term
-    (85) exp -> . term
-    (86) term -> . term MULTI fact
-    (87) term -> . term DIV fact
-    (88) term -> . fact
-    (89) fact -> . varcte
-    (90) varcte -> . ENTERO
-    (91) varcte -> . REAL
-    (92) varcte -> . CHAR
-    (93) varcte -> . ID
-
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
-    ID              shift and go to state 149
-
-    fact                           shift and go to state 97
-    exp                            shift and go to state 161
-    term                           shift and go to state 87
-    varcte                         shift and go to state 89
-
-state 134
 
     (78) expresion -> expresion MENORIGUAL . exp
     (83) exp -> . exp MAS term
@@ -2774,118 +2769,123 @@ state 134
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
     ID              shift and go to state 149
 
-    fact                           shift and go to state 97
-    exp                            shift and go to state 162
-    term                           shift and go to state 87
+    fact                           shift and go to state 95
     varcte                         shift and go to state 89
+    exp                            shift and go to state 160
+    term                           shift and go to state 93
 
-state 135
+state 134
 
-    (57) llamada -> ID PARIZQ lista_valores PARDER .
-
-    PUNTOCOMA       reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
-    COMA            reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
-    PESOS           reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
-    INTERROGACION   reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
-    PARDER          reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
-
-
-state 136
-
-    (67) repite -> REPITE hacer HASTA PARIZQ . expresion PARDER
-    (72) expresion -> . expresion AND exp
-    (73) expresion -> . expresion OR exp
-    (74) expresion -> . expresion NOT exp
-    (75) expresion -> . expresion MENORQUE exp
-    (76) expresion -> . expresion MAYORQUE exp
-    (77) expresion -> . expresion IGUAL exp
-    (78) expresion -> . expresion MENORIGUAL exp
-    (79) expresion -> . expresion MAYORIGUAL exp
-    (80) expresion -> . determinante
-    (81) expresion -> . inversa
-    (82) expresion -> . exp
-    (94) determinante -> . estatuto PESOS
-    (95) inversa -> . estatuto INTERROGACION
+    (74) expresion -> expresion NOT . exp
     (83) exp -> . exp MAS term
     (84) exp -> . exp MENOS term
     (85) exp -> . term
-    (48) estatuto -> . asignacion
-    (49) estatuto -> . llamada
-    (50) estatuto -> . lectura
-    (51) estatuto -> . escritura
     (86) term -> . term MULTI fact
     (87) term -> . term DIV fact
     (88) term -> . fact
-    (55) asignacion -> . variable IGUAL expresion
-    (56) llamada -> . ID PARIZQ PARDER
-    (57) llamada -> . ID PARIZQ lista_valores PARDER
-    (58) lectura -> . LEER PARIZQ lista_valores PARDER
-    (59) escritura -> . ESCRIBIR PARIZQ lista_valores PARDER
     (89) fact -> . varcte
-    (14) variable -> . ID
-    (15) variable -> . ID indice_matriz
-    (16) variable -> . ID indice_matriz indice_matriz
     (90) varcte -> . ENTERO
     (91) varcte -> . REAL
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
+    ID              shift and go to state 149
 
-    fact                           shift and go to state 97
-    escritura                      shift and go to state 55
-    exp                            shift and go to state 95
+    fact                           shift and go to state 95
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    expresion                      shift and go to state 163
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    llamada                        shift and go to state 51
-    estatuto                       shift and go to state 102
-    term                           shift and go to state 87
+    exp                            shift and go to state 161
+    term                           shift and go to state 93
+
+state 135
+
+    (77) expresion -> expresion IGUAL . exp
+    (83) exp -> . exp MAS term
+    (84) exp -> . exp MENOS term
+    (85) exp -> . term
+    (86) term -> . term MULTI fact
+    (87) term -> . term DIV fact
+    (88) term -> . fact
+    (89) fact -> . varcte
+    (90) varcte -> . ENTERO
+    (91) varcte -> . REAL
+    (92) varcte -> . CHAR
+    (93) varcte -> . ID
+
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
+    ID              shift and go to state 149
+
+    fact                           shift and go to state 95
+    varcte                         shift and go to state 89
+    exp                            shift and go to state 162
+    term                           shift and go to state 93
+
+state 136
+
+    (72) expresion -> expresion AND . exp
+    (83) exp -> . exp MAS term
+    (84) exp -> . exp MENOS term
+    (85) exp -> . term
+    (86) term -> . term MULTI fact
+    (87) term -> . term DIV fact
+    (88) term -> . fact
+    (89) fact -> . varcte
+    (90) varcte -> . ENTERO
+    (91) varcte -> . REAL
+    (92) varcte -> . CHAR
+    (93) varcte -> . ID
+
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
+    ID              shift and go to state 149
+
+    fact                           shift and go to state 95
+    varcte                         shift and go to state 89
+    exp                            shift and go to state 163
+    term                           shift and go to state 93
 
 state 137
 
-    (63) hacer -> LLAVEIZQ estatutos_control LLAVEDER .
+    (57) llamada -> ID PARIZQ lista_valores PARDER .
 
-    SINO            reduce using rule 63 (hacer -> LLAVEIZQ estatutos_control LLAVEDER .)
-    PUNTOCOMA       reduce using rule 63 (hacer -> LLAVEIZQ estatutos_control LLAVEDER .)
-    HASTA           reduce using rule 63 (hacer -> LLAVEIZQ estatutos_control LLAVEDER .)
+    COMA            reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
+    PESOS           reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
+    INTERROGACION   reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
+    PARDER          reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
+    PUNTOCOMA       reduce using rule 57 (llamada -> ID PARIZQ lista_valores PARDER .)
 
 
 state 138
-
-    (58) lectura -> LEER PARIZQ lista_valores PARDER .
-
-    PESOS           reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
-    INTERROGACION   reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
-    COMA            reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
-    PARDER          reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
-    PUNTOCOMA       reduce using rule 58 (lectura -> LEER PARIZQ lista_valores PARDER .)
-
-
-state 139
 
     (60) decision -> SI PARIZQ expresion PARDER . hacer
     (61) decision -> SI PARIZQ expresion PARDER . hacer SINO hacer
     (62) hacer -> . LLAVEIZQ LLAVEDER
     (63) hacer -> . LLAVEIZQ estatutos_control LLAVEDER
 
-    LLAVEIZQ        shift and go to state 74
+    LLAVEIZQ        shift and go to state 68
 
     hacer                          shift and go to state 164
+
+state 139
+
+    (59) escritura -> ESCRIBIR PARIZQ lista_valores PARDER .
+
+    PUNTOCOMA       reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
+    PESOS           reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
+    INTERROGACION   reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
+    COMA            reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
+    PARDER          reduce using rule 59 (escritura -> ESCRIBIR PARIZQ lista_valores PARDER .)
+
 
 state 140
 
@@ -2896,11 +2896,17 @@ state 140
 
 state 141
 
-    (22) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1 .
+    (31) lista_idparam -> variable COMA . lista_idparam
+    (30) lista_idparam -> . variable
+    (31) lista_idparam -> . variable COMA lista_idparam
+    (14) variable -> . ID
+    (15) variable -> . ID indice_matriz
+    (16) variable -> . ID indice_matriz indice_matriz
 
-    MODULO          reduce using rule 22 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1 .)
-    PRINCIPAL       reduce using rule 22 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1 .)
+    ID              shift and go to state 29
 
+    variable                       shift and go to state 111
+    lista_idparam                  shift and go to state 166
 
 state 142
 
@@ -2916,51 +2922,45 @@ state 142
   ! shift/reduce conflict for REAL resolved as shift
   ! shift/reduce conflict for CHAR resolved as shift
     PARDER          reduce using rule 28 (lista_parametros1 -> tipo DOSPUNTOS lista_idparam PUNTOCOMA .)
-    ENTERO          shift and go to state 12
-    REAL            shift and go to state 8
-    CHAR            shift and go to state 6
+    ENTERO          shift and go to state 14
+    REAL            shift and go to state 10
+    CHAR            shift and go to state 11
 
   ! ENTERO          [ reduce using rule 28 (lista_parametros1 -> tipo DOSPUNTOS lista_idparam PUNTOCOMA .) ]
   ! REAL            [ reduce using rule 28 (lista_parametros1 -> tipo DOSPUNTOS lista_idparam PUNTOCOMA .) ]
   ! CHAR            [ reduce using rule 28 (lista_parametros1 -> tipo DOSPUNTOS lista_idparam PUNTOCOMA .) ]
 
-    tipo                           shift and go to state 61
-    lista_parametros1              shift and go to state 166
+    lista_parametros1              shift and go to state 167
+    tipo                           shift and go to state 63
 
 state 143
 
-    (31) lista_idparam -> variable COMA . lista_idparam
-    (30) lista_idparam -> . variable
-    (31) lista_idparam -> . variable COMA lista_idparam
-    (14) variable -> . ID
-    (15) variable -> . ID indice_matriz
-    (16) variable -> . ID indice_matriz indice_matriz
+    (22) declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1 .
 
-    ID              shift and go to state 31
+    MODULO          reduce using rule 22 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1 .)
+    PRINCIPAL       reduce using rule 22 (declara_funciones1 -> MODULO tipo_retorno ID PARIZQ lista_parametros PARDER bloque declara_funciones1 .)
 
-    lista_idparam                  shift and go to state 167
-    variable                       shift and go to state 113
 
 state 144
 
-    (32) bloque -> LLAVEIZQ declara_variables estatutos_control . REGRESA PARIZQ expresion PARDER LLAVEDER
-    (36) bloque -> LLAVEIZQ declara_variables estatutos_control . REGRESA PARIZQ PARDER LLAVEDER
+    (33) bloque -> LLAVEIZQ estatutos_control REGRESA . PARIZQ expresion PARDER LLAVEDER
+    (37) bloque -> LLAVEIZQ estatutos_control REGRESA . PARIZQ PARDER LLAVEDER
 
-    REGRESA         shift and go to state 168
+    PARIZQ          shift and go to state 168
 
 
 state 145
 
-    (34) bloque -> LLAVEIZQ declara_variables REGRESA . PARIZQ expresion PARDER LLAVEDER
-    (38) bloque -> LLAVEIZQ declara_variables REGRESA . PARIZQ PARDER LLAVEDER
+    (32) bloque -> LLAVEIZQ declara_variables estatutos_control . REGRESA PARIZQ expresion PARDER LLAVEDER
+    (36) bloque -> LLAVEIZQ declara_variables estatutos_control . REGRESA PARIZQ PARDER LLAVEDER
 
-    PARIZQ          shift and go to state 169
+    REGRESA         shift and go to state 169
 
 
 state 146
 
-    (33) bloque -> LLAVEIZQ estatutos_control REGRESA . PARIZQ expresion PARDER LLAVEDER
-    (37) bloque -> LLAVEIZQ estatutos_control REGRESA . PARIZQ PARDER LLAVEDER
+    (34) bloque -> LLAVEIZQ declara_variables REGRESA . PARIZQ expresion PARDER LLAVEDER
+    (38) bloque -> LLAVEIZQ declara_variables REGRESA . PARIZQ PARDER LLAVEDER
 
     PARIZQ          shift and go to state 170
 
@@ -3006,49 +3006,49 @@ state 147
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    PARDER          shift and go to state 171
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    PARDER          shift and go to state 172
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    llamada                        shift and go to state 51
-    exp                            shift and go to state 95
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 105
+    escritura                      shift and go to state 51
+    expresion                      shift and go to state 171
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    expresion                      shift and go to state 172
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    escritura                      shift and go to state 55
-    estatuto                       shift and go to state 102
-    term                           shift and go to state 87
+    inversa                        shift and go to state 100
+    asignacion                     shift and go to state 54
+    lectura                        shift and go to state 55
+    term                           shift and go to state 93
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
 state 148
 
-    (87) term -> term DIV fact .
+    (67) repite -> REPITE hacer HASTA PARIZQ expresion . PARDER
+    (72) expresion -> expresion . AND exp
+    (73) expresion -> expresion . OR exp
+    (74) expresion -> expresion . NOT exp
+    (75) expresion -> expresion . MENORQUE exp
+    (76) expresion -> expresion . MAYORQUE exp
+    (77) expresion -> expresion . IGUAL exp
+    (78) expresion -> expresion . MENORIGUAL exp
+    (79) expresion -> expresion . MAYORIGUAL exp
 
-    MULTI           reduce using rule 87 (term -> term DIV fact .)
-    DIV             reduce using rule 87 (term -> term DIV fact .)
-    MAS             reduce using rule 87 (term -> term DIV fact .)
-    MENOS           reduce using rule 87 (term -> term DIV fact .)
-    COMA            reduce using rule 87 (term -> term DIV fact .)
-    AND             reduce using rule 87 (term -> term DIV fact .)
-    OR              reduce using rule 87 (term -> term DIV fact .)
-    NOT             reduce using rule 87 (term -> term DIV fact .)
-    MENORQUE        reduce using rule 87 (term -> term DIV fact .)
-    MAYORQUE        reduce using rule 87 (term -> term DIV fact .)
-    IGUAL           reduce using rule 87 (term -> term DIV fact .)
-    MENORIGUAL      reduce using rule 87 (term -> term DIV fact .)
-    MAYORIGUAL      reduce using rule 87 (term -> term DIV fact .)
-    PARDER          reduce using rule 87 (term -> term DIV fact .)
-    PUNTOCOMA       reduce using rule 87 (term -> term DIV fact .)
-    PESOS           reduce using rule 87 (term -> term DIV fact .)
-    INTERROGACION   reduce using rule 87 (term -> term DIV fact .)
+    PARDER          shift and go to state 173
+    AND             shift and go to state 136
+    OR              shift and go to state 128
+    NOT             shift and go to state 134
+    MENORQUE        shift and go to state 132
+    MAYORQUE        shift and go to state 129
+    IGUAL           shift and go to state 135
+    MENORIGUAL      shift and go to state 133
+    MAYORIGUAL      shift and go to state 130
 
 
 state 149
@@ -3082,7 +3082,7 @@ state 150
     DIV             reduce using rule 86 (term -> term MULTI fact .)
     MAS             reduce using rule 86 (term -> term MULTI fact .)
     MENOS           reduce using rule 86 (term -> term MULTI fact .)
-    COMA            reduce using rule 86 (term -> term MULTI fact .)
+    PARDER          reduce using rule 86 (term -> term MULTI fact .)
     AND             reduce using rule 86 (term -> term MULTI fact .)
     OR              reduce using rule 86 (term -> term MULTI fact .)
     NOT             reduce using rule 86 (term -> term MULTI fact .)
@@ -3091,7 +3091,7 @@ state 150
     IGUAL           reduce using rule 86 (term -> term MULTI fact .)
     MENORIGUAL      reduce using rule 86 (term -> term MULTI fact .)
     MAYORIGUAL      reduce using rule 86 (term -> term MULTI fact .)
-    PARDER          reduce using rule 86 (term -> term MULTI fact .)
+    COMA            reduce using rule 86 (term -> term MULTI fact .)
     PUNTOCOMA       reduce using rule 86 (term -> term MULTI fact .)
     PESOS           reduce using rule 86 (term -> term MULTI fact .)
     INTERROGACION   reduce using rule 86 (term -> term MULTI fact .)
@@ -3099,37 +3099,28 @@ state 150
 
 state 151
 
-    (69) lista_valores -> estatuto COMA lista_valores .
+    (87) term -> term DIV fact .
 
-    PARDER          reduce using rule 69 (lista_valores -> estatuto COMA lista_valores .)
+    MULTI           reduce using rule 87 (term -> term DIV fact .)
+    DIV             reduce using rule 87 (term -> term DIV fact .)
+    MAS             reduce using rule 87 (term -> term DIV fact .)
+    MENOS           reduce using rule 87 (term -> term DIV fact .)
+    PARDER          reduce using rule 87 (term -> term DIV fact .)
+    AND             reduce using rule 87 (term -> term DIV fact .)
+    OR              reduce using rule 87 (term -> term DIV fact .)
+    NOT             reduce using rule 87 (term -> term DIV fact .)
+    MENORQUE        reduce using rule 87 (term -> term DIV fact .)
+    MAYORQUE        reduce using rule 87 (term -> term DIV fact .)
+    IGUAL           reduce using rule 87 (term -> term DIV fact .)
+    MENORIGUAL      reduce using rule 87 (term -> term DIV fact .)
+    MAYORIGUAL      reduce using rule 87 (term -> term DIV fact .)
+    COMA            reduce using rule 87 (term -> term DIV fact .)
+    PUNTOCOMA       reduce using rule 87 (term -> term DIV fact .)
+    PESOS           reduce using rule 87 (term -> term DIV fact .)
+    INTERROGACION   reduce using rule 87 (term -> term DIV fact .)
 
 
 state 152
-
-    (84) exp -> exp MENOS term .
-    (86) term -> term . MULTI fact
-    (87) term -> term . DIV fact
-
-    MAS             reduce using rule 84 (exp -> exp MENOS term .)
-    MENOS           reduce using rule 84 (exp -> exp MENOS term .)
-    PARDER          reduce using rule 84 (exp -> exp MENOS term .)
-    AND             reduce using rule 84 (exp -> exp MENOS term .)
-    OR              reduce using rule 84 (exp -> exp MENOS term .)
-    NOT             reduce using rule 84 (exp -> exp MENOS term .)
-    MENORQUE        reduce using rule 84 (exp -> exp MENOS term .)
-    MAYORQUE        reduce using rule 84 (exp -> exp MENOS term .)
-    IGUAL           reduce using rule 84 (exp -> exp MENOS term .)
-    MENORIGUAL      reduce using rule 84 (exp -> exp MENOS term .)
-    MAYORIGUAL      reduce using rule 84 (exp -> exp MENOS term .)
-    COMA            reduce using rule 84 (exp -> exp MENOS term .)
-    PUNTOCOMA       reduce using rule 84 (exp -> exp MENOS term .)
-    PESOS           reduce using rule 84 (exp -> exp MENOS term .)
-    INTERROGACION   reduce using rule 84 (exp -> exp MENOS term .)
-    MULTI           shift and go to state 119
-    DIV             shift and go to state 118
-
-
-state 153
 
     (83) exp -> exp MAS term .
     (86) term -> term . MULTI fact
@@ -3137,7 +3128,7 @@ state 153
 
     MAS             reduce using rule 83 (exp -> exp MAS term .)
     MENOS           reduce using rule 83 (exp -> exp MAS term .)
-    PARDER          reduce using rule 83 (exp -> exp MAS term .)
+    COMA            reduce using rule 83 (exp -> exp MAS term .)
     AND             reduce using rule 83 (exp -> exp MAS term .)
     OR              reduce using rule 83 (exp -> exp MAS term .)
     NOT             reduce using rule 83 (exp -> exp MAS term .)
@@ -3146,65 +3137,90 @@ state 153
     IGUAL           reduce using rule 83 (exp -> exp MAS term .)
     MENORIGUAL      reduce using rule 83 (exp -> exp MAS term .)
     MAYORIGUAL      reduce using rule 83 (exp -> exp MAS term .)
-    COMA            reduce using rule 83 (exp -> exp MAS term .)
+    PARDER          reduce using rule 83 (exp -> exp MAS term .)
     PUNTOCOMA       reduce using rule 83 (exp -> exp MAS term .)
     PESOS           reduce using rule 83 (exp -> exp MAS term .)
     INTERROGACION   reduce using rule 83 (exp -> exp MAS term .)
-    MULTI           shift and go to state 119
-    DIV             shift and go to state 118
+    MULTI           shift and go to state 120
+    DIV             shift and go to state 121
+
+
+state 153
+
+    (84) exp -> exp MENOS term .
+    (86) term -> term . MULTI fact
+    (87) term -> term . DIV fact
+
+    MAS             reduce using rule 84 (exp -> exp MENOS term .)
+    MENOS           reduce using rule 84 (exp -> exp MENOS term .)
+    COMA            reduce using rule 84 (exp -> exp MENOS term .)
+    AND             reduce using rule 84 (exp -> exp MENOS term .)
+    OR              reduce using rule 84 (exp -> exp MENOS term .)
+    NOT             reduce using rule 84 (exp -> exp MENOS term .)
+    MENORQUE        reduce using rule 84 (exp -> exp MENOS term .)
+    MAYORQUE        reduce using rule 84 (exp -> exp MENOS term .)
+    IGUAL           reduce using rule 84 (exp -> exp MENOS term .)
+    MENORIGUAL      reduce using rule 84 (exp -> exp MENOS term .)
+    MAYORIGUAL      reduce using rule 84 (exp -> exp MENOS term .)
+    PARDER          reduce using rule 84 (exp -> exp MENOS term .)
+    PUNTOCOMA       reduce using rule 84 (exp -> exp MENOS term .)
+    PESOS           reduce using rule 84 (exp -> exp MENOS term .)
+    INTERROGACION   reduce using rule 84 (exp -> exp MENOS term .)
+    MULTI           shift and go to state 120
+    DIV             shift and go to state 121
 
 
 state 154
 
-    (75) expresion -> expresion MENORQUE exp .
-    (83) exp -> exp . MAS term
-    (84) exp -> exp . MENOS term
+    (69) lista_valores -> estatuto COMA lista_valores .
 
-    PARDER          reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    AND             reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    OR              reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    NOT             reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    MENORQUE        reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    MAYORQUE        reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    IGUAL           reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    MENORIGUAL      reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    MAYORIGUAL      reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    COMA            reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    PUNTOCOMA       reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    PESOS           reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    INTERROGACION   reduce using rule 75 (expresion -> expresion MENORQUE exp .)
-    MAS             shift and go to state 125
-    MENOS           shift and go to state 124
+    PARDER          reduce using rule 69 (lista_valores -> estatuto COMA lista_valores .)
 
 
 state 155
 
-    (71) lista_valores -> expresion COMA lista_valores .
+    (73) expresion -> expresion OR exp .
+    (83) exp -> exp . MAS term
+    (84) exp -> exp . MENOS term
 
-    PARDER          reduce using rule 71 (lista_valores -> expresion COMA lista_valores .)
+    PARDER          reduce using rule 73 (expresion -> expresion OR exp .)
+    AND             reduce using rule 73 (expresion -> expresion OR exp .)
+    OR              reduce using rule 73 (expresion -> expresion OR exp .)
+    NOT             reduce using rule 73 (expresion -> expresion OR exp .)
+    MENORQUE        reduce using rule 73 (expresion -> expresion OR exp .)
+    MAYORQUE        reduce using rule 73 (expresion -> expresion OR exp .)
+    IGUAL           reduce using rule 73 (expresion -> expresion OR exp .)
+    MENORIGUAL      reduce using rule 73 (expresion -> expresion OR exp .)
+    MAYORIGUAL      reduce using rule 73 (expresion -> expresion OR exp .)
+    COMA            reduce using rule 73 (expresion -> expresion OR exp .)
+    PUNTOCOMA       reduce using rule 73 (expresion -> expresion OR exp .)
+    PESOS           reduce using rule 73 (expresion -> expresion OR exp .)
+    INTERROGACION   reduce using rule 73 (expresion -> expresion OR exp .)
+    MAS             shift and go to state 122
+    MENOS           shift and go to state 123
 
 
 state 156
 
-    (72) expresion -> expresion AND exp .
+    (76) expresion -> expresion MAYORQUE exp .
     (83) exp -> exp . MAS term
     (84) exp -> exp . MENOS term
 
-    PARDER          reduce using rule 72 (expresion -> expresion AND exp .)
-    AND             reduce using rule 72 (expresion -> expresion AND exp .)
-    OR              reduce using rule 72 (expresion -> expresion AND exp .)
-    NOT             reduce using rule 72 (expresion -> expresion AND exp .)
-    MENORQUE        reduce using rule 72 (expresion -> expresion AND exp .)
-    MAYORQUE        reduce using rule 72 (expresion -> expresion AND exp .)
-    IGUAL           reduce using rule 72 (expresion -> expresion AND exp .)
-    MENORIGUAL      reduce using rule 72 (expresion -> expresion AND exp .)
-    MAYORIGUAL      reduce using rule 72 (expresion -> expresion AND exp .)
-    COMA            reduce using rule 72 (expresion -> expresion AND exp .)
-    PUNTOCOMA       reduce using rule 72 (expresion -> expresion AND exp .)
-    PESOS           reduce using rule 72 (expresion -> expresion AND exp .)
-    INTERROGACION   reduce using rule 72 (expresion -> expresion AND exp .)
-    MAS             shift and go to state 125
-    MENOS           shift and go to state 124
+    PARDER          reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    AND             reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    OR              reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    NOT             reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    MENORQUE        reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    MAYORQUE        reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    IGUAL           reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    MENORIGUAL      reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    MAYORIGUAL      reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    COMA            reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    PUNTOCOMA       reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    PESOS           reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    INTERROGACION   reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
+    MAS             shift and go to state 122
+    MENOS           shift and go to state 123
 
 
 state 157
@@ -3226,103 +3242,41 @@ state 157
     PUNTOCOMA       reduce using rule 79 (expresion -> expresion MAYORIGUAL exp .)
     PESOS           reduce using rule 79 (expresion -> expresion MAYORIGUAL exp .)
     INTERROGACION   reduce using rule 79 (expresion -> expresion MAYORIGUAL exp .)
-    MAS             shift and go to state 125
-    MENOS           shift and go to state 124
+    MAS             shift and go to state 122
+    MENOS           shift and go to state 123
 
 
 state 158
 
-    (73) expresion -> expresion OR exp .
-    (83) exp -> exp . MAS term
-    (84) exp -> exp . MENOS term
+    (71) lista_valores -> expresion COMA lista_valores .
 
-    PARDER          reduce using rule 73 (expresion -> expresion OR exp .)
-    AND             reduce using rule 73 (expresion -> expresion OR exp .)
-    OR              reduce using rule 73 (expresion -> expresion OR exp .)
-    NOT             reduce using rule 73 (expresion -> expresion OR exp .)
-    MENORQUE        reduce using rule 73 (expresion -> expresion OR exp .)
-    MAYORQUE        reduce using rule 73 (expresion -> expresion OR exp .)
-    IGUAL           reduce using rule 73 (expresion -> expresion OR exp .)
-    MENORIGUAL      reduce using rule 73 (expresion -> expresion OR exp .)
-    MAYORIGUAL      reduce using rule 73 (expresion -> expresion OR exp .)
-    COMA            reduce using rule 73 (expresion -> expresion OR exp .)
-    PUNTOCOMA       reduce using rule 73 (expresion -> expresion OR exp .)
-    PESOS           reduce using rule 73 (expresion -> expresion OR exp .)
-    INTERROGACION   reduce using rule 73 (expresion -> expresion OR exp .)
-    MAS             shift and go to state 125
-    MENOS           shift and go to state 124
+    PARDER          reduce using rule 71 (lista_valores -> expresion COMA lista_valores .)
 
 
 state 159
 
-    (77) expresion -> expresion IGUAL exp .
+    (75) expresion -> expresion MENORQUE exp .
     (83) exp -> exp . MAS term
     (84) exp -> exp . MENOS term
 
-    PARDER          reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    AND             reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    OR              reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    NOT             reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    MENORQUE        reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    MAYORQUE        reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    IGUAL           reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    MENORIGUAL      reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    MAYORIGUAL      reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    COMA            reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    PUNTOCOMA       reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    PESOS           reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    INTERROGACION   reduce using rule 77 (expresion -> expresion IGUAL exp .)
-    MAS             shift and go to state 125
-    MENOS           shift and go to state 124
+    PARDER          reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    AND             reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    OR              reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    NOT             reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    MENORQUE        reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    MAYORQUE        reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    IGUAL           reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    MENORIGUAL      reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    MAYORIGUAL      reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    COMA            reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    PUNTOCOMA       reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    PESOS           reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    INTERROGACION   reduce using rule 75 (expresion -> expresion MENORQUE exp .)
+    MAS             shift and go to state 122
+    MENOS           shift and go to state 123
 
 
 state 160
-
-    (74) expresion -> expresion NOT exp .
-    (83) exp -> exp . MAS term
-    (84) exp -> exp . MENOS term
-
-    PARDER          reduce using rule 74 (expresion -> expresion NOT exp .)
-    AND             reduce using rule 74 (expresion -> expresion NOT exp .)
-    OR              reduce using rule 74 (expresion -> expresion NOT exp .)
-    NOT             reduce using rule 74 (expresion -> expresion NOT exp .)
-    MENORQUE        reduce using rule 74 (expresion -> expresion NOT exp .)
-    MAYORQUE        reduce using rule 74 (expresion -> expresion NOT exp .)
-    IGUAL           reduce using rule 74 (expresion -> expresion NOT exp .)
-    MENORIGUAL      reduce using rule 74 (expresion -> expresion NOT exp .)
-    MAYORIGUAL      reduce using rule 74 (expresion -> expresion NOT exp .)
-    COMA            reduce using rule 74 (expresion -> expresion NOT exp .)
-    PUNTOCOMA       reduce using rule 74 (expresion -> expresion NOT exp .)
-    PESOS           reduce using rule 74 (expresion -> expresion NOT exp .)
-    INTERROGACION   reduce using rule 74 (expresion -> expresion NOT exp .)
-    MAS             shift and go to state 125
-    MENOS           shift and go to state 124
-
-
-state 161
-
-    (76) expresion -> expresion MAYORQUE exp .
-    (83) exp -> exp . MAS term
-    (84) exp -> exp . MENOS term
-
-    PARDER          reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    AND             reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    OR              reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    NOT             reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    MENORQUE        reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    MAYORQUE        reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    IGUAL           reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    MENORIGUAL      reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    MAYORIGUAL      reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    COMA            reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    PUNTOCOMA       reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    PESOS           reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    INTERROGACION   reduce using rule 76 (expresion -> expresion MAYORQUE exp .)
-    MAS             shift and go to state 125
-    MENOS           shift and go to state 124
-
-
-state 162
 
     (78) expresion -> expresion MENORIGUAL exp .
     (83) exp -> exp . MAS term
@@ -3341,31 +3295,77 @@ state 162
     PUNTOCOMA       reduce using rule 78 (expresion -> expresion MENORIGUAL exp .)
     PESOS           reduce using rule 78 (expresion -> expresion MENORIGUAL exp .)
     INTERROGACION   reduce using rule 78 (expresion -> expresion MENORIGUAL exp .)
-    MAS             shift and go to state 125
-    MENOS           shift and go to state 124
+    MAS             shift and go to state 122
+    MENOS           shift and go to state 123
+
+
+state 161
+
+    (74) expresion -> expresion NOT exp .
+    (83) exp -> exp . MAS term
+    (84) exp -> exp . MENOS term
+
+    PARDER          reduce using rule 74 (expresion -> expresion NOT exp .)
+    AND             reduce using rule 74 (expresion -> expresion NOT exp .)
+    OR              reduce using rule 74 (expresion -> expresion NOT exp .)
+    NOT             reduce using rule 74 (expresion -> expresion NOT exp .)
+    MENORQUE        reduce using rule 74 (expresion -> expresion NOT exp .)
+    MAYORQUE        reduce using rule 74 (expresion -> expresion NOT exp .)
+    IGUAL           reduce using rule 74 (expresion -> expresion NOT exp .)
+    MENORIGUAL      reduce using rule 74 (expresion -> expresion NOT exp .)
+    MAYORIGUAL      reduce using rule 74 (expresion -> expresion NOT exp .)
+    COMA            reduce using rule 74 (expresion -> expresion NOT exp .)
+    PUNTOCOMA       reduce using rule 74 (expresion -> expresion NOT exp .)
+    PESOS           reduce using rule 74 (expresion -> expresion NOT exp .)
+    INTERROGACION   reduce using rule 74 (expresion -> expresion NOT exp .)
+    MAS             shift and go to state 122
+    MENOS           shift and go to state 123
+
+
+state 162
+
+    (77) expresion -> expresion IGUAL exp .
+    (83) exp -> exp . MAS term
+    (84) exp -> exp . MENOS term
+
+    PARDER          reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    AND             reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    OR              reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    NOT             reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    MENORQUE        reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    MAYORQUE        reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    IGUAL           reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    MENORIGUAL      reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    MAYORIGUAL      reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    COMA            reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    PUNTOCOMA       reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    PESOS           reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    INTERROGACION   reduce using rule 77 (expresion -> expresion IGUAL exp .)
+    MAS             shift and go to state 122
+    MENOS           shift and go to state 123
 
 
 state 163
 
-    (67) repite -> REPITE hacer HASTA PARIZQ expresion . PARDER
-    (72) expresion -> expresion . AND exp
-    (73) expresion -> expresion . OR exp
-    (74) expresion -> expresion . NOT exp
-    (75) expresion -> expresion . MENORQUE exp
-    (76) expresion -> expresion . MAYORQUE exp
-    (77) expresion -> expresion . IGUAL exp
-    (78) expresion -> expresion . MENORIGUAL exp
-    (79) expresion -> expresion . MAYORIGUAL exp
+    (72) expresion -> expresion AND exp .
+    (83) exp -> exp . MAS term
+    (84) exp -> exp . MENOS term
 
-    PARDER          shift and go to state 173
-    AND             shift and go to state 128
-    OR              shift and go to state 130
-    NOT             shift and go to state 132
-    MENORQUE        shift and go to state 126
-    MAYORQUE        shift and go to state 133
-    IGUAL           shift and go to state 131
-    MENORIGUAL      shift and go to state 134
-    MAYORIGUAL      shift and go to state 129
+    PARDER          reduce using rule 72 (expresion -> expresion AND exp .)
+    AND             reduce using rule 72 (expresion -> expresion AND exp .)
+    OR              reduce using rule 72 (expresion -> expresion AND exp .)
+    NOT             reduce using rule 72 (expresion -> expresion AND exp .)
+    MENORQUE        reduce using rule 72 (expresion -> expresion AND exp .)
+    MAYORQUE        reduce using rule 72 (expresion -> expresion AND exp .)
+    IGUAL           reduce using rule 72 (expresion -> expresion AND exp .)
+    MENORIGUAL      reduce using rule 72 (expresion -> expresion AND exp .)
+    MAYORIGUAL      reduce using rule 72 (expresion -> expresion AND exp .)
+    COMA            reduce using rule 72 (expresion -> expresion AND exp .)
+    PUNTOCOMA       reduce using rule 72 (expresion -> expresion AND exp .)
+    PESOS           reduce using rule 72 (expresion -> expresion AND exp .)
+    INTERROGACION   reduce using rule 72 (expresion -> expresion AND exp .)
+    MAS             shift and go to state 122
+    MENOS           shift and go to state 123
 
 
 state 164
@@ -3383,11 +3383,18 @@ state 165
     (62) hacer -> . LLAVEIZQ LLAVEDER
     (63) hacer -> . LLAVEIZQ estatutos_control LLAVEDER
 
-    LLAVEIZQ        shift and go to state 74
+    LLAVEIZQ        shift and go to state 68
 
     hacer                          shift and go to state 175
 
 state 166
+
+    (31) lista_idparam -> variable COMA lista_idparam .
+
+    PUNTOCOMA       reduce using rule 31 (lista_idparam -> variable COMA lista_idparam .)
+
+
+state 167
 
     (29) lista_parametros1 -> tipo DOSPUNTOS lista_idparam PUNTOCOMA lista_parametros1 .
 
@@ -3397,85 +3404,7 @@ state 166
     PARDER          reduce using rule 29 (lista_parametros1 -> tipo DOSPUNTOS lista_idparam PUNTOCOMA lista_parametros1 .)
 
 
-state 167
-
-    (31) lista_idparam -> variable COMA lista_idparam .
-
-    PUNTOCOMA       reduce using rule 31 (lista_idparam -> variable COMA lista_idparam .)
-
-
 state 168
-
-    (32) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA . PARIZQ expresion PARDER LLAVEDER
-    (36) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA . PARIZQ PARDER LLAVEDER
-
-    PARIZQ          shift and go to state 176
-
-
-state 169
-
-    (34) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ . expresion PARDER LLAVEDER
-    (38) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ . PARDER LLAVEDER
-    (72) expresion -> . expresion AND exp
-    (73) expresion -> . expresion OR exp
-    (74) expresion -> . expresion NOT exp
-    (75) expresion -> . expresion MENORQUE exp
-    (76) expresion -> . expresion MAYORQUE exp
-    (77) expresion -> . expresion IGUAL exp
-    (78) expresion -> . expresion MENORIGUAL exp
-    (79) expresion -> . expresion MAYORIGUAL exp
-    (80) expresion -> . determinante
-    (81) expresion -> . inversa
-    (82) expresion -> . exp
-    (94) determinante -> . estatuto PESOS
-    (95) inversa -> . estatuto INTERROGACION
-    (83) exp -> . exp MAS term
-    (84) exp -> . exp MENOS term
-    (85) exp -> . term
-    (48) estatuto -> . asignacion
-    (49) estatuto -> . llamada
-    (50) estatuto -> . lectura
-    (51) estatuto -> . escritura
-    (86) term -> . term MULTI fact
-    (87) term -> . term DIV fact
-    (88) term -> . fact
-    (55) asignacion -> . variable IGUAL expresion
-    (56) llamada -> . ID PARIZQ PARDER
-    (57) llamada -> . ID PARIZQ lista_valores PARDER
-    (58) lectura -> . LEER PARIZQ lista_valores PARDER
-    (59) escritura -> . ESCRIBIR PARIZQ lista_valores PARDER
-    (89) fact -> . varcte
-    (14) variable -> . ID
-    (15) variable -> . ID indice_matriz
-    (16) variable -> . ID indice_matriz indice_matriz
-    (90) varcte -> . ENTERO
-    (91) varcte -> . REAL
-    (92) varcte -> . CHAR
-    (93) varcte -> . ID
-
-    PARDER          shift and go to state 177
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
-
-    llamada                        shift and go to state 51
-    exp                            shift and go to state 95
-    varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    expresion                      shift and go to state 178
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    escritura                      shift and go to state 55
-    estatuto                       shift and go to state 102
-    term                           shift and go to state 87
-
-state 170
 
     (33) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ . expresion PARDER LLAVEDER
     (37) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ . PARDER LLAVEDER
@@ -3516,36 +3445,100 @@ state 170
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    PARDER          shift and go to state 179
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    PARDER          shift and go to state 177
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    llamada                        shift and go to state 51
-    exp                            shift and go to state 95
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 105
+    escritura                      shift and go to state 51
+    expresion                      shift and go to state 176
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    expresion                      shift and go to state 180
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    variable                       shift and go to state 44
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    escritura                      shift and go to state 55
-    estatuto                       shift and go to state 102
-    term                           shift and go to state 87
+    inversa                        shift and go to state 100
+    asignacion                     shift and go to state 54
+    lectura                        shift and go to state 55
+    term                           shift and go to state 93
+    llamada                        shift and go to state 47
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
+
+state 169
+
+    (32) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA . PARIZQ expresion PARDER LLAVEDER
+    (36) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA . PARIZQ PARDER LLAVEDER
+
+    PARIZQ          shift and go to state 178
+
+
+state 170
+
+    (34) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ . expresion PARDER LLAVEDER
+    (38) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ . PARDER LLAVEDER
+    (72) expresion -> . expresion AND exp
+    (73) expresion -> . expresion OR exp
+    (74) expresion -> . expresion NOT exp
+    (75) expresion -> . expresion MENORQUE exp
+    (76) expresion -> . expresion MAYORQUE exp
+    (77) expresion -> . expresion IGUAL exp
+    (78) expresion -> . expresion MENORIGUAL exp
+    (79) expresion -> . expresion MAYORIGUAL exp
+    (80) expresion -> . determinante
+    (81) expresion -> . inversa
+    (82) expresion -> . exp
+    (94) determinante -> . estatuto PESOS
+    (95) inversa -> . estatuto INTERROGACION
+    (83) exp -> . exp MAS term
+    (84) exp -> . exp MENOS term
+    (85) exp -> . term
+    (48) estatuto -> . asignacion
+    (49) estatuto -> . llamada
+    (50) estatuto -> . lectura
+    (51) estatuto -> . escritura
+    (86) term -> . term MULTI fact
+    (87) term -> . term DIV fact
+    (88) term -> . fact
+    (55) asignacion -> . variable IGUAL expresion
+    (56) llamada -> . ID PARIZQ PARDER
+    (57) llamada -> . ID PARIZQ lista_valores PARDER
+    (58) lectura -> . LEER PARIZQ lista_valores PARDER
+    (59) escritura -> . ESCRIBIR PARIZQ lista_valores PARDER
+    (89) fact -> . varcte
+    (14) variable -> . ID
+    (15) variable -> . ID indice_matriz
+    (16) variable -> . ID indice_matriz indice_matriz
+    (90) varcte -> . ENTERO
+    (91) varcte -> . REAL
+    (92) varcte -> . CHAR
+    (93) varcte -> . ID
+
+    PARDER          shift and go to state 180
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
+
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 105
+    escritura                      shift and go to state 51
+    expresion                      shift and go to state 179
+    varcte                         shift and go to state 89
+    inversa                        shift and go to state 100
+    lectura                        shift and go to state 55
+    term                           shift and go to state 93
+    llamada                        shift and go to state 47
+    asignacion                     shift and go to state 54
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
 state 171
-
-    (39) bloque -> LLAVEIZQ REGRESA PARIZQ PARDER . LLAVEDER
-
-    LLAVEDER        shift and go to state 181
-
-
-state 172
 
     (35) bloque -> LLAVEIZQ REGRESA PARIZQ expresion . PARDER LLAVEDER
     (72) expresion -> expresion . AND exp
@@ -3557,15 +3550,22 @@ state 172
     (78) expresion -> expresion . MENORIGUAL exp
     (79) expresion -> expresion . MAYORIGUAL exp
 
-    PARDER          shift and go to state 182
-    AND             shift and go to state 128
-    OR              shift and go to state 130
-    NOT             shift and go to state 132
-    MENORQUE        shift and go to state 126
-    MAYORQUE        shift and go to state 133
-    IGUAL           shift and go to state 131
-    MENORIGUAL      shift and go to state 134
-    MAYORIGUAL      shift and go to state 129
+    PARDER          shift and go to state 181
+    AND             shift and go to state 136
+    OR              shift and go to state 128
+    NOT             shift and go to state 134
+    MENORQUE        shift and go to state 132
+    MAYORQUE        shift and go to state 129
+    IGUAL           shift and go to state 135
+    MENORIGUAL      shift and go to state 133
+    MAYORIGUAL      shift and go to state 130
+
+
+state 172
+
+    (39) bloque -> LLAVEIZQ REGRESA PARIZQ PARDER . LLAVEDER
+
+    LLAVEDER        shift and go to state 182
 
 
 state 173
@@ -3581,7 +3581,7 @@ state 174
     (62) hacer -> . LLAVEIZQ LLAVEDER
     (63) hacer -> . LLAVEIZQ estatutos_control LLAVEDER
 
-    LLAVEIZQ        shift and go to state 74
+    LLAVEIZQ        shift and go to state 68
 
     hacer                          shift and go to state 183
 
@@ -3593,6 +3593,36 @@ state 175
 
 
 state 176
+
+    (33) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion . PARDER LLAVEDER
+    (72) expresion -> expresion . AND exp
+    (73) expresion -> expresion . OR exp
+    (74) expresion -> expresion . NOT exp
+    (75) expresion -> expresion . MENORQUE exp
+    (76) expresion -> expresion . MAYORQUE exp
+    (77) expresion -> expresion . IGUAL exp
+    (78) expresion -> expresion . MENORIGUAL exp
+    (79) expresion -> expresion . MAYORIGUAL exp
+
+    PARDER          shift and go to state 184
+    AND             shift and go to state 136
+    OR              shift and go to state 128
+    NOT             shift and go to state 134
+    MENORQUE        shift and go to state 132
+    MAYORQUE        shift and go to state 129
+    IGUAL           shift and go to state 135
+    MENORIGUAL      shift and go to state 133
+    MAYORIGUAL      shift and go to state 130
+
+
+state 177
+
+    (37) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ PARDER . LLAVEDER
+
+    LLAVEDER        shift and go to state 185
+
+
+state 178
 
     (32) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ . expresion PARDER LLAVEDER
     (36) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ . PARDER LLAVEDER
@@ -3633,36 +3663,29 @@ state 176
     (92) varcte -> . CHAR
     (93) varcte -> . ID
 
-    PARDER          shift and go to state 184
-    ID              shift and go to state 90
-    LEER            shift and go to state 54
-    ESCRIBIR        shift and go to state 40
-    ENTERO          shift and go to state 96
-    REAL            shift and go to state 88
-    CHAR            shift and go to state 93
+    PARDER          shift and go to state 187
+    ID              shift and go to state 91
+    LEER            shift and go to state 39
+    ESCRIBIR        shift and go to state 56
+    ENTERO          shift and go to state 101
+    REAL            shift and go to state 92
+    CHAR            shift and go to state 99
 
-    variable                       shift and go to state 44
-    exp                            shift and go to state 95
+    variable                       shift and go to state 57
+    determinante                   shift and go to state 90
+    estatuto                       shift and go to state 105
+    inversa                        shift and go to state 100
+    expresion                      shift and go to state 186
     varcte                         shift and go to state 89
-    lectura                        shift and go to state 41
-    expresion                      shift and go to state 185
-    fact                           shift and go to state 97
-    asignacion                     shift and go to state 43
-    escritura                      shift and go to state 55
-    determinante                   shift and go to state 98
-    inversa                        shift and go to state 91
-    llamada                        shift and go to state 51
-    estatuto                       shift and go to state 102
-    term                           shift and go to state 87
+    escritura                      shift and go to state 51
+    lectura                        shift and go to state 55
+    term                           shift and go to state 93
+    llamada                        shift and go to state 47
+    asignacion                     shift and go to state 54
+    exp                            shift and go to state 94
+    fact                           shift and go to state 95
 
-state 177
-
-    (38) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ PARDER . LLAVEDER
-
-    LLAVEDER        shift and go to state 186
-
-
-state 178
+state 179
 
     (34) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ expresion . PARDER LLAVEDER
     (72) expresion -> expresion . AND exp
@@ -3674,60 +3697,37 @@ state 178
     (78) expresion -> expresion . MENORIGUAL exp
     (79) expresion -> expresion . MAYORIGUAL exp
 
-    PARDER          shift and go to state 187
-    AND             shift and go to state 128
-    OR              shift and go to state 130
-    NOT             shift and go to state 132
-    MENORQUE        shift and go to state 126
-    MAYORQUE        shift and go to state 133
-    IGUAL           shift and go to state 131
-    MENORIGUAL      shift and go to state 134
-    MAYORIGUAL      shift and go to state 129
-
-
-state 179
-
-    (37) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ PARDER . LLAVEDER
-
-    LLAVEDER        shift and go to state 188
+    PARDER          shift and go to state 188
+    AND             shift and go to state 136
+    OR              shift and go to state 128
+    NOT             shift and go to state 134
+    MENORQUE        shift and go to state 132
+    MAYORQUE        shift and go to state 129
+    IGUAL           shift and go to state 135
+    MENORIGUAL      shift and go to state 133
+    MAYORIGUAL      shift and go to state 130
 
 
 state 180
 
-    (33) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion . PARDER LLAVEDER
-    (72) expresion -> expresion . AND exp
-    (73) expresion -> expresion . OR exp
-    (74) expresion -> expresion . NOT exp
-    (75) expresion -> expresion . MENORQUE exp
-    (76) expresion -> expresion . MAYORQUE exp
-    (77) expresion -> expresion . IGUAL exp
-    (78) expresion -> expresion . MENORIGUAL exp
-    (79) expresion -> expresion . MAYORIGUAL exp
+    (38) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ PARDER . LLAVEDER
 
-    PARDER          shift and go to state 189
-    AND             shift and go to state 128
-    OR              shift and go to state 130
-    NOT             shift and go to state 132
-    MENORQUE        shift and go to state 126
-    MAYORQUE        shift and go to state 133
-    IGUAL           shift and go to state 131
-    MENORIGUAL      shift and go to state 134
-    MAYORIGUAL      shift and go to state 129
+    LLAVEDER        shift and go to state 189
 
 
 state 181
+
+    (35) bloque -> LLAVEIZQ REGRESA PARIZQ expresion PARDER . LLAVEDER
+
+    LLAVEDER        shift and go to state 190
+
+
+state 182
 
     (39) bloque -> LLAVEIZQ REGRESA PARIZQ PARDER LLAVEDER .
 
     MODULO          reduce using rule 39 (bloque -> LLAVEIZQ REGRESA PARIZQ PARDER LLAVEDER .)
     PRINCIPAL       reduce using rule 39 (bloque -> LLAVEIZQ REGRESA PARIZQ PARDER LLAVEDER .)
-
-
-state 182
-
-    (35) bloque -> LLAVEIZQ REGRESA PARIZQ expresion PARDER . LLAVEDER
-
-    LLAVEDER        shift and go to state 190
 
 
 state 183
@@ -3739,12 +3739,20 @@ state 183
 
 state 184
 
-    (36) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ PARDER . LLAVEDER
+    (33) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion PARDER . LLAVEDER
 
     LLAVEDER        shift and go to state 191
 
 
 state 185
+
+    (37) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ PARDER LLAVEDER .
+
+    MODULO          reduce using rule 37 (bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ PARDER LLAVEDER .)
+    PRINCIPAL       reduce using rule 37 (bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ PARDER LLAVEDER .)
+
+
+state 186
 
     (32) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ expresion . PARDER LLAVEDER
     (72) expresion -> expresion . AND exp
@@ -3757,44 +3765,36 @@ state 185
     (79) expresion -> expresion . MAYORIGUAL exp
 
     PARDER          shift and go to state 192
-    AND             shift and go to state 128
-    OR              shift and go to state 130
-    NOT             shift and go to state 132
-    MENORQUE        shift and go to state 126
-    MAYORQUE        shift and go to state 133
-    IGUAL           shift and go to state 131
-    MENORIGUAL      shift and go to state 134
-    MAYORIGUAL      shift and go to state 129
-
-
-state 186
-
-    (38) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ PARDER LLAVEDER .
-
-    MODULO          reduce using rule 38 (bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ PARDER LLAVEDER .)
-    PRINCIPAL       reduce using rule 38 (bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ PARDER LLAVEDER .)
+    AND             shift and go to state 136
+    OR              shift and go to state 128
+    NOT             shift and go to state 134
+    MENORQUE        shift and go to state 132
+    MAYORQUE        shift and go to state 129
+    IGUAL           shift and go to state 135
+    MENORIGUAL      shift and go to state 133
+    MAYORIGUAL      shift and go to state 130
 
 
 state 187
 
-    (34) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ expresion PARDER . LLAVEDER
+    (36) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ PARDER . LLAVEDER
 
     LLAVEDER        shift and go to state 193
 
 
 state 188
 
-    (37) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ PARDER LLAVEDER .
+    (34) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ expresion PARDER . LLAVEDER
 
-    MODULO          reduce using rule 37 (bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ PARDER LLAVEDER .)
-    PRINCIPAL       reduce using rule 37 (bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ PARDER LLAVEDER .)
+    LLAVEDER        shift and go to state 194
 
 
 state 189
 
-    (33) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion PARDER . LLAVEDER
+    (38) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ PARDER LLAVEDER .
 
-    LLAVEDER        shift and go to state 194
+    MODULO          reduce using rule 38 (bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ PARDER LLAVEDER .)
+    PRINCIPAL       reduce using rule 38 (bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ PARDER LLAVEDER .)
 
 
 state 190
@@ -3807,10 +3807,10 @@ state 190
 
 state 191
 
-    (36) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ PARDER LLAVEDER .
+    (33) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion PARDER LLAVEDER .
 
-    MODULO          reduce using rule 36 (bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ PARDER LLAVEDER .)
-    PRINCIPAL       reduce using rule 36 (bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ PARDER LLAVEDER .)
+    MODULO          reduce using rule 33 (bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion PARDER LLAVEDER .)
+    PRINCIPAL       reduce using rule 33 (bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion PARDER LLAVEDER .)
 
 
 state 192
@@ -3822,18 +3822,18 @@ state 192
 
 state 193
 
-    (34) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ expresion PARDER LLAVEDER .
+    (36) bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ PARDER LLAVEDER .
 
-    MODULO          reduce using rule 34 (bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ expresion PARDER LLAVEDER .)
-    PRINCIPAL       reduce using rule 34 (bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ expresion PARDER LLAVEDER .)
+    MODULO          reduce using rule 36 (bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ PARDER LLAVEDER .)
+    PRINCIPAL       reduce using rule 36 (bloque -> LLAVEIZQ declara_variables estatutos_control REGRESA PARIZQ PARDER LLAVEDER .)
 
 
 state 194
 
-    (33) bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion PARDER LLAVEDER .
+    (34) bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ expresion PARDER LLAVEDER .
 
-    MODULO          reduce using rule 33 (bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion PARDER LLAVEDER .)
-    PRINCIPAL       reduce using rule 33 (bloque -> LLAVEIZQ estatutos_control REGRESA PARIZQ expresion PARDER LLAVEDER .)
+    MODULO          reduce using rule 34 (bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ expresion PARDER LLAVEDER .)
+    PRINCIPAL       reduce using rule 34 (bloque -> LLAVEIZQ declara_variables REGRESA PARIZQ expresion PARDER LLAVEDER .)
 
 
 state 195
@@ -3846,19 +3846,19 @@ state 195
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for ENTERO in state 35 resolved as shift
-WARNING: shift/reduce conflict for REAL in state 35 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 35 resolved as shift
-WARNING: shift/reduce conflict for SI in state 72 resolved as shift
-WARNING: shift/reduce conflict for MIENTRAS in state 72 resolved as shift
-WARNING: shift/reduce conflict for REPITE in state 72 resolved as shift
-WARNING: shift/reduce conflict for ID in state 72 resolved as shift
-WARNING: shift/reduce conflict for LEER in state 72 resolved as shift
-WARNING: shift/reduce conflict for ESCRIBIR in state 72 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 84 resolved as shift
-WARNING: shift/reduce conflict for MODULO in state 111 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 34 resolved as shift
+WARNING: shift/reduce conflict for REAL in state 34 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 34 resolved as shift
+WARNING: shift/reduce conflict for SI in state 75 resolved as shift
+WARNING: shift/reduce conflict for MIENTRAS in state 75 resolved as shift
+WARNING: shift/reduce conflict for REPITE in state 75 resolved as shift
+WARNING: shift/reduce conflict for ID in state 75 resolved as shift
+WARNING: shift/reduce conflict for LEER in state 75 resolved as shift
+WARNING: shift/reduce conflict for ESCRIBIR in state 75 resolved as shift
+WARNING: shift/reduce conflict for MODULO in state 85 resolved as shift
+WARNING: shift/reduce conflict for MODULO in state 113 resolved as shift
 WARNING: shift/reduce conflict for ENTERO in state 142 resolved as shift
 WARNING: shift/reduce conflict for REAL in state 142 resolved as shift
 WARNING: shift/reduce conflict for CHAR in state 142 resolved as shift
-WARNING: reduce/reduce conflict in state 90 resolved using rule (variable -> ID)
-WARNING: rejected rule (varcte -> ID) in state 90
+WARNING: reduce/reduce conflict in state 91 resolved using rule (variable -> ID)
+WARNING: rejected rule (varcte -> ID) in state 91

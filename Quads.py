@@ -63,13 +63,15 @@ class Quads(object):
 	def getParametros(self,dec_val):
 		param = []
 		parame = dec_val
+		tipoLista = []
 		if parame:
 			while parame[1]:
 				tipo = parame[1].pop(0)
 				variables = parame[1].pop(0)
 				for x in variables:
-						param = param + [x,]
-		return param
+					tipoLista = tipoLista + [tipo,]
+					param = param + [x,]
+		return [param,tipoLista]
 
 	def modulos(self,dec_fun):
 		modulos = []
@@ -119,14 +121,14 @@ class Quads(object):
 
 	def llamada(self, llam, table):
 		symbol = table.get(llam[1])
-		functable =  SymbolTable(table, symbol)
+		
 		
 		if isinstance(symbol, FunctionSymbol):
 			if len(symbol.arguments) != len(llam[2]):
 				print('Llamada  ' + llam[1] + '  expected '+ str(len(symbol.arguments)) + ' arguments')
 			else:	
 				pass
-				exptectedTypes = [table.get(arg).type for arg in symbol.arguments]
+				exptectedTypes = symbol.tipoVariables
 				types = []
 				for arg in llam[2]:
 					if table.get(arg):
@@ -180,46 +182,66 @@ class Quads(object):
 			self.estatutos(hacer2, table)
 			self.quad("end_control", "end_sino")
 			self.quad("end_control", "end_si")
+
+	def imprimirError(self,resultado, a, b, op):
+		if resultado != 'Error':
+				return(resultado)
+		else:
+				print("Cant do operation  " + str(a) + " " + str(op) + " " + str(b)+ "  incompatyble types")
+				return("Error")
 		
 	def checarOperacion(self,a,b,op, table):
 		operando1 = table.get(a)
 		operando2 = table.get(b)
 		
+
 		if operando1 != None and operando2 != None:
 			result = cubo[operando1.type][operando2.type][op]
-			if result != 'Error':
-				return(result)
-			else:
-				print("Cant do operation  " + str(a) + " " + str(op) + " " + str(b)+ "incompatyble types")
-				return("error")
-		
+			return(self.imprimirError(result, a, b, op))
 		elif operando1 == None and operando2 == None:
-
 				if isinstance(b, int) and isinstance(a, int):
 					result = cubo["entero"]["entero"][op]
-					return(result)
+					return(self.imprimirError(result, a, b, op))
 				elif isinstance(b, float) and isinstance(a, float):
 					result = cubo["real"]["float"][op]
-					return(result)
+					return(self.imprimirError(result, a, b, op))
 				elif isinstance(b, int) and isinstance(a, float):
 					result = cubo["real"]["entero"][op]
-					return(result)
+					return(self.imprimirError(result, a, b, op))
 				elif isinstance(b, float) and isinstance(a, int):
 					result = cubo["entero"]["real"][op]
-					return(result)
+					return(self.imprimirError(result, a, b, op))
 				else:
 					print("Variable  " + str(b)  + "  No declared")
-					return("error")
+					return("Error")
 		elif operando1 == None:
-				print(isinstance(a, numbers.Real))
-				print("Variable  " + str(a) + "  No declared")
-				return("error")
+				if isinstance(a, int):
+					result = cubo["entero"][operando2.type][op]
+					return(self.imprimirError(result, a, b, op))
+				elif isinstance(a, float):
+					result = cubo["real"][operando2.type][op]
+					return(self.imprimirError(result, a, b, op))
+				else:
+					print("Variable  " + str(a) + "  No declared")
+					return("Error")
+		elif operando2 == None:
+
+				if isinstance(b, int):
+					result = cubo["entero"][operando1.type][op]
+					return(self.imprimirError(result, a, b, op))
+				elif isinstance(b, float):
+					result = cubo["real"][operando1.type][op]
+					return(self.imprimirError(result, a, b, op))
+				else:
+					print("Variable  " + str(b) + "  No declared")
+					return("Error")
 
 
 
 	def asignacion(self, asig, table):
 		resultado = ""
 		a = table.get(asig[1]);
+		
 		if a == None:
 			print('Variable  ' + asig[1] + '  No declared')
 		else:
@@ -229,13 +251,13 @@ class Quads(object):
 					while isinstance(operacion[3], list):
 						operacion = operacion.pop()
 						resultado = self.checarOperacion(operacion[2],operacion[3], operacion[1],table)
-						if resultado != "error":
+						if resultado != "Error":
 							if cubo[resultado][a.type]["="] != a.type:
 								print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))
 						
 				else:
 					resultado = self.checarOperacion(operacion[2],operacion[3], operacion[1],table)
-					if resultado != "error":
+					if resultado != "Error":
 						if cubo[resultado][a.type]["="] != a.type:
 							print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))
 			else:
@@ -286,7 +308,7 @@ class Quads(object):
 				tipo = args[1]
 				nombre = args[2]
 				argumentos = []
-				funcSymbol = FunctionSymbol(nombre, tipo,argumentos)
+				funcSymbol = FunctionSymbol(nombre, tipo,argumentos,argumentos)
 				if not table.put(funcSymbol):
 					print('Modulo '+ nombre+' already defined')
 				funcionTable = SymbolTable(table, funcSymbol)
@@ -300,7 +322,7 @@ class Quads(object):
 				parametros = deepcopy(args[3])
 				parametros2 = self.getParametros(parametros)
 				bloque = args[4]
-				funcSymbol = FunctionSymbol(nombre, tipo, parametros2)
+				funcSymbol = FunctionSymbol(nombre, tipo, parametros2[0], parametros2[1])
 				if not table.put(funcSymbol):
 					print('Modulo'+ nombre+' already defined')
 				funcionTable = SymbolTable(table, funcSymbol)

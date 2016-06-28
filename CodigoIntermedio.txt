@@ -20,7 +20,7 @@
 ["principal", "entero", "d"],
 ["principal", "real", "x"],
 ["principal", "char", "str1"],
-["=", 3, "str1"],
+["=", "\"str\"", "str1"],
 ["=", 3.5, "x"],
 ["=", 2, "b"],
 ["=", "x", ["*", 3, 3.5]],
