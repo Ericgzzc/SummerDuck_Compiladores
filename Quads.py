@@ -328,7 +328,7 @@ class Quads(object):
 				funcionTable = SymbolTable(table, funcSymbol)
 				self.quad("modulo", tipo, nombre)
 				
-				self.declaraVariables(args[3], "param",funcionTable.parent)
+				self.declaraVariables(args[3], "param",funcionTable)
 				self.bloques(bloque,funcionTable)
 
 	def operacion(self, oper):

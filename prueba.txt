@@ -1,5 +1,6 @@
 programa Nombre_prog; 
 entero:a2,a3,a4,a5;
+entero:g1,g2,g3,g4;
 	
 modulo entero nombre_modulo(){
 	regresa()
