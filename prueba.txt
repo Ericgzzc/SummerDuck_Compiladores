@@ -18,13 +18,13 @@ modulo void modulo3(entero:g1,g2,g3,g4;){
 
 principal(){
 	entero: a,b,c,d;
-	real: x,y,z;
-	char: string1;
+	real: x;
+	char: str1;
 
-	a=3;
+	str1 = 3;
+	x=3.5;
 	b=2;
-	c=a+b;
-	c = c-a*3;
+	x = 3*3.5;
 	c=2;
 
 	si(a>b){
@@ -45,11 +45,11 @@ principal(){
 		c=a+b;
 		c=a+b;
 		mientras(a>b)haz{
-			c=a+b;
+			c=a-b;
 			c=a+b;
 		};
 	};
 
 
-	modulo3(a,b,c,x);
+	modulo3(a,b,c,d);
 }

@@ -1,5 +1,6 @@
 from Symboltable import *
 from cubo import *
+import numbers
 import json 
 import sys
 from copy import deepcopy
@@ -180,13 +181,75 @@ class Quads(object):
 			self.quad("end_control", "end_sino")
 			self.quad("end_control", "end_si")
 		
+	def checarOperacion(self,a,b,op, table):
+		operando1 = table.get(a)
+		operando2 = table.get(b)
 		
-			
+		if operando1 != None and operando2 != None:
+			result = cubo[operando1.type][operando2.type][op]
+			if result != 'Error':
+				return(result)
+			else:
+				print("Cant do operation  " + str(a) + " " + str(op) + " " + str(b)+ "incompatyble types")
+				return("error")
+		
+		elif operando1 == None and operando2 == None:
+
+				if isinstance(b, int) and isinstance(a, int):
+					result = cubo["entero"]["entero"][op]
+					return(result)
+				elif isinstance(b, float) and isinstance(a, float):
+					result = cubo["real"]["float"][op]
+					return(result)
+				elif isinstance(b, int) and isinstance(a, float):
+					result = cubo["real"]["entero"][op]
+					return(result)
+				elif isinstance(b, float) and isinstance(a, int):
+					result = cubo["entero"]["real"][op]
+					return(result)
+				else:
+					print("Variable  " + str(b)  + "  No declared")
+					return("error")
+		elif operando1 == None:
+				print(isinstance(a, numbers.Real))
+				print("Variable  " + str(a) + "  No declared")
+				return("error")
+
+
+
 	def asignacion(self, asig, table):
+		resultado = ""
 		a = table.get(asig[1]);
 		if a == None:
-			print('Variable  ' + asig[1] + '  No declaraded')
+			print('Variable  ' + asig[1] + '  No declared')
+		else:
+			if isinstance(asig[2], list):
+				operacion = deepcopy(asig[2])
+				if isinstance(operacion[3], list):
+					while isinstance(operacion[3], list):
+						operacion = operacion.pop()
+						resultado = self.checarOperacion(operacion[2],operacion[3], operacion[1],table)
+						if resultado != "error":
+							if cubo[resultado][a.type]["="] != a.type:
+								print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))
+						
+				else:
+					resultado = self.checarOperacion(operacion[2],operacion[3], operacion[1],table)
+					if resultado != "error":
+						if cubo[resultado][a.type]["="] != a.type:
+							print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))
+			else:
+				if isinstance(asig[2], int):
+					resultado = cubo["entero"][a.type]["="]
+				elif isinstance(asig[2], float):
+					resultado = cubo["real"][a.type]["="]
+				else:
+					resultado = cubo["char"][a.type]["="]
+				if resultado != a.type:
+					print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))
+
 		self.quad(asig[0], asig[1], asig[2])
+		
 
 	def bloques(self, bloque, table):
 		bloque.pop(0)
