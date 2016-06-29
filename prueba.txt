@@ -1,4 +1,5 @@
 programa Nombre_prog; 
+
 entero:a2,a3,a4,a5;
 entero:g1,g2,g3,g4;
 	
@@ -29,9 +30,10 @@ principal(){
 	str1 = "str";
 	x=3.5;
 	b=2;
-	x = 3*3.5;
+	b= 1*a-b*a/5-10/20*5;
+	x = 3*3.5/3*5+4-7;
 	c=2;
-
+	escribe(x);
 	si(a>b){
 		c=a+b;
 		c = c-a;

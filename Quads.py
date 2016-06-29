@@ -6,8 +6,11 @@ import sys
 from copy import deepcopy
 
 class Quads(object):
-	global file 	
-	file = open("CodigoIntermedio.txt", "w")
+	global file 
+	global filename
+	filename = "codigoIntermedio.txt"
+	file = open(filename, "w")
+	file.close()
 
 	def __init__(self,tree):
 		self.symbolTable = SymbolTable(None, 'global')
@@ -16,6 +19,7 @@ class Quads(object):
 		self.programa = programa
 		self.nombre = nombre
 		self.principal = principal
+		self.error = True
 		if len(args) == 2:
 			self.dec_val = args[0]
 			self.dec_fun = args[1]
@@ -32,8 +36,8 @@ class Quads(object):
 		self.quad(programa, nombre)
 		self.declaraVariables(self.dec_val, "global", self.symbolTable)
 		self.declaraFunciones(self.symbolTable)
-		
 		self.metodo_principal(principal,self.symbolTable)
+		
 
 	def metodo_principal(self,principal, table):
 		principal_nomb, *args = principal
@@ -56,7 +60,8 @@ class Quads(object):
 				variables = dec_val[1].pop(0)
 				for x in variables:
 					if (not table.put(VariableSymbol(x, tipo))):
-						print (var_tipo + '    '+ x+' alreday declared')
+						print (var_tipo + '  '+ x+'   alreday declared in  '+ table.name)
+						self.error = False
 					self.quad("declaracion_variables", tipo,var_tipo, x)
 		
 
@@ -107,7 +112,7 @@ class Quads(object):
 				self.escritura(x, table)
 
 	def escritura(self, llam,table):
-		self.quad(llam[0], llam[1], llam[2])
+		self.quad(llam[1], llam[2])
 		for x in llam[2]:
 			self.quad("parametros", x)
 
@@ -121,31 +126,29 @@ class Quads(object):
 
 	def llamada(self, llam, table):
 		symbol = table.get(llam[1])
-		
-		
+	
 		if isinstance(symbol, FunctionSymbol):
 			if len(symbol.arguments) != len(llam[2]):
+				self.error = False
 				print('Llamada  ' + llam[1] + '  expected '+ str(len(symbol.arguments)) + ' arguments')
 			else:	
-				pass
 				exptectedTypes = symbol.tipoVariables
 				types = []
 				for arg in llam[2]:
 					if table.get(arg):
 						types = types + [table.get(arg).type,]
 					else:
+						self.error = False
 						print('Variable  ' + arg + '  No declaraded')
 				
 				if len(exptectedTypes) == len(types):
 					for exprType, expectedType, i in zip(types, exptectedTypes,range(1, len(types) + 1)):
-						if exprType != expectedType and not (exprType == 'int' and expectedType == 'float'):
-							print ('Incorrect type of parameter, expected '+expectedType+", found "+exprType)
-				
-
-
+						if exprType != expectedType and not (exprType == 'entero' and expectedType == 'real'):
+							self.error = False
+							print ('Incorrect type of parameter, expected '+expectedType+", found "+exprType + " in "+ llam[1])
 		if symbol == None:
+			self.error = False
 			print('modulo  ' + llam[1] + '  No declared' )
-
 		self.quad(llam[0], llam[1], llam[2])
 		for x in llam[2]:
 			self.quad("parametros", x)
@@ -187,6 +190,7 @@ class Quads(object):
 		if resultado != 'Error':
 				return(resultado)
 		else:
+				self.error = False
 				print("Cant do operation  " + str(a) + " " + str(op) + " " + str(b)+ "  incompatyble types")
 				return("Error")
 		
@@ -203,7 +207,7 @@ class Quads(object):
 					result = cubo["entero"]["entero"][op]
 					return(self.imprimirError(result, a, b, op))
 				elif isinstance(b, float) and isinstance(a, float):
-					result = cubo["real"]["float"][op]
+					result = cubo["real"]["real"][op]
 					return(self.imprimirError(result, a, b, op))
 				elif isinstance(b, int) and isinstance(a, float):
 					result = cubo["real"]["entero"][op]
@@ -212,6 +216,7 @@ class Quads(object):
 					result = cubo["entero"]["real"][op]
 					return(self.imprimirError(result, a, b, op))
 				else:
+					self.error = False
 					print("Variable  " + str(b)  + "  No declared")
 					return("Error")
 		elif operando1 == None:
@@ -222,6 +227,7 @@ class Quads(object):
 					result = cubo["real"][operando2.type][op]
 					return(self.imprimirError(result, a, b, op))
 				else:
+					self.error = False
 					print("Variable  " + str(a) + "  No declared")
 					return("Error")
 		elif operando2 == None:
@@ -233,6 +239,7 @@ class Quads(object):
 					result = cubo["real"][operando1.type][op]
 					return(self.imprimirError(result, a, b, op))
 				else:
+					self.error = False
 					print("Variable  " + str(b) + "  No declared")
 					return("Error")
 
@@ -241,25 +248,13 @@ class Quads(object):
 	def asignacion(self, asig, table):
 		resultado = ""
 		a = table.get(asig[1]);
-		
+	
 		if a == None:
+			self.error = False
 			print('Variable  ' + asig[1] + '  No declared')
 		else:
 			if isinstance(asig[2], list):
-				operacion = deepcopy(asig[2])
-				if isinstance(operacion[3], list):
-					while isinstance(operacion[3], list):
-						operacion = operacion.pop()
-						resultado = self.checarOperacion(operacion[2],operacion[3], operacion[1],table)
-						if resultado != "Error":
-							if cubo[resultado][a.type]["="] != a.type:
-								print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))
-						
-				else:
-					resultado = self.checarOperacion(operacion[2],operacion[3], operacion[1],table)
-					if resultado != "Error":
-						if cubo[resultado][a.type]["="] != a.type:
-							print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))
+				pass
 			else:
 				if isinstance(asig[2], int):
 					resultado = cubo["entero"][a.type]["="]
@@ -268,6 +263,7 @@ class Quads(object):
 				else:
 					resultado = cubo["char"][a.type]["="]
 				if resultado != a.type:
+					self.error = False
 					print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))
 
 		self.quad(asig[0], asig[1], asig[2])
@@ -293,15 +289,19 @@ class Quads(object):
 						table2 = table.parent.get(table.name)
 						if table2.type != var.type:
 							if table2.type == "void":
+								self.error = False
 								print("Modulo " +table2.name + " is not expecting a return variable, type is void" )
 							else:
+								self.error = False
 								print('return variable ' + a + '  has a different type, expected ' + table2.type + " given " + var.type + " in modulo "+ table2.name)
 					else:
+						self.error = False
 						print('Variable  ' + a + '  No declared')
 					self.quad(x, a)
 				else:
 					table2 = table.parent.get(table.name)
 					if table2.type != "void":
+						self.error = False
 						print("Modulo " +table2.name + " is expecting a return variable")
 
 					self.quad(x)
@@ -327,6 +327,7 @@ class Quads(object):
 				argumentos = []
 				funcSymbol = FunctionSymbol(nombre, tipo,argumentos,argumentos)
 				if not table.put(funcSymbol):
+					self.error = False
 					print('Modulo '+ nombre+' already defined')
 				funcionTable = SymbolTable(table, nombre)
 				self.quad("modulo", tipo, nombre)
@@ -341,6 +342,7 @@ class Quads(object):
 				bloque = args[4]
 				funcSymbol = FunctionSymbol(nombre, tipo, parametros2[0], parametros2[1])
 				if not table.put(funcSymbol):
+					self.error = False
 					print('Modulo'+ nombre+' already defined')
 				funcionTable = SymbolTable(table, nombre)
 				self.quad("modulo", tipo, nombre)
@@ -370,46 +372,35 @@ class Quads(object):
 			cuadruplo.append(args[0])
 			cuadruplo.append(args[1])
 		if tipo == "asignacion":
-			
-			if isinstance(args[1], list):
-				cuadruploOP = self.operacion(args[1])
-
+		
 				cuadruplo.append("=")
 				cuadruplo.append(args[0])
-				cuadruplo.append(cuadruploOP)
-				
-			else:
-				cuadruplo.append("=")
 				cuadruplo.append(args[1])
-				cuadruplo.append(args[0])
+
 		if tipo == "si":
-			cuadruploOP = self.operacion(args[0])
 			cuadruplo.append(tipo)
-			cuadruplo.append(cuadruploOP[0])
-			cuadruplo.append(cuadruploOP[1])
-			cuadruplo.append(cuadruploOP[2])
+			cuadruplo.append(args[0])
 		if tipo == "sino":
 			cuadruplo.append(tipo)
 		if tipo == "mientras":
-			cuadruploOP = self.operacion(args[0])
 			cuadruplo.append(tipo)
-			cuadruplo.append(cuadruploOP[0])
-			cuadruplo.append(cuadruploOP[1])
-			cuadruplo.append(cuadruploOP[2])
+			cuadruplo.append(args[0])
 		if tipo == 'repite':
 			cuadruplo.append(tipo)
 		if tipo == "hasta":
-			cuadruploOP = self.operacion(args[0])
 			cuadruplo.append(tipo)
-			cuadruplo.append(cuadruploOP[0])
-			cuadruplo.append(cuadruploOP[1])
-			cuadruplo.append(cuadruploOP[2])
+			cuadruplo.append(args[0])
 		if tipo == 'end_control':
+			cuadruplo.append(args[0])
+		if tipo == 'leer':
+			cuadruplo.append(tipo)
+			cuadruplo.append(args[0])
+		if tipo == 'escribe':
+			cuadruplo.append(tipo)
 			cuadruplo.append(args[0])
 		if tipo == 'llamada':
 			cuadruplo.append(tipo)
 			cuadruplo.append(args[0])
-			
 		if tipo == 'parametros':
 			cuadruplo.append("param")
 			cuadruplo.append(args[0])
@@ -421,10 +412,12 @@ class Quads(object):
 			cuadruplo.append(tipo)
 			cuadruplo.append(tipo)
 
+		file = open(filename, "a")
 		
 		json.dump(cuadruplo, file)
-		file.write(",")
+
 		file.write("\n")
+		file.close()
 
 
 		

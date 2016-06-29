@@ -374,7 +374,11 @@ class Parser(object):
                     	| determinante
                     	| inversa
 		"""
-		t[0] = ['RELOP', t[2], t[1], t[3]]
+		# temp = []
+		# temp.append(t[2])
+		# temp.append(t[1])
+		t[0] = [t[1] , t[2], t[3]]
+
 		
 	def p_expresion2(self, t):
 	    'expresion : exp'
@@ -383,7 +387,11 @@ class Parser(object):
 	def p_exp(self,t):
 		'''exp : exp MAS term
 	           | exp MENOS term'''
-		t[0] = ['MASMNEOS', t[2], t[1], t[3]]
+		# temp = []
+		# temp.append(t[2])
+		# temp.append(t[1])
+		# t[0] = temp + [t[3]]
+		t[0] = [t[1] , t[2], t[3]]
 
 	def p_exp2(self,t):
 		'exp : term'
@@ -392,7 +400,11 @@ class Parser(object):
 	def p_term(self,t):
 		'''term : term MULTI fact
             | term DIV fact'''
-		t[0] = ['MULTIDIV', t[2], t[1], t[3]]
+		# temp = []
+		# temp.append(t[2])
+		# temp.append(t[1])
+		# t[0] = temp + [t[3]]
+		t[0] = [t[1] , t[2], t[3]]
 
 	def p_term2(self,t):
 		'term : fact'
@@ -407,6 +419,10 @@ class Parser(object):
               | CHAR
               | ID	'''
 		t[0] = t[1]
+
+	def p_group(self,t):
+		'fact : PARIZQ expresion PARDER'
+		t[0] = t[2]
 
 	def p_determinante(self,t):
 		"""determinante 	: estatuto PESOS"""

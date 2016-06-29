@@ -1,0 +1,73 @@
+programa Nombre_prog; 
+
+real: x1,x2;
+
+
+modulo entero nombre_modulo(entero:a,b,c; real:x,y,z;){
+	
+	regresa()
+}
+
+modulo void nombre_modulo1(entero:a,b,c; real:x,y,z; char:s1,s2,s4;){
+	real: x11,a2,a3,b3;
+	entero: a, b,c;
+	char: s1,s2,s3;
+
+	a=3;
+	b=2;
+	c=a+b;
+	c = c-a;
+	c=2;
+
+	regresa()
+}
+modulo entero nombre_modulo2(){
+	real: x11,a2,a3,b3;
+	entero: a, b,c;
+	char: s1,s2,s3;
+
+	a=3;
+	b=2;
+	c=a+b;
+	c = c-a;
+	c=2;
+
+	regresa()
+}
+
+modulo entero nombre_modulo2(){
+	real: x11;
+
+	x11=3;
+
+	regresa(x11)
+}
+
+
+principal(){
+	entero: a,b,c,d;
+	real: x,y,z;
+	char: string1;
+
+	a = 3;
+	b = 4;
+	c= a;
+	x = 3.4;
+	d= a>b;
+	c = a;
+	string1= "esto es un string";
+
+	si(a<b){
+		d= a/b;
+
+		si(a<b){
+			a= a*b;
+		};
+	};
+	
+	repite{
+		d= a-b;
+	}
+	hasta(a>b);
+		
+}
