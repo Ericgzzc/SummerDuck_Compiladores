@@ -19,28 +19,30 @@ if __name__ == '__main__':
     parser = yacc.yacc(module=Cparser)
     text = file.read()
     lst = parser.parse(text,tracking=True)
+    # print(lst)
     quad= Quads(lst)
+    # 
 
-    try:
-        if quad.error:
-            filename2 = "codigoIntermedio.txt"
+    # try:
+    #     if quad.error:
+    #         filename2 = "codigoIntermedio.txt"
             
            
-            with open(filename2) as f:
-                content = f.read().splitlines()
+    #         with open(filename2) as f:
+    #             content = f.read().splitlines()
 
-            a = Machine(content)
-            a.run()
-            a.dump_stack()
-        else:
-            print("Error")
-    except IOError:
-            print("Cannot open {0} file2".format(filename2))
-            sys.exit(0)
-    except (RuntimeError, IndexError) as e:
-            print("IndexError: %s" % e)
-    except KeyboardInterrupt:
-            print("\nKeyboardInterrupt")
+    #         a = Machine(content)
+    #         a.run()
+    #         a.dump_stack()
+    #     else:
+    #         print("Error")
+    # except IOError:
+    #         print("Cannot open {0} file2".format(filename2))
+    #         sys.exit(0)
+    # except (RuntimeError, IndexError) as e:
+    #         print("IndexError: %s" % e)
+    # except KeyboardInterrupt:
+    #         print("\nKeyboardInterrupt")
 
     # print(lst)
     # print(quad.programa)

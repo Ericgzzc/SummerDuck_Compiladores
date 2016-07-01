@@ -1,62 +1,19 @@
 programa Nombre_prog; 
 
-entero:a2,a3,a4,a5;
-entero:g1,g2,g3,g4;
-	
-modulo entero nombre_modulo(){
-	real:a2,a3,a4,a5;
-	entero: a;
-	regresa(a)
-}
-
-modulo entero nombre_modulo2(){
-	entero:a2,a3,a4,a5;
-
-	regresa(a2)
-}
-
-modulo void modulo3(entero:g1,g2,g3,g4;){
-	entero:a2,a3,a4,a5;
+modulo void factorial(entero:n;){
 	regresa()
 }
 
 
-
 principal(){
-	entero: a,b,c,d;
-	real: x;
-	char: str1;
+	entero: a,b,c;
+	
+	c = 3;
+	a = 10;
+	b = 1;
 
-	str1 = "str";
-	x=3.5;
-	b=2;
-	b= 1*a-b*a/5-10/20*5;
-	x = 3*3.5/3*5+4-7;
-	c=2;
-	escribe(x);
-	si(a>b){
-		c=a+b;
-		c = c-a;
-		si(a>b){
-		c=a+b;
-			c = c-a;
-		};
-	};
-	b=2;
-	repite{
-		c=a+b;
-		c=a+b;
-	}hasta(c>b);
-
-	mientras(a>b)haz{
-		c=a+b;
-		c=a+b;
-		mientras(a>b)haz{
-			c=a-b;
-			c=a+b;
-		};
+	si(b>a){
+		b=b+1;
 	};
 
-
-	modulo3(a,b,c,d);
 }

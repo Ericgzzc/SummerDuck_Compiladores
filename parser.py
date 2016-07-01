@@ -79,7 +79,7 @@ class Parser(object):
 			temp1.append(t[1])
 			temp1.append(t[3])
 			t[0] = temp1
-			
+		#print(t[0])
 
 			
 
@@ -137,7 +137,7 @@ class Parser(object):
                     			| MODULO tipo_retorno ID PARIZQ PARDER bloque declara_funciones1
 		"""
 		# t[0] = ('declara_funciones', t[1], t[2], t[3], t[4], t[6])
-		# print(*t, sep='\n')
+		# #print(*t, sep='\n')
 		if len(t) == 8 and t[6] == ')':
 			t[0] = [ t[1], t[2], t[3],t[5],t[7]] + ["END"]
 			
@@ -163,6 +163,7 @@ class Parser(object):
 			temp.append("END")
 			
 			t[0] = temp + t[7]
+		#print(t[0])
 			
 
 	def p_tipo_retorno(self,t):
@@ -219,23 +220,25 @@ class Parser(object):
                     | LLAVEIZQ declara_variables REGRESA PARIZQ PARDER LLAVEDER
                     | LLAVEIZQ REGRESA PARIZQ PARDER LLAVEDER 
 		"""
+
 		if len(t) == 9:
-			t[0] = ['bloque1', t[2], t[3], t[4], t[6]]
+			t[0] = ['bloque', t[2], t[3], t[4], t[6]]
 
 		elif len(t) == 8 and t[3] == 'regresa':
-			t[0] = ['bloque2', t[2], t[3], t[4], t[5]]
+			t[0] = ['bloque', t[2], t[3], t[5]]
 
 		elif len(t) == 7 and t[2] == 'regresa':
-			t[0] = ['bloque3', t[2], t[4]]
+			t[0] = ['bloque', t[2], t[4]]
 
 		elif len(t) == 8 and t[4] == 'regresa':
-			t[0] = ['bloque4', t[2], t[3],t[4]]
+			t[0] = ['bloque', t[2], t[3],t[4]]
 
 		elif len(t) == 7 and t[3] == 'regresa':
-			t[0] = ['bloque5', t[2], t[3]]
+			t[0] = ['bloque', t[2], t[3]]
 
 		elif len(t) ==6:
-			t[0] = ['bloque6', t[2]]
+			t[0] = ['bloque', t[2]]
+		#print(t[0])
 		
 
 	def p_metodo_principal(self,t):
@@ -253,6 +256,8 @@ class Parser(object):
 			
 		else:
 			t[0] = [t[1]]
+		#print(t[0])
+
 	def p_estatutos_control(self,t):
 		"""estatutos_control   	: estatutos_control1 estatutos_control
                    				| estatutos_control1 
@@ -262,7 +267,7 @@ class Parser(object):
 			
 		else:
 			t[0] = ["estatutos", t[1]]
-
+		#print(t[0])
 
 	def p_estatutos_control1(self,t):
 		"""estatutos_control1   : estatuto_control PUNTOCOMA
@@ -273,15 +278,17 @@ class Parser(object):
 			
 		else:
 			t[0] = t[1]
-			
+		#print(t[0])
 
-	def p_estatuto(self,t):
+	def p_estatuto1(self,t):
 		"""estatuto : asignacion
                     | llamada
                     | lectura
                     | escritura
+                    
 		"""
 		t[0] = t[1]
+		#print(t[0])
 
 	def p_estatuto_control(self,t):
 		"""estatuto_control    : decision
@@ -289,28 +296,38 @@ class Parser(object):
                     			| estatuto
 		"""
 		t[0] = [t[1]]
+		#print(t[0])
+
 
 	def p_asignacion(self,t):
-		"""asignacion 	: variable IGUAL expresion
-						
+		"""asignacion 	: variable IGUAL estatuto
+						| variable IGUAL expresion						
 		"""
 		t[0] = ['asignacion', t[1], t[3]]
-		
+		#print(t[0])
 		
 
 	def p_llamada(self,t):
 		"""llamada 	: ID PARIZQ PARDER
-                    | ID PARIZQ lista_valores PARDER
+                    | ID PARIZQ lista_valores PARDER 
+                    | ID PARIZQ lista_valores PARDER expresion 
+                    | ID PARIZQ PARDER expresion 
 		"""
-		if len(t) == 5:
+		if len(t) == 6:
+			t[0] = ['llamada', t[1], t[3], t[5]]
+		elif len(t) == 5:
 			t[0] = ['llamada', t[1], t[3]]
+		elif len(t) == 5 and t[3] == ")":
+			t[0] = ['llamada', t[1], t[4]]
 		else:
-			t[0] = ['llamada', t[1]]
+			t[0] = ['llamada', t[1], t[4]]
+		#print(t[1])
 
 	def p_lectura(self,t):
 		"""lectura : LEER PARIZQ lista_valores PARDER
 		"""
 		t[0] = ['lectura', t[1], t[3]]
+
 
 	def p_escritura(self,t):
 		"""escritura : ESCRIBIR PARIZQ lista_valores PARDER
@@ -350,9 +367,7 @@ class Parser(object):
 		t[0] = [t[1], t[2],t[5]]
 
 	def p_lista_valores(self,t):
-		"""lista_valores 	: estatuto
-                    		| estatuto COMA lista_valores
-                    		| expresion 
+		"""lista_valores 	: expresion
                     		| expresion COMA lista_valores
 		"""
 		if len(t) == 4:
@@ -368,34 +383,33 @@ class Parser(object):
                     	| expresion NOT exp
                     	| expresion MENORQUE exp
                     	| expresion MAYORQUE exp
-                    	| expresion IGUAL exp
+                    	| expresion IGUALIGUAL exp
                     	| expresion MENORIGUAL exp
                     	| expresion MAYORIGUAL exp
                     	| determinante
                     	| inversa
 		"""
-		# temp = []
-		# temp.append(t[2])
-		# temp.append(t[1])
-		t[0] = [t[1] , t[2], t[3]]
+
+		t[0] = t[1] + t[2] + t[3]
+		#print(t[0])
 
 		
 	def p_expresion2(self, t):
 	    'expresion : exp'
 	    t[0] = t[1]
+	    #print(t[0])
 
 	def p_exp(self,t):
 		'''exp : exp MAS term
 	           | exp MENOS term'''
-		# temp = []
-		# temp.append(t[2])
-		# temp.append(t[1])
-		# t[0] = temp + [t[3]]
-		t[0] = [t[1] , t[2], t[3]]
+
+		t[0] = str(t[1]) +  str(t[2]) + str(t[3])
+		#print(t[0])
 
 	def p_exp2(self,t):
 		'exp : term'
 		t[0] = t[1]
+		#print(t[0])
 
 	def p_term(self,t):
 		'''term : term MULTI fact
@@ -404,21 +418,26 @@ class Parser(object):
 		# temp.append(t[2])
 		# temp.append(t[1])
 		# t[0] = temp + [t[3]]
-		t[0] = [t[1] , t[2], t[3]]
+		t[0] = str(t[1]) +  str(t[2]) + str(t[3])
+		#print(t[0])
 
 	def p_term2(self,t):
 		'term : fact'
 		t[0] = t[1]
+		#print(t[0])
 
 	def p_fact(self,t):
 		'''fact : varcte'''
 		t[0] = t[1]
+		#print(t[0])
 	def p_varcte(self,t):
 		'''varcte : ENTERO
               | REAL
               | CHAR
-              | ID	'''
+              | ID	
+		'''
 		t[0] = t[1]
+		#print(t[0])
 
 	def p_group(self,t):
 		'fact : PARIZQ expresion PARDER'

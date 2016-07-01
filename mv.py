@@ -24,10 +24,11 @@ class Machine:
     def __init__(self, code):
         self.data_stack = Stack()
         self.return_stack = Stack()
+        self.modulo_stack = Stack()
         self.instruction_pointer = 0
         self.code = code
-        self.symbolTable = SymbolTable(None, 'global')
-        self.dispatch_map = {
+        self.table = SymbolTable(None, 'global')
+        self.operations = {
             "%":       		self.mod,
             "*":        	self.mul,
             "+":        	self.plus,
@@ -35,11 +36,19 @@ class Machine:
             "/":        	self.div,
             "==":       	self.eq,
             "=":       		self.asigna,
-            "programa": 	self.programa,
-            "global": 		self.global1,
-            "modulo": 		self.modulo,
+        }
+        self.modulos = {
+        	"programa": 	self.programa,
+        	"principal": 	self.principal,
+        	"modulo": 		self.modulo,
+        }
+        self.variables = {
+ 		  	"global": 		self.global1,
             "local": 		self.local,
             "param": 		self.param,
+ 		}
+
+        self.dis_map = {
             "regresa": 		self.regresa,
             "principal": 	self.principal,
             "si":       	self.si,
@@ -57,7 +66,6 @@ class Machine:
             "stack":    	self.dump_stack,
             "exit":     	self.exit,
         }
-
     def pop(self):
         return self.data_stack.pop()
 
@@ -82,10 +90,14 @@ class Machine:
         	quad = quad + [term,]
         op = quad[0]
         print(quad)
+        print(self.instruction_pointer)
 
-
-        if op in self.dispatch_map:
-            self.dispatch_map[op]()
+        if op in self.operations:
+            self.operations[op]()
+        elif op in self.modulos:
+        	self.modulos[op](quadruplo, self.table)
+        elif op in self.variables:
+        	self.variables[op](quadruplo, self.table)
         elif isinstance(op, int):
             self.push(op) # push numbers on stack
         elif isinstance(op, str) and op[0]==op[-1]=='"':
@@ -93,11 +105,11 @@ class Machine:
         else:
             raise RuntimeError("Unknown opcode: '%s'" % op)
 
-    def programa(self):
+    def programa(self, quadruplo, table):
         pass
-    def global1(self): 
-        pass
-    def modulo(self): 
+    def global1(self, quadruplo, table): 
+    	pass
+    def modulo(self,quadruplo, table): 
         pass
     def local(self): 
         pass
