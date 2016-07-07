@@ -24,10 +24,15 @@ class Quads(object):
 		self.LBL = 1
 		self.sifinal = 0
 		self.siinit = 0
+		self.gotoIF = 0
 		self.sinofinal = 0
 		self.entraPrincipal = False
 		self.iniMientras = 0
 		self.terminaMientras = 0
+		self.iniciaSi = []
+		self.terminaSi = []
+		self.inciasino = []
+		self.terminaSino = []
 		programa, nombre, *args, principal = self.arbol;
 		self.programa = programa
 		self.nombre = nombre
@@ -223,14 +228,17 @@ class Quads(object):
 			tipo, si, exp, hacer = dec
 			varif=self.operaciones(exp, table)
 			self.LBL+=1
-			hacerx = hacer.pop()
 			# print("dec", self.code)	
-			self.siinit = self.code
-			
+			# self.siinit = self.code
+			self.iniciaSi.append(self.code)
+			self.quad("prueba",varif, self.siinit)
+			hacerx = hacer.pop()
 			self.estatutos(hacerx, table)
-			self.sifinal = self.code
+			# self.sifinal = self.code
+			self.terminaSi.append(self.code)
+			self.quad("prueba2", self.siinit, self.sifinal)
 			# print("dec", self.code)
-			self.quad("si", varif, self.siinit, self.sifinal)
+			# self.quad("si", varif, self.siinit, self.sifinal)
 			# self.siinit = self.siinit - (self.sifinal-self.siinit)
 			# self.quad("si", varif, self.siinit, self.sifinal)
 			# self.quad("end_control", "end_si")
@@ -239,16 +247,25 @@ class Quads(object):
 			varif=self.operaciones(exp, table)
 			hacer = hacer.pop()
 			# print("dec", self.code)	
-			self.siinit = self.code
+			# self.siinit = self.code
+			self.iniciaSi.append(self.code)
+			self.quad("prueba",varif, self.siinit)
 			self.estatutos(hacer, table)
-			self.sifinal = self.code
+			# self.sifinal = self.code
+			self.terminaSi.append(self.code)
+			# self.gotoIF=self.code
+			self.inciasino.append(self.code)
+			self.quad("gotoIF", "", "")
 			hacer2 = hacer2.pop()
 			self.estatutos(hacer2, table)
-			
+
 			# print("dec", self.code)
-			self.quad("si", varif, self.siinit, self.sifinal)
-			self.sinofinal = self.code
-			self.quad("sino",self.sifinal, self.sinofinal)
+			# self.quad("si", varif, self.siinit, self.sifinal)
+			# self.sinofinal = self.code
+			self.terminaSino.append(self.code)
+			self.quad("prueba2", self.siinit, self.sifinal)
+			self.quad("gotoIF-camb", self.gotoIF, self.sinofinal)
+			# self.quad("sino",self.sifinal, self.sinofinal)
 
 	def imprimirError(self,resultado, a, b, op):
 		if resultado != 'Error':
@@ -546,9 +563,9 @@ class Quads(object):
 	def insertQuadruploSino(self, tipo, args):
 		
 		if self.entraPrincipal:		
-		 	self.lista_quadruplos.insert(args[1]+1, ["goto", args[2]+1])
+		 	self.lista_quadruplos.insert(args[0]+1, ["goto", args[1]+1])
 		else:
-		 	self.lista_quadruplos.insert(args[1], ["goto", args[2]+1])
+		 	self.lista_quadruplos.insert(args[0], ["goto", args[1]+1])
 		self.insert+=1
 
 	def insertQuadruploMientras(self, tipo, args):
@@ -635,6 +652,40 @@ class Quads(object):
 			cuadruplo.append(args[1])
 			cuadruplo.append(args[2])
 			cuadruplo.append(args[3])
+		if tipo == "prueba":
+			cuadruplo.append("gotof")
+			cuadruplo.append(args[0])
+			cuadruplo.append("")
+		if tipo == "prueba2":
+			self.code-=1
+			oper=False
+			inicia = self.iniciaSi.pop()
+			termina = self.terminaSi.pop()
+			print(inicia, termina)
+			if self.entraPrincipal:
+				print(self.lista_quadruplos[inicia])
+				self.lista_quadruplos[inicia][2]=termina
+				print(self.lista_quadruplos[inicia])
+			else:
+				print(self.lista_quadruplos[inicia-1])
+				self.lista_quadruplos[inicia-1][2]=termina+1
+				print(self.lista_quadruplos[inicia-1])
+		if tipo == "gotoIF":
+			cuadruplo.append("goto")
+			cuadruplo.append("")
+		if tipo == "gotoIF-camb":
+			self.code-=1
+			oper=False
+			goto = self.inciasino.pop()
+			terminaSino = self.terminaSino.pop()
+			if self.entraPrincipal:
+				print(self.lista_quadruplos[goto])
+				self.lista_quadruplos[goto][1]=terminaSino
+				print(self.lista_quadruplos[goto])
+			else:
+				print(self.lista_quadruplos[goto-1])
+				self.lista_quadruplos[goto-1][1]=terminaSino
+				print(self.lista_quadruplos[goto-1])
 
 		# file = open(filename, "a")
 		if oper:
