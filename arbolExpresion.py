@@ -12,15 +12,18 @@ class arbolExpresion(object):
 
 		p = re.search('^\W*[\+\-\*\<\>\==\/]|^\W*[a-zA-Z_][a-zA-Z0-9_]*|^\W*[\d\.\d]+', self.Inputbuf)
 		if(p):
+
 			try:
-				token = float(p1.group())
+				token = int(p.group())
+				
 			except:
 				try:
-					token = int(p1.group())
+					token = float(p.group())
 				except:
 					token = p.group()
 	
-		self.Inputbuf = self.Inputbuf[len(token):]
+		self.Inputbuf = self.Inputbuf[len(str(token)):]
+		# print(" - type %s, value '%s'" % (type(token), token))
 		return token
 		
 
@@ -32,10 +35,10 @@ class arbolExpresion(object):
 			p = re.search('^\W*[\+\-\*\<\>\==\/]|^\W*[a-zA-Z_][a-zA-Z0-9_]*|^\W*[\d\.\d]+', self.Inputbuf)
 			if(p):
 				try:
-					token = float(p1.group())
+					token = int(p.group())
 				except:
 					try:
-						token = int(p1.group())
+						token = float(p.group())
 					except:
 						token = p.group()
 			return token
@@ -70,7 +73,8 @@ class arbolExpresion(object):
 	def expression(self):
 		lista = []
 		while self.Inputbuf:
-			lista+=self.gettoken()
+			tk = self.gettoken()
+			lista = lista + [tk,]
 		
 		return lista
 

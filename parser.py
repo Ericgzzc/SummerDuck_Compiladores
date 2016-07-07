@@ -390,8 +390,8 @@ class Parser(object):
                     	| inversa
 		"""
 
-		t[0] = t[1] + t[2] + t[3]
-		#print(t[0])
+		t[0] = t[1] + t[2] + str(t[3])
+		
 
 		
 	def p_expresion2(self, t):

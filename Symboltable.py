@@ -7,11 +7,13 @@ class VariableSymbol(Symbol):
     pass
 
 class FunctionSymbol(Symbol):
-    def __init__(self, name, type, arguments, tipoVariables):
+    def __init__(self, name, type, arguments, tipoVariables, *args):
         self.name = name
         self.type = type
         self.arguments = arguments
         self.tipoVariables = tipoVariables
+        if args:
+            self.pointer = args[0]
         
 
 class SymbolTable(object):

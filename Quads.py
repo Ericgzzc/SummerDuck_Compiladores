@@ -8,23 +8,33 @@ from copy import deepcopy
 from arbolExpresion import*
 
 class Quads(object):
-	global file 
-	global filename
-	filename = "codigoIntermedio.txt"
-	file = open(filename, "w")
-	file.close()
+	# global file 
+	# global filename
+	# filename = "codigoIntermedio.txt"
+	# file = open(filename, "w")
+	# file.close()
 	
 
 	def __init__(self,tree):
 		self.symbolTable = SymbolTable(None, 'global')
 		self.arbol = tree
+		self.insert = 1
 		self.PC = 1
+		self.code= 0
 		self.LBL = 1
+		self.sifinal = 0
+		self.siinit = 0
+		self.sinofinal = 0
+		self.entraPrincipal = False
+		self.iniMientras = 0
+		self.terminaMientras = 0
 		programa, nombre, *args, principal = self.arbol;
 		self.programa = programa
 		self.nombre = nombre
-		self.principal = principal
+		self.principal = 0
+		self.termina_global = 0
 		self.error = True
+		self.lista_quadruplos = []
 		if len(args) == 2:
 			self.dec_val = args[0]
 			self.dec_fun = args[1]
@@ -40,20 +50,23 @@ class Quads(object):
 			self.dec_val = []
 		self.quad(programa, nombre)
 		self.declaraVariables(self.dec_val, "global", self.symbolTable)
+		self.termina_global = self.code
+		self.code+=1
 		self.declaraFunciones(self.symbolTable)
 		self.metodo_principal(principal,self.symbolTable)
 		
 
 	def metodo_principal(self,principal, table):
 		principal_nomb, *args = principal
-		
+		self.sifinal = 0
+		self.siinit = 0
 		self.quad(principal_nomb)
 		if len(args) == 2:
-			self.declaraVariables(args[0], principal_nomb, table)
+			self.declaraVariables(args[0], "local", table)
 			self.estatutos(args[1], table)
 		else:
 			if args[0][0] == 'declaracion_variables':
-				self.declaraVariables(args[0], principal_nomb,table)
+				self.declaraVariables(args[0], "local",table)
 			else:
 				self.estatutos(args[0], table)
 		
@@ -68,6 +81,8 @@ class Quads(object):
 						print (var_tipo + '  '+ x+'   alreday declared in  '+ table.name)
 						self.error = False
 					self.quad("declaracion_variables", tipo,var_tipo, x)
+		# if var_tipo == "global":
+		# 	self.quad("goto","", self.code)
 		
 
 	def getParametros(self,dec_val):
@@ -99,7 +114,7 @@ class Quads(object):
 		estatuto = estatutos.pop()
 		while estatuto:
 			x = estatuto.pop(0)
-			print("estatuto",x)
+			
 			if x[0] == 'asignacion':
 				self.asignacion(x, table)
 			if x[0] == 'decision':
@@ -168,7 +183,7 @@ class Quads(object):
 		if symbol == None:
 			self.error = False
 			print('modulo  ' + llam[1] + '  No declared' )
-		self.quad(llam[0], llam[1], llam[2])
+		self.quad(llam[0], llam[1], len(llam[2]))
 		for x in llam[2]:
 			if self.checkExp(x):
 				param = self.operaciones(x,table)
@@ -176,7 +191,7 @@ class Quads(object):
 			else:
 				self.quad("parametros", x)
 		self.PC+=1
-		self.quad("goto",self.getVariableTemporal(), self.getLabel())
+		self.quad("gosub",self.getVariableTemporal(), table.get(llam[1]).pointer)
 		
 
 	def getVariableTemporal(self):
@@ -195,32 +210,45 @@ class Quads(object):
 	
 	def mientras(self,whil, table):
 		mientras, exp, hacer = whil
-		self.quad(mientras, exp)
+		varif=self.operaciones(exp, table)
+		self.iniMientras = self.code
 		hacer = hacer.pop()
 		self.estatutos(hacer, table)
-		self.quad("end_control", "end_mientras")
+		self.terminaMientras = self.code
+		self.quad(mientras, varif, self.iniMientras, self.terminaMientras)
 
 	def decision(self, dec, table):
-
+		# print(dec)
 		if len(dec) == 4:
 			tipo, si, exp, hacer = dec
 			varif=self.operaciones(exp, table)
 			self.LBL+=1
 			hacerx = hacer.pop()
-			print("deci", hacerx)
-			self.quad("si", varif, self.getLabel())
+			# print("dec", self.code)	
+			self.siinit = self.code
+			
 			self.estatutos(hacerx, table)
+			self.sifinal = self.code
+			# print("dec", self.code)
+			self.quad("si", varif, self.siinit, self.sifinal)
+			# self.siinit = self.siinit - (self.sifinal-self.siinit)
+			# self.quad("si", varif, self.siinit, self.sifinal)
 			# self.quad("end_control", "end_si")
 		else:
-			si, exp, hacer, sino, hacer2 = dec
-			self.quad(si, exp)
+			tipo, si, exp, hacer, sino, hacer2 = dec
+			varif=self.operaciones(exp, table)
 			hacer = hacer.pop()
+			# print("dec", self.code)	
+			self.siinit = self.code
 			self.estatutos(hacer, table)
-			self.quad(sino,)
+			self.sifinal = self.code
 			hacer2 = hacer2.pop()
 			self.estatutos(hacer2, table)
-			self.quad("end_control", "end_sino")
-			self.quad("end_control", "end_si")
+			
+			# print("dec", self.code)
+			self.quad("si", varif, self.siinit, self.sifinal)
+			self.sinofinal = self.code
+			self.quad("sino",self.sifinal, self.sinofinal)
 
 	def imprimirError(self,resultado, a, b, op):
 		if resultado != 'Error':
@@ -280,9 +308,9 @@ class Quads(object):
 					return("Error")
 
 	def meterLista(self, a, lista, table, stackNumeros, stackOperando):
-		print("meter", stackNumeros)
-		print("meter", stackOperando)
-		print("\n")
+		# print("meter", stackNumeros)
+		# print("meter", stackOperando)
+		# print("\n")
 		if a == "*" or a == "/":
 			stackOperando.append(a)
 		elif a == "<" or a == ">"or a == "==":
@@ -337,9 +365,11 @@ class Quads(object):
 		mv = arbolExpresion(oper)
 		lista = mv.expression()
 		# lista = self.makeList(arbol)
-		print(lista)
+		
+
 		while lista:
 			a = lista.pop(0)
+			# print(" - type %s, value '%s'" % (type(a), a))
 			self.meterLista(a, lista, table, stackNumeros, stackOperando)
 
 		if not lista:
@@ -405,10 +435,10 @@ class Quads(object):
 			else:
 					resultado = cubo["char"][a.type]["="]
 
-		if resultado != a.type:
+			if resultado != a.type:
 
-			self.error = False
-			print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))		
+				self.error = False
+				print("Cant assign incomptyble types  " + str(a.name) + " exptected " + str(a.type) + " given " + str(resultado))		
 		if llamada:
 			self.quad(asig[0], asig[1], self.getVariableTemporal())
 		elif exp:
@@ -473,7 +503,7 @@ class Quads(object):
 				tipo = args[1]
 				nombre = args[2]
 				argumentos = []
-				funcSymbol = FunctionSymbol(nombre, tipo,argumentos,argumentos)
+				funcSymbol = FunctionSymbol(nombre, tipo,argumentos,argumentos, self.code)
 				if not table.put(funcSymbol):
 					self.error = False
 					print('Modulo '+ nombre+' already defined')
@@ -488,7 +518,7 @@ class Quads(object):
 				parametros = deepcopy(args[3])
 				parametros2 = self.getParametros(parametros)
 				bloque = args[4]
-				funcSymbol = FunctionSymbol(nombre, tipo, parametros2[0], parametros2[1])
+				funcSymbol = FunctionSymbol(nombre, tipo, parametros2[0], parametros2[1],self.code)
 				if not table.put(funcSymbol):
 					self.error = False
 					print('Modulo'+ nombre+' already defined')
@@ -503,11 +533,40 @@ class Quads(object):
 		cuadruploOP.append(oper[1])
 		cuadruploOP.append(oper[2])
 		cuadruploOP.append(oper[3])
-		return cuadruploOP		
+		return cuadruploOP
+
+	def insertQuadruploSi(self, tipo, args):
+		
+		if self.entraPrincipal:		
+			self.lista_quadruplos.insert(args[1], ["gotof", args[0], args[2]+self.insert-1])
+		else:
+			self.lista_quadruplos.insert(args[1]-self.insert, ["gotof", args[0], args[2]+self.insert+1])
+		self.insert+=1
+
+	def insertQuadruploSino(self, tipo, args):
+		
+		if self.entraPrincipal:		
+		 	self.lista_quadruplos.insert(args[1]+1, ["goto", args[2]+1])
+		else:
+		 	self.lista_quadruplos.insert(args[1], ["goto", args[2]+1])
+		self.insert+=1
+
+	def insertQuadruploMientras(self, tipo, args):
+		print(tipo, args)
+		if self.entraPrincipal:		
+			self.lista_quadruplos.insert(args[1], ["gotof", args[0], args[2]+self.insert+1])
+			self.lista_quadruplos.insert(args[2]+self.insert, ["goto", args[1]-1])
+		else:
+			self.lista_quadruplos.insert(args[1]-self.insert, ["gotof", args[0], args[2]+self.insert+1])
+			self.lista_quadruplos.insert(args[2], ["goto", args[1]-1])	
+		
+		self.code+=1
 
 	def quad(self,tipo, *args):
 		cuadruplo = []
-	
+		self.code+=1
+		oper = True
+		# print(self.code, tipo, args)
 		if tipo == "programa":
 			cuadruplo.append(tipo)
 			cuadruplo.append(args[0])
@@ -520,20 +579,23 @@ class Quads(object):
 			cuadruplo.append(args[0])
 			cuadruplo.append(args[1])
 		if tipo == "asignacion":
-		
 				cuadruplo.append("=")
-				cuadruplo.append(args[0])
 				cuadruplo.append(args[1])
+				cuadruplo.append("")
+				cuadruplo.append(args[0])
 
 		if tipo == "si":
-			cuadruplo.append(tipo)
-			cuadruplo.append(args[0])
-			cuadruplo.append(args[1])
+			print(args)
+			self.insertQuadruploSi(tipo, args)
+			oper = False
+		
 		if tipo == "sino":
-			cuadruplo.append(tipo)
+			print(args)
+			self.insertQuadruploSino(tipo, args)
+			oper = False
 		if tipo == "mientras":
-			cuadruplo.append(tipo)
-			cuadruplo.append(args[0])
+			self.insertQuadruploMientras(tipo, args)
+			oper = False
 		if tipo == 'repite':
 			cuadruplo.append(tipo)
 		if tipo == "hasta":
@@ -545,34 +607,42 @@ class Quads(object):
 			cuadruplo.append("lee")
 		if tipo == 'escribe':
 			cuadruplo.append(tipo)
+			cuadruplo.append(len(args[0]))
 		if tipo == 'llamada':
 			cuadruplo.append(tipo)
 			cuadruplo.append(args[0])
+			cuadruplo.append(args[1])
 		if tipo == 'parametros':
 			cuadruplo.append("param")
 			cuadruplo.append(args[0])
 		if tipo == 'goto':
-			cuadruplo.append("goto")
+			cuadruplo.append(tipo)
+		if tipo == 'gosub':
+			cuadruplo.append(tipo)
 			cuadruplo.append(args[0])
+			cuadruplo.append(args[1])
 		if tipo == 'regresa':
 			cuadruplo.append(tipo)
 			if args:
 				cuadruplo.append(args[0])
 		if tipo == 'principal':
+			self.lista_quadruplos.insert(self.termina_global, ["goto",self.code-1])
 			cuadruplo.append(tipo)
 			cuadruplo.append(tipo)
+			self.entraPrincipal=True
 		if tipo == "operacion":
 			cuadruplo.append(args[0])
 			cuadruplo.append(args[1])
 			cuadruplo.append(args[2])
 			cuadruplo.append(args[3])
 
-		file = open(filename, "a")
-		
-		json.dump(cuadruplo, file)
+		# file = open(filename, "a")
+		if oper:
+			self.lista_quadruplos.append(cuadruplo)
+		# json.dump(cuadruplo, file)
 
-		file.write("\n")
-		file.close()
+		# file.write("\n")
+		# file.close()
 
 
 		

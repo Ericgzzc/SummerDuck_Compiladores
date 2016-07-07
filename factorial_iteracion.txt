@@ -1,14 +1,18 @@
 programa Prueba; 
 
-modulo entero fibonacci(entero:a;){
+modulo entero factorial(entero:a;){
 	entero:x,b;
 
-	si(n == 0){
-		x =0;
+	x = 1;
+	b = 1;
+
+	mientras(a>b) haz{
+		b=b+1;
+		x =x*b;
 	};
-	sino{
-		
-	}
+
+
+	regresa(x)
 }
 
 

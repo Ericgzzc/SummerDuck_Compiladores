@@ -1,0 +1,23 @@
+programa Factorial; 
+
+modulo entero factorial(entero:n;){
+	entero:x;
+
+	si(n==1){
+		x=1;
+	}sino{
+		x = factorial(n-1);
+		x = x*n;
+	};
+	
+	regresa(x)
+}
+
+
+principal(){
+	entero: a,fact;
+	a = 5;
+	fact = factorial(a);
+	escribe(fact);
+
+}

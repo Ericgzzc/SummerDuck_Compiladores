@@ -4,6 +4,7 @@ from Parser import Parser
 from Quads import*
 from mv import*
 import re
+import json 
 
 
 if __name__ == '__main__':
@@ -21,28 +22,34 @@ if __name__ == '__main__':
     lst = parser.parse(text,tracking=True)
     # print(lst)
     quad= Quads(lst)
+    # print(quad.lista_quadruplos)
     # 
 
-    # try:
-    #     if quad.error:
-    #         filename2 = "codigoIntermedio.txt"
+    try:
+        if quad.error:
+            filename2 = "codigoIntermedio.txt"
+            file2 = open(filename2, "w")
+        
             
-           
-    #         with open(filename2) as f:
-    #             content = f.read().splitlines()
+            for item in quad.lista_quadruplos:
+                json.dump(item, file2)
+                file2.write("\n")
+            file2.close()
+            # with open(filename2) as f:
+            #     content = f.read().splitlines()
 
-    #         a = Machine(content)
-    #         a.run()
-    #         a.dump_stack()
-    #     else:
-    #         print("Error")
-    # except IOError:
-    #         print("Cannot open {0} file2".format(filename2))
-    #         sys.exit(0)
-    # except (RuntimeError, IndexError) as e:
-    #         print("IndexError: %s" % e)
-    # except KeyboardInterrupt:
-    #         print("\nKeyboardInterrupt")
+            a = Machine(quad.lista_quadruplos)
+            a.run()
+            a.dump_stack()
+        else:
+            print("Error")
+    except IOError:
+            print("Cannot open {0} file2".format(filename2))
+            sys.exit(0)
+    except (RuntimeError, IndexError) as e:
+            print("IndexError: %s" % e)
+    except KeyboardInterrupt:
+            print("\nKeyboardInterrupt")
 
     # print(lst)
     # print(quad.programa)
